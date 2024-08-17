@@ -7,6 +7,6 @@ public class LocalDataStorage : MonoSingleton<LocalDataStorage>
 
     private void Awake()
     {
-        PlayerData.CurrencyData = new(100);
+        PlayerData.CurrencyData = new(99999);
     }
 }
