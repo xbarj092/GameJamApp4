@@ -23,12 +23,12 @@ public class EnemyBehavior : MonoBehaviour
         _health.SetMaxHealth(_infoTemplate.Health);
 
         _health.OnHealthChange.AddListener(ChangeHealthProgress);
-        //_health.OnDeath.AddListener();
+        _health.OnDeath.AddListener(Death);
     }
 
     private void OnDisable() {
         _health.OnHealthChange.RemoveListener(ChangeHealthProgress);
-        //_health.OnDeath.AddListener();
+        _health.OnDeath.RemoveListener(Death);
     }
 
     public void ChangeHealthProgress(float damage) {
@@ -37,6 +37,10 @@ public class EnemyBehavior : MonoBehaviour
 
     public void SetTargetPoint(Vector3 target, UnityAction<EnemyBehavior> affterArrive = null) {
         _movement.SetTargetPoint(target, () => {if(affterArrive != null) affterArrive(this);});
+    }
+
+    private void Death() {
+        Destroy(gameObject);
     }
 
     [Button]
