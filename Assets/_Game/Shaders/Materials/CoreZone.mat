@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Zone
+  m_Name: CoreZone
   m_Shader: {fileID: -6465566751694194690, guid: d5e1868323578c644b5c460c32dc4554, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -58,5 +58,5 @@ Material:
     - _QueueOffset: 0
     - _Thickness: 0.01
     m_Colors:
-    - _Color: {r: 28.44871, g: 0, b: 0, a: 0}
+    - _Color: {r: 2.297397, g: 2.0191674, b: 0, a: 0}
   m_BuildTextureStacks: []
