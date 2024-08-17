@@ -1,4 +1,5 @@
 using EasyButtons;
+using System;
 using UnityEngine;
 
 public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptable>
@@ -68,12 +69,20 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
         if (Instance.Level == Stats.MaxLevel)
         {
             levelText = Instance.Level.ToString();
-            priceText = "MAX";
+            priceText = "<color=white>MAX</color>";
         }
         else
         {
-            levelText = Instance.Level + " -> " + (Instance.Level + 1);
-            priceText = Stats.UpgradePrices[Instance.Level - 1].ToString();
+            levelText = $"{Instance.Level} -> {Instance.Level + 1}";
+
+            if (HasEnoughCoins())
+            {
+                priceText = $"<color=white>{Stats.UpgradePrices[Instance.Level - 1]}</color>";
+            }
+            else
+            {
+                priceText = $"<color=red>{Stats.UpgradePrices[Instance.Level - 1]}</color>";
+            }
         }
 
         _popupInstantiated.SetTexts(levelText, priceText);
@@ -82,13 +91,18 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
     [Button]
     public void UpgradeTowers()
     {
-        if (!IsMaxLevel())
+        if (!IsMaxLevel() && HasEnoughCoins())
         {
+            CurrencyData currencyData = LocalDataStorage.Instance.PlayerData.CurrencyData;
+            currencyData.Coins -= Stats.UpgradePrices[Instance.Level - 1];
+            LocalDataStorage.Instance.PlayerData.CurrencyData = currencyData;
             Instance.Level++;
             _upgradeRangeChecker.UpgradeTowers(Instance.Level);
             UpdatePopupValues();
         }
     }
+
+    private bool HasEnoughCoins() => Stats.UpgradePrices[Instance.Level - 1] <= LocalDataStorage.Instance.PlayerData.CurrencyData.Coins;
 
     private new bool IsMaxLevel() => Instance.Level >= Stats.MaxLevel;
 }
