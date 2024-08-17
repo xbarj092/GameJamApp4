@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer(direction);
     }
 
+    public void AddSpeed(float speed) {
+        _speed += speed;
+    }
+
     private void MovePlayer(Vector2 direction)
     {
         _rb.velocity = direction * _speed;

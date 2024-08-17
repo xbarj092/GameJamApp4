@@ -7,7 +7,7 @@ public class PlayerInteractions : MonoBehaviour
     [SerializeField] private float _placementRadius = 0.35f;
     [SerializeField] private SpriteRenderer _interactionZone;
     [SerializeField] private GameInput _input;
-    public float MaxRange => _maxRange;
+    public float MaxRange { get { return _maxRange; } set { _maxRange = value; _interactionZone.transform.localScale = Vector3.one * _maxRange * 2; } }
 
     private ITowerBase _highlightedTower;
     private ITowerBase _carryingTower;
@@ -20,6 +20,7 @@ public class PlayerInteractions : MonoBehaviour
     {
         _mouseInputHandler = new MouseInputHandler(this, _interact);
         _interactionZone.transform.localScale = Vector3.one * _maxRange * 2;
+
         _input = new GameInput();
         _input.Player.Interact.performed += _ => _mouseInputHandler.HandleInteraction();
     }
@@ -47,6 +48,11 @@ public class PlayerInteractions : MonoBehaviour
     private void Update()
     {
         _keyboardInputHandler.HandleInteraction();
+        
+        if(Camera.main != null) {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            _mouseInputHandler.HandleMouseHover(mousePosition);
+        }
 
         if (_ghostTower != null)
         {
@@ -54,7 +60,7 @@ public class PlayerInteractions : MonoBehaviour
         }
     }
 
-    private void OnTowerPickedUp(ITowerBase tower)
+    public void OnTowerPickedUp(ITowerBase tower)
     {
         if (_carryingTower == null)
         {

@@ -23,7 +23,7 @@ public class MouseInputHandler : IInteractionHandler
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             HandleMouseClick(mousePosition);
-            HandleMouseHover(mousePosition);
+            //HandleMouseHover(mousePosition);
         }
     }
 
@@ -54,7 +54,7 @@ public class MouseInputHandler : IInteractionHandler
         return true;
     }
 
-    private void HandleMouseHover(Vector2 mousePosition)
+    public void HandleMouseHover(Vector2 mousePosition)
     {
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
         if (IsInRangeOfPlayer() && hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower))
