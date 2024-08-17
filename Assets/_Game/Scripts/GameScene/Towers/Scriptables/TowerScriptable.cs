@@ -10,6 +10,8 @@ public class TowerScriptable : ScriptableObject
     public string Name;
     public string FriendlyID;
     public string Description;
+
+    public int BaseLevel;
     public int MaxLevel;
 
     public Sprite Icon;
