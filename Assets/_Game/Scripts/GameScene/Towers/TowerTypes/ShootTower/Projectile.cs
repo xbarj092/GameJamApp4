@@ -13,6 +13,7 @@ public class Projectile : MonoBehaviour
     {
         _damage = damage;
         _target = target.transform;
+        Destroy(gameObject, 50);
 
         Vector2 direction = (_target.position - transform.position).normalized;
         _rb.velocity = direction * _speed;
