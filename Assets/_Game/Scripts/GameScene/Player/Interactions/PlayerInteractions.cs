@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public class PlayerInteractions :MonoBehaviour
+public class PlayerInteractions : MonoBehaviour
 {
     [SerializeField] private LayerMask _interact;
+    [SerializeField] private float _maxRange = 5f;
+    [SerializeField] private float _placementRadius = 0.5f;
+    public float MaxRange => _maxRange;
 
+    private ITowerBase _highlightedTower;
     private ITowerBase _carryingTower;
     private GameObject _ghostTower;
 
@@ -12,7 +16,7 @@ public class PlayerInteractions :MonoBehaviour
 
     private void Awake()
     {
-        _mouseInputHandler = new(_interact);
+        _mouseInputHandler = new MouseInputHandler(this, _interact);
     }
 
     private void OnEnable()
@@ -20,6 +24,7 @@ public class PlayerInteractions :MonoBehaviour
         _mouseInputHandler.OnTowerPickedUp += OnTowerPickedUp;
         _mouseInputHandler.OnTowerPlaced += OnTowerPlaced;
         _mouseInputHandler.OnTowerHighlighted += OnTowerHighlighted;
+        _mouseInputHandler.OnTowerLowlighted += OnTowerLowlighted;
     }
 
     private void OnDisable()
@@ -27,19 +32,24 @@ public class PlayerInteractions :MonoBehaviour
         _mouseInputHandler.OnTowerPickedUp -= OnTowerPickedUp;
         _mouseInputHandler.OnTowerPlaced -= OnTowerPlaced;
         _mouseInputHandler.OnTowerHighlighted -= OnTowerHighlighted;
+        _mouseInputHandler.OnTowerLowlighted -= OnTowerLowlighted;
     }
 
     private void Update()
     {
         _keyboardInputHandler.HandleInteraction();
         _mouseInputHandler.HandleInteraction();
+
+        if (_ghostTower != null)
+        {
+            SnapGhostToMousePosition();
+        }
     }
 
     private void OnTowerPickedUp(ITowerBase tower)
     {
         if (_carryingTower == null)
         {
-            Debug.Log("Picking up");
             _carryingTower = tower;
             _carryingTower.GetTowerObject().SetActive(false);
             _ghostTower = Instantiate(tower.GetGhostTower(), transform);
@@ -50,16 +60,59 @@ public class PlayerInteractions :MonoBehaviour
     {
         if (_carryingTower != null)
         {
-            Debug.Log("Placing");
-            _carryingTower.GetTowerObject().SetActive(true);
-            // update position
-            _carryingTower = null;
-            Destroy(_ghostTower);
+            Vector3 placementPosition = _ghostTower.transform.position;
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(placementPosition, _placementRadius, _interact);
+            if (colliders.Length == 0)
+            {
+                _carryingTower.GetTowerObject().transform.position = placementPosition;
+                _carryingTower.GetTowerObject().SetActive(true);
+                _carryingTower = null;
+                Destroy(_ghostTower);
+            }
+            else
+            {
+                Debug.Log("Cannot place tower here, another object is too close.");
+            }
         }
     }
 
     private void OnTowerHighlighted(ITowerBase tower)
     {
-        tower.Highlight();
+        if (_highlightedTower == null)
+        {
+            _highlightedTower = tower;
+            tower.Highlight();
+        }
+    }
+
+    private void OnTowerLowlighted()
+    {
+        if (_highlightedTower != null)
+        {
+            _highlightedTower.Lowlight();
+            _highlightedTower = null;
+        }
+    }
+
+    private void SnapGhostToMousePosition()
+    {
+        if (Camera.main != null)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = 0;
+
+            Vector3 playerPosition = transform.position;
+
+            Vector3 direction = mousePosition - playerPosition;
+            float distance = direction.magnitude;
+
+            if (distance > _maxRange)
+            {
+                direction = direction.normalized * _maxRange;
+                mousePosition = playerPosition + direction;
+            }
+
+            _ghostTower.transform.position = mousePosition;
+        }
     }
 }

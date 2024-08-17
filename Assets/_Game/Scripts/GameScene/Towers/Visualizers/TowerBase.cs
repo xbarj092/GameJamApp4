@@ -7,6 +7,7 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
     [SerializeField] private Material _material;
     [SerializeField] private GameObject _ghostTower;
 
+    public bool Highlighting;
     public TInstance Instance;
     public TStats Stats;
 
@@ -18,7 +19,18 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
 
     public void Highlight()
     {
-        Debug.Log("Highlighting");
+        if (!Highlighting)
+        {
+            Highlighting = true;
+        }
+    }
+
+    public void Lowlight()
+    {
+        if (Highlighting)
+        {
+            Highlighting = false;
+        }
     }
 
     public GameObject GetGhostTower()
