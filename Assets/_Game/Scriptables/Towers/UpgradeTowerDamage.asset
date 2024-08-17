@@ -21,11 +21,11 @@ MonoBehaviour:
   Icon: {fileID: 0}
   UpgradeTowerType: 1
   StatValues:
-  - 10
-  - 20
-  - 30
-  - 40
-  - 50
+  - 1.5
+  - 2
+  - 3
+  - 4
+  - 5
   UpgradePrices:
   - 100
   - 500
