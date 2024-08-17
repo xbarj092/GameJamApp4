@@ -37,7 +37,9 @@ public class EnemyMovement : MonoBehaviour
     IEnumerator MoveTo() {
         while(TargetDistance > 0.1f) {
             _rb.velocity = Direction * Speed;
-            transform.right = Direction;
+            //transform.up = Direction;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward, Direction), Time.deltaTime * 20f);
+
             yield return null;
         }
         _rb.velocity = Vector2.zero;

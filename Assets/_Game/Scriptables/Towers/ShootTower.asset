@@ -19,7 +19,7 @@ MonoBehaviour:
   BaseLevel: 1
   MaxLevel: 5
   Icon: {fileID: 0}
-  Damage: 1
-  Range: 5
+  Damage: 3
+  Range: 3
   AttackSpeed: 1
   Projectile: {fileID: 0}

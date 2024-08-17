@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer(direction);
     }
 
+    public void AddSpeed(float speed) {
+        _speed += speed;
+    }
+
     private void MovePlayer(Vector2 direction)
     {
         _rb.velocity = direction * _speed;
@@ -33,7 +37,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
-            transform.up = new Vector3(direction.x, direction.y, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward ,direction), Time.deltaTime * 20f);
+            //transform.up = new Vector3(direction.x, direction.y, 0);
         }
     }
 }
