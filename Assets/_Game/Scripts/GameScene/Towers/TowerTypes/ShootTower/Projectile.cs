@@ -36,8 +36,9 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") && collision.TryGetComponent(out Health health))
         {
+            health.DealDamage(_damage);
             // Implement damage logic here
             Destroy(gameObject);
         }
