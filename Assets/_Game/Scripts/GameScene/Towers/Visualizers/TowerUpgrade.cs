@@ -1,17 +1,14 @@
 using EasyButtons;
-using System;
 using UnityEngine;
 
 public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptable>
 {
     [SerializeField] private Transform _popupSpawnTransform;
-    [SerializeField] private UpgradePopup _popupPrefab;
+    [SerializeField] private UpgradePopup _popup;
     [SerializeField] private PlayerInRangeChecker _playerInRangeChecker;
 
     [SerializeField] private UpgradeTowerActiveRange _upgradeRangeChecker;
     public UpgradeTowerActiveRange UpgradeRangeChecker => _upgradeRangeChecker;
-
-    private UpgradePopup _popupInstantiated;
 
     private void Awake()
     {
@@ -21,16 +18,13 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
     private void OnEnable()
     {
         TowerManager.Instance.RegisterUpgradeTower(this);
+        _popup.OnUpgradePressed += UpgradeTowers;
     }
 
     private void OnDisable()
     {
         TowerManager.Instance.UnregisterUpgradeTower(this);
-
-        if (_popupInstantiated != null)
-        {
-            _popupInstantiated.OnUpgradePressed -= UpgradeTowers;
-        }
+        _popup.OnUpgradePressed -= UpgradeTowers;
     }
 
     private void Update()
@@ -47,16 +41,14 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
     {
         if (!IsMaxLevel())
         {
-            if (_playerInRangeChecker.IsPlayerInRange && _popupInstantiated == null)
+            if (_playerInRangeChecker.IsPlayerInRange && !_popup.gameObject.activeInHierarchy)
             {
-                _popupInstantiated = Instantiate(_popupPrefab, _popupSpawnTransform);
-                _popupInstantiated.OnUpgradePressed += UpgradeTowers;
+                _popup.gameObject.SetActive(true);
                 UpdatePopupValues();
             }
-            else if (!_playerInRangeChecker.IsPlayerInRange && _popupInstantiated != null)
+            else if (!_playerInRangeChecker.IsPlayerInRange && _popup.gameObject.activeInHierarchy)
             {
-                _popupInstantiated.OnUpgradePressed -= UpgradeTowers;
-                Destroy(_popupInstantiated);
+                _popup.gameObject.SetActive(false);
             }
         }
     }
@@ -85,7 +77,7 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
             }
         }
 
-        _popupInstantiated.SetTexts(levelText, priceText);
+        _popup.SetTexts(levelText, priceText);
     }
 
     [Button]
