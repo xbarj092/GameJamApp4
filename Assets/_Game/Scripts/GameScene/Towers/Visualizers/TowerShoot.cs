@@ -83,22 +83,44 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 
         if (force)
         {
-            TowerUpgrade highestTowerUpgrade = TowerManager.Instance.HighestTowerUpgrade(this);
+            TowerUpgrade highestTowerUpgrade = TowerManager.Instance.HighestTowerUpgrade(this, upgradeTower.Stats.UpgradeTowerType);
             if (highestTowerUpgrade != null)
             {
                 relevantUpgradeTower = highestTowerUpgrade;
                 level = relevantUpgradeTower.Instance.Level;
             }
+            else
+            {
+                ApplyStatValue(relevantUpgradeTower, level, GetBaseValue(relevantUpgradeTower.Stats.UpgradeTowerType));
+                return;
+            }
         }
 
-        if (level > Instance.StatValues[relevantUpgradeTower.Stats.UpgradeTowerType].Level || force)
+        if (level >= Instance.StatValues[relevantUpgradeTower.Stats.UpgradeTowerType].Level || force)
         {
-            Instance.StatValues[relevantUpgradeTower.Stats.UpgradeTowerType] = new()
-            {
-                Level = level,
-                Value = relevantUpgradeTower.Stats.StatValues[level - 1]
-            };
+            float value = GetBaseValue(relevantUpgradeTower.Stats.UpgradeTowerType) * relevantUpgradeTower.Stats.StatValues[level - 1];
+            ApplyStatValue(relevantUpgradeTower, level, value);
         }
+    }
+
+    private void ApplyStatValue(TowerUpgrade relevantUpgradeTower, int level, float value)
+    {
+        Instance.StatValues[relevantUpgradeTower.Stats.UpgradeTowerType] = new()
+        {
+            Level = level,
+            Value = value
+        };
+    }
+
+    private float GetBaseValue(UpgradeTowerType upgradeTowerType)
+    {
+        return upgradeTowerType switch
+        {
+            UpgradeTowerType.Damage => Stats.Damage,
+            UpgradeTowerType.Range => Stats.Range,
+            UpgradeTowerType.AttackSpeed => Stats.AttackSpeed,
+            _ => 0,
+        };
     }
 
     private bool IsTargetInRange() => Vector2.Distance(gameObject.transform.position, _target.transform.position) <= Instance.StatValues[UpgradeTowerType.Range].Value + 1;
