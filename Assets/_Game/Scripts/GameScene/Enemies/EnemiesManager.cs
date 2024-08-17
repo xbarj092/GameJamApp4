@@ -16,6 +16,6 @@ public class EnemiesManager : MonoBehaviour
     }
 
     private void SetTargetPoint(EnemyBehavior enemy) {
-        enemy.SetTargetPoint(Vector3.zero, (e) => e.SetTargetPoint(Vector3.zero)); //CoreManager.GetRandomAccessPoint, CorePosition
+        enemy.SetTargetPoint(CoreManager.Instance.GetRandomPointOnCircle(enemy.transform.position), (e) => e.SetTargetPoint(Vector3.zero)); //CoreManager.GetRandomAccessPoint, CorePosition
     }
 }
