@@ -8,6 +8,7 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
     [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _rotationSpeed = 5f;
+    [SerializeField] private LayerMask _enemyLayer;
 
     private List<TowerUpgrade> _upgradingTowers = new();
     private GameObject _target;
@@ -19,19 +20,13 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 
     private void Update()
     {
-        if (_target != null)
+        if (_target == null || !IsTargetInRange())
+        {
+            FindNewTarget();
+        }
+        else
         {
             RotateTowardsTarget();
-            CheckDistanceOfTarget();
-        }
-    }
-
-    private void CheckDistanceOfTarget()
-    {
-        if (!IsTargetInRange())
-        {
-            CancelInvoke();
-            _target = null;
         }
     }
 
@@ -42,29 +37,68 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
         _enemyChecker.radius = Stats.Range;
     }
 
-    public void FocusOnEnemy(GameObject gameObject)
+    public void FocusOnEnemy(GameObject enemy)
     {
-        if (_target == null)
-        {
-            CancelInvoke();
-            _target = gameObject;
-        }
+        CancelInvoke();
 
-        InvokeRepeating(nameof(ShootEnemy), 0.5f, 1 / Instance.StatValues[UpgradeTowerType.AttackSpeed].Value);
+        _target = enemy;
+
+        if (_target != null)
+        {
+            InvokeRepeating(nameof(ShootEnemy), 0.5f, 1 / Instance.StatValues[UpgradeTowerType.AttackSpeed].Value);
+        }
     }
 
     private void ShootEnemy()
     {
+        if (_target == null)
+        {
+            return;
+        }
+
         Projectile projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
         projectile.Init(Instance.StatValues[UpgradeTowerType.Damage].Value, _target);
     }
 
     private void RotateTowardsTarget()
     {
+        if (_target == null) 
+        {
+            return;
+        }
+
         Vector2 direction = (_target.transform.position - transform.position).normalized;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         Quaternion targetRotation = Quaternion.Euler(0, 0, angle);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
+    }
+
+    private void FindNewTarget()
+    {
+        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, Instance.StatValues[UpgradeTowerType.Range].Value, _enemyLayer);
+
+        GameObject closestEnemy = null;
+        float shortestDistance = Mathf.Infinity;
+
+        foreach (Collider2D enemyCollider in enemiesInRange)
+        {
+            float distanceToEnemy = Vector2.Distance(transform.position, enemyCollider.transform.position);
+            if (distanceToEnemy < shortestDistance)
+            {
+                shortestDistance = distanceToEnemy;
+                closestEnemy = enemyCollider.gameObject;
+            }
+        }
+
+        if (closestEnemy != null)
+        {
+            FocusOnEnemy(closestEnemy);
+        }
+        else
+        {
+            CancelInvoke();
+            _target = null;
+        }
     }
 
     public void Upgrade(TowerUpgrade upgradeTower, int upgradeLevel)

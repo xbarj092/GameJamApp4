@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptable>
 {
+    [SerializeField] private Transform _popupSpawnTransform;
     [SerializeField] private UpgradePopup _popupPrefab;
     [SerializeField] private PlayerInRangeChecker _playerInRangeChecker;
 
@@ -24,6 +25,11 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
     private void OnDisable()
     {
         TowerManager.Instance.UnregisterUpgradeTower(this);
+
+        if (_popupInstantiated != null)
+        {
+            _popupInstantiated.OnUpgradePressed -= UpgradeTowers;
+        }
     }
 
     private void Update()
@@ -42,14 +48,35 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
         {
             if (_playerInRangeChecker.IsPlayerInRange && _popupInstantiated == null)
             {
-                _popupInstantiated = Instantiate(_popupPrefab);
-                _popupInstantiated.SetText(Instance.Level + " -> " + Instance.Level++);
+                _popupInstantiated = Instantiate(_popupPrefab, _popupSpawnTransform);
+                _popupInstantiated.OnUpgradePressed += UpgradeTowers;
+                UpdatePopupValues();
             }
             else if (!_playerInRangeChecker.IsPlayerInRange && _popupInstantiated != null)
             {
+                _popupInstantiated.OnUpgradePressed -= UpgradeTowers;
                 Destroy(_popupInstantiated);
             }
         }
+    }
+
+    private void UpdatePopupValues()
+    {
+        string levelText = null;
+        string priceText = null;
+
+        if (Instance.Level == Stats.MaxLevel)
+        {
+            levelText = Instance.Level.ToString();
+            priceText = "MAX";
+        }
+        else
+        {
+            levelText = Instance.Level + " -> " + (Instance.Level + 1);
+            priceText = Stats.UpgradePrices[Instance.Level - 1].ToString();
+        }
+
+        _popupInstantiated.SetTexts(levelText, priceText);
     }
 
     [Button]
@@ -59,6 +86,7 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
         {
             Instance.Level++;
             _upgradeRangeChecker.UpgradeTowers(Instance.Level);
+            UpdatePopupValues();
         }
     }
 
