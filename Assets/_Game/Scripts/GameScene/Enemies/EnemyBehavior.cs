@@ -8,6 +8,7 @@ using EasyButtons;
 public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField] private EnemyInfo _infoTemplate;
+    [SerializeField] private Coin _CoinPrefab;
     
     private Health _health;
     private SpriteRenderer _renderer;
@@ -40,6 +41,7 @@ public class EnemyBehavior : MonoBehaviour
     }
 
     private void Death() {
+        Instantiate(_CoinPrefab, transform.position, Quaternion.identity, null);
         Destroy(gameObject);
     }
 
