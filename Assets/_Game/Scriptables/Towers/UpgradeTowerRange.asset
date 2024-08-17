@@ -16,15 +16,16 @@ MonoBehaviour:
   Name: Range upgrade tower
   FriendlyID: tower_upgrade_range
   Description: Tower that upgrades range
+  BaseLevel: 1
   MaxLevel: 5
   Icon: {fileID: 0}
   UpgradeTowerType: 2
   StatValues:
+  - 6
+  - 7
+  - 8
+  - 9
   - 10
-  - 20
-  - 30
-  - 40
-  - 50
   UpgradePrices:
   - 100
   - 500

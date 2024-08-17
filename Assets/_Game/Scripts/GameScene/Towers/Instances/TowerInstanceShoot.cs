@@ -1,16 +1,18 @@
+using AYellowpaper.SerializedCollections;
 using System;
 
 [Serializable]
 public class TowerInstanceShoot : TowerInstanceBase
 {
-    public float Damage;
-    public float Range;
-    public float AttackSpeed;
+    public SerializedDictionary<UpgradeTowerType, StatValue> StatValues;
 
-    public TowerInstanceShoot(float damage, float range, float attackSpeed)
+    public TowerInstanceShoot(float damage, float range, float attackSpeed, int level)
     {
-        Damage = damage;
-        Range = range;
-        AttackSpeed = attackSpeed;
+        StatValues = new()
+        {
+            { UpgradeTowerType.Damage, new(level, damage) },
+            { UpgradeTowerType.Range, new(level, range) },
+            { UpgradeTowerType.AttackSpeed, new(level, attackSpeed) }
+        };
     }
 }

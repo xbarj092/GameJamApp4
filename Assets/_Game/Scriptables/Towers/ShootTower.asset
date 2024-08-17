@@ -16,8 +16,10 @@ MonoBehaviour:
   Name: Shoot tower
   FriendlyID: tower_shoot
   Description: Tower that shoots
+  BaseLevel: 1
   MaxLevel: 5
   Icon: {fileID: 0}
   Damage: 10
   Range: 5
   AttackSpeed: 1
+  Projectile: {fileID: 0}
