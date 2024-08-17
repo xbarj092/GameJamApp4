@@ -3,7 +3,28 @@ using UnityEngine;
 public class CoreManager : MonoSingleton<CoreManager> 
 {
     [SerializeField] SizeIncrease sizeIncrease;
+    [SerializeField] float _maxHealth;
+    [SerializeField] Health _healthSystem;
+
     public void UpdateCore() { }
+
+    private void OnEnable() {
+        _healthSystem.OnDeath.AddListener(GameOver);
+        _healthSystem.OnHealthChange.AddListener(UpdateUI);
+    }
+
+    private void OnDisable() {
+        _healthSystem.OnDeath.RemoveListener(GameOver);
+        _healthSystem.OnHealthChange.RemoveListener(UpdateUI);
+    }
+
+    private void UpdateUI(float damage) { 
+        //Todo
+    }
+
+    private void GameOver() { 
+        //Todo
+    }
 
     private void FixedUpdate()
     {

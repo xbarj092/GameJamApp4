@@ -4,7 +4,7 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
     where TInstance : TowerInstanceBase
     where TStats : TowerScriptable
 {
-    [SerializeField] private Material _material;
+    [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private GameObject _ghostTower;
 
     public bool Highlighting;
@@ -22,6 +22,7 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
         if (!Highlighting)
         {
             Highlighting = true;
+            _renderer.material.SetInt("_Outlined", 1);
         }
     }
 
@@ -30,6 +31,7 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
         if (Highlighting)
         {
             Highlighting = false;
+            _renderer.material.SetInt("_Outlined", 0);
         }
     }
 
