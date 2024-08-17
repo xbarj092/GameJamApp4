@@ -39,8 +39,8 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
 
     private void CheckPlayerInRange()
     {
-        if (!IsMaxLevel())
-        {
+        /*if (!IsMaxLevel())
+        {*/
             if (_playerInRangeChecker.IsPlayerInRange && !_popup.gameObject.activeInHierarchy)
             {
                 _popup.gameObject.SetActive(true);
@@ -50,7 +50,7 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
             {
                 _popup.gameObject.SetActive(false);
             }
-        }
+        //}
     }
 
     private void UpdatePopupValues()

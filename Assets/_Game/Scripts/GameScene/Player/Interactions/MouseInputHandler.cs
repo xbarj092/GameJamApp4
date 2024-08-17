@@ -29,29 +29,29 @@ public class MouseInputHandler : IInteractionHandler
 
     private void HandleMouseClick(Vector2 mousePosition)
     {
-        HandlePickUpAction(mousePosition);
-        HandlePlaceAction();
+        if(HandlePickUpAction(mousePosition)) return;
+        if(HandlePlaceAction()) return;
 
     }
 
-    private void HandlePickUpAction(Vector2 mousePosition)
+    private bool HandlePickUpAction(Vector2 mousePosition)
     {
-        if (IsInRangeOfPlayer() && Input.GetKeyDown(KeyCode.Mouse1))
+        if (IsInRangeOfPlayer())
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
             if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower))
             {
-                OnTowerPickedUp?.Invoke(tower);
+                OnTowerPickedUp?.Invoke(tower); 
+                return true;
             }
         }
+        return false;
     }
 
-    private void HandlePlaceAction()
+    private bool HandlePlaceAction()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            OnTowerPlaced?.Invoke();
-        }
+        OnTowerPlaced?.Invoke();
+        return true;
     }
 
     private void HandleMouseHover(Vector2 mousePosition)

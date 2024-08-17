@@ -33,7 +33,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
-            transform.up = new Vector3(direction.x, direction.y, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward ,direction), Time.deltaTime * 20f);
+            //transform.up = new Vector3(direction.x, direction.y, 0);
         }
     }
 }

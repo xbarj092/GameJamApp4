@@ -4,7 +4,9 @@ public class PlayerInteractions : MonoBehaviour
 {
     [SerializeField] private LayerMask _interact;
     [SerializeField] private float _maxRange = 5f;
-    [SerializeField] private float _placementRadius = 0.5f;
+    [SerializeField] private float _placementRadius = 0.35f;
+    [SerializeField] private SpriteRenderer _interactionZone;
+    [SerializeField] private GameInput _input;
     public float MaxRange => _maxRange;
 
     private ITowerBase _highlightedTower;
@@ -17,6 +19,9 @@ public class PlayerInteractions : MonoBehaviour
     private void Awake()
     {
         _mouseInputHandler = new MouseInputHandler(this, _interact);
+        _interactionZone.transform.localScale = Vector3.one * _maxRange * 2;
+        _input = new GameInput();
+        _input.Player.Interact.performed += _ => _mouseInputHandler.HandleInteraction();
     }
 
     private void OnEnable()
@@ -25,6 +30,8 @@ public class PlayerInteractions : MonoBehaviour
         _mouseInputHandler.OnTowerPlaced += OnTowerPlaced;
         _mouseInputHandler.OnTowerHighlighted += OnTowerHighlighted;
         _mouseInputHandler.OnTowerLowlighted += OnTowerLowlighted;
+
+        _input.Enable();
     }
 
     private void OnDisable()
@@ -33,12 +40,13 @@ public class PlayerInteractions : MonoBehaviour
         _mouseInputHandler.OnTowerPlaced -= OnTowerPlaced;
         _mouseInputHandler.OnTowerHighlighted -= OnTowerHighlighted;
         _mouseInputHandler.OnTowerLowlighted -= OnTowerLowlighted;
+
+        _input.Disable();
     }
 
     private void Update()
     {
         _keyboardInputHandler.HandleInteraction();
-        _mouseInputHandler.HandleInteraction();
 
         if (_ghostTower != null)
         {
