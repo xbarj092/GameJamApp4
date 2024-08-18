@@ -22,39 +22,54 @@ public class EnemySpawner : MonoBehaviour
     
     IEnumerator IdleSpawn(EnemyBehavior prefab, AnimationCurve timing, float startTime = 0) {
         while(true) {
-            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
             SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
-            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
             SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
-            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
             SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
-            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
             SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
         }
     }
 
     IEnumerator BurstSpawn(EnemyBehavior prefab, AnimationCurve amount) {
         while(true) {
-            yield return new WaitForSeconds(20f);
-            for(int i = 0; i < 3; i++) { 
-                for(int j = 0; j < amount.Evaluate(_burstCount)/3; j++) {
+            yield return new WaitForSeconds(40f);
+            _burstCount++;
+            for(int j = 0; j < amount.Evaluate(_burstCount); j++) {
+                if(_burstCount%4 == 0) {
                     SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+                } else if(_burstCount%4 == 1) { 
+                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+                } else if(_burstCount%4 == 1) {
+                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+                } else if(_burstCount%4 == 1) {
+                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
                 }
-                yield return new WaitForSeconds(0.3f);
+
             }
-            if(_burstCount > 6)
-                SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), _eliteEnemyPrefab);
+
+            if(_burstCount > 3) {
+                if(_burstCount%4 == 0) {
+                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), _eliteEnemyPrefab);
+                } else if(_burstCount%4 == 1) {
+                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), _eliteEnemyPrefab);
+                } else if(_burstCount%4 == 1) {
+                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), _eliteEnemyPrefab);
+                } else if(_burstCount%4 == 1) {
+                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), _eliteEnemyPrefab);
+                }
+            }
             
-            if(_burstCount == 12)
+            if(_burstCount == 8)
                 StartCoroutine(IdleSpawn(_eliteEnemyPrefab, IdleEliteSpawnTime, LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive));
 
-            if(_burstCount == 18) { 
+            if(_burstCount == 12) { 
                 StartCoroutine(BurstSpawn(_eliteEnemyPrefab, NumberEliteEnemyToSpawn));
                 _burstCount = 0;
                 break;
             }
-
-            _burstCount++;
         }
     }
 
