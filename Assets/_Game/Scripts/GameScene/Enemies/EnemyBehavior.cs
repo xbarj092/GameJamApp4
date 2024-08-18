@@ -42,7 +42,7 @@ public class EnemyBehavior : MonoBehaviour
     public void Death(bool coreDeath = false) {
         if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing))
         {
-            TutorialEvents.OnEnemyKilledInvoke();
+            TutorialEvents.OnEnemyKilledInvoke(coreDeath);
         }
 
         if (!coreDeath)

@@ -42,10 +42,10 @@ public static class TutorialEvents
         OnEnemySpawned?.Invoke(position);
     }
 
-    public static Action OnEnemyKilled;
-    public static void OnEnemyKilledInvoke()
+    public static Action<bool> OnEnemyKilled;
+    public static void OnEnemyKilledInvoke(bool coreDeath)
     {
-        OnEnemyKilled?.Invoke();
+        OnEnemyKilled?.Invoke(coreDeath);
     }
 
     // upgrade tutorial

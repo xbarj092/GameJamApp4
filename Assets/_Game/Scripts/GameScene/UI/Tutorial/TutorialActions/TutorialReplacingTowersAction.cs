@@ -20,7 +20,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
-        TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled -= TrySpawnNewEnemy;
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
     }
 
@@ -39,13 +39,21 @@ public class TutorialReplacingTowersAction : TutorialAction
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
 
-        TutorialEvents.OnEnemyKilled += SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled += TrySpawnNewEnemy;
         _actionScheduler.ScheduleAction(PickupTower, () => Input.GetMouseButtonDown(0));
     }
 
-    private void SpawnNewEnemy()
+    private void TrySpawnNewEnemy(bool coreDeath)
     {
-        TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
+        if (coreDeath)
+        {
+            TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
+        }
+        else
+        {
+            OnTowerPlacedCorrectly();
+            OnEnemyKilled(coreDeath);
+        }
     }
 
     private void PickupTower()
@@ -78,14 +86,14 @@ public class TutorialReplacingTowersAction : TutorialAction
     private void OnTowerPlacedCorrectly()
     {
         TutorialManager.Instance.CanPlayerPickTowers = false;
-        TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled -= TrySpawnNewEnemy;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _positionHighlighter.LowlightPosition();
         _tutorialPlayer.TextFadeAway();
         TutorialEvents.OnEnemyKilled += OnEnemyKilled;
     }
 
-    private void OnEnemyKilled()
+    private void OnEnemyKilled(bool coreDeath)
     {
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
         TutorialManager.Instance.CanPlayerPickTowers = true;
