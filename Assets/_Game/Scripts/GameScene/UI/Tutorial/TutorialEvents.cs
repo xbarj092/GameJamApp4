@@ -36,10 +36,10 @@ public static class TutorialEvents
         OnTowerPickedUp?.Invoke();
     }
 
-    public static Action<Vector2, bool> OnEnemySpawned;
-    public static void OnEnemySpawnedInvoke(Vector2 position, bool tutorial = true)
+    public static Action<Vector2> OnEnemySpawned;
+    public static void OnEnemySpawnedInvoke(Vector2 position)
     {
-        OnEnemySpawned?.Invoke(position, true);
+        OnEnemySpawned?.Invoke(position);
     }
 
     public static Action OnEnemyKilled;

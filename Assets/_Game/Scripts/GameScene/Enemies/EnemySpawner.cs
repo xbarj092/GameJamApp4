@@ -6,60 +6,55 @@ public class EnemySpawner : MonoBehaviour
 {
     [field: SerializeField] public UnityEvent<EnemyBehavior> OnEnemySpawn;
 
-    [SerializeField] private float IdleSpawnTime;
+    [SerializeField] private AnimationCurve IdleSpawnTime;
+    [SerializeField] private AnimationCurve IdleEliteSpawnTime;
+    [SerializeField] private AnimationCurve NumberEnemyToSpawn;
+    [SerializeField] private AnimationCurve NumberEliteEnemyToSpawn;
 
-    [SerializeField] private EnemyBehavior _enemyPrefab;
     [SerializeField] private EnemyBehavior _tutorialEnemyPrefab;
+    [SerializeField] private EnemyBehavior _enemyPrefab;
+    [SerializeField] private EnemyBehavior _eliteEnemyPrefab;
     private Vector2 _sceneSize;
 
     private Camera cam;
 
-    IEnumerator IdleSpawn() {
+    private int _burstCount = 0;
+    
+    IEnumerator IdleSpawn(EnemyBehavior prefab, AnimationCurve timing, float startTime = 0) {
         while(true) { 
-            SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x));
-            yield return new WaitForSeconds(IdleSpawnTime);
-            SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x));
-            yield return new WaitForSeconds(IdleSpawnTime);
-            SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y));
-            yield return new WaitForSeconds(IdleSpawnTime);
-            SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y));
-            yield return new WaitForSeconds(IdleSpawnTime);
+            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+            yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
+            SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
         }
     }
 
-    IEnumerator BurstSpawn() {
+    IEnumerator BurstSpawn(EnemyBehavior prefab, AnimationCurve amount) {
         while(true) {
             yield return new WaitForSeconds(20f);
             for(int i = 0; i < 3; i++) { 
-                for(int j = 0; j < 1; j++) {
-                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x));
+                for(int j = 0; j < amount.Evaluate(_burstCount)/3; j++) {
+                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
                 }
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.3f);
             }
+            if(_burstCount > 6)
+                SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), _eliteEnemyPrefab);
             
-            yield return new WaitForSeconds(20f);
-            for(int i = 0; i < 3; i++) {
-                for(int j = 0; j < 2; j++) {
-                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x));
-                }
-                yield return new WaitForSeconds(0.2f);
+            if(_burstCount == 12)
+                StartCoroutine(IdleSpawn(_eliteEnemyPrefab, IdleEliteSpawnTime, LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive));
+
+            if(_burstCount == 18) { 
+                StartCoroutine(BurstSpawn(_eliteEnemyPrefab, NumberEliteEnemyToSpawn));
+                _burstCount = 0;
+                break;
             }
-            
-            yield return new WaitForSeconds(20f);
-            for(int i = 0; i < 3; i++) {
-                for(int j = 0; j < 3; j++) {
-                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y));
-                }
-                yield return new WaitForSeconds(0.2f);
-            }
-            
-            yield return new WaitForSeconds(20f);
-            for(int i = 0; i < 3; i++) {
-                for(int j = 0; j < 4; j++) {
-                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y));
-                }
-                yield return new WaitForSeconds(0.2f);
-            }
+
+            _burstCount++;
         }
     }
 
@@ -76,13 +71,12 @@ public class EnemySpawner : MonoBehaviour
     private void OnEnable()
     {
         TutorialEvents.OnTutorialCompleted += StartSpawning;
-        TutorialEvents.OnEnemySpawned += SpawnEnemy;
+        TutorialEvents.OnEnemySpawned += (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
     }
 
     private void OnDisable()
     {
         TutorialEvents.OnTutorialCompleted -= StartSpawning;
-        TutorialEvents.OnEnemySpawned -= SpawnEnemy;
     }
 
     private void Update() {
@@ -94,8 +88,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartSpawning()
     {
-        StartCoroutine(IdleSpawn());
-        StartCoroutine(BurstSpawn());
+        StartCoroutine(IdleSpawn(_enemyPrefab, IdleSpawnTime));
+        StartCoroutine(BurstSpawn(_enemyPrefab, NumberEnemyToSpawn));
     }
 
     private void UpdateScreenSize() {
@@ -104,14 +98,8 @@ public class EnemySpawner : MonoBehaviour
         _sceneSize /= 2;
     } 
 
-    private void SpawnEnemy(Vector2 position, bool tutorial = false) {
-        EnemyBehavior prefab = _enemyPrefab;
-        if (tutorial)
-        {
-            prefab = _tutorialEnemyPrefab;
-        }
-
-        EnemyBehavior enemy = Instantiate(prefab, position, Quaternion.identity, null);
+    private void SpawnEnemy(Vector2 position, EnemyBehavior pref) {
+        EnemyBehavior enemy = Instantiate(pref, position, Quaternion.identity, null);
         OnEnemySpawn.Invoke(enemy);
     }
 }
