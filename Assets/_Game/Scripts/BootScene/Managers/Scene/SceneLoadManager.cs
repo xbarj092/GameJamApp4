@@ -22,6 +22,8 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     public void GoMenuToGame()
     {
         SceneLoader.OnSceneLoadDone += OnMenuToGameLoadDone;
+        ResetTimer();
+        GrantCoins();
         SceneLoader.LoadScene(SceneLoader.Scenes.GameScene, toUnload: SceneLoader.Scenes.MenuScene);
     }
 
@@ -46,13 +48,14 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     public void RestartGame()
     {
         SceneLoader.OnSceneLoadDone += OnRestartGameDone;
+        ResetTimer();
+        GrantCoins();
         SceneLoader.LoadScene(SceneLoader.Scenes.GameScene, toUnload: SceneLoader.Scenes.GameScene);
     }
 
     private void OnRestartGameDone(SceneLoader.Scenes scenes)
     {
         TryShowTutorial();
-
         SceneLoader.OnSceneLoadDone -= OnRestartGameDone;
     }
 
@@ -63,13 +66,28 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void TryShowTutorial()
     {
+        TutorialManager.Instance.CanPlayerMove = true;
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         foreach (TutorialPlayer tutorial in TutorialManager.Instance.TutorialList)
         {
             if (!TutorialManager.Instance.CompletedTutorials.Contains(tutorial.TutorialID))
             {
                 TutorialManager.Instance.InstantiateTutorial(tutorial.TutorialID);
-                break;
+                return;
             }
+        }
+    }
+
+    private void ResetTimer()
+    {
+        LocalDataStorage.Instance.PlayerData.PlayerStats = new(0);
+    }
+
+    private void GrantCoins()
+    {
+        if (TutorialManager.Instance.TutorialCompleted)
+        {
+            LocalDataStorage.Instance.PlayerData.CurrencyData = new(10);
         }
     }
 }

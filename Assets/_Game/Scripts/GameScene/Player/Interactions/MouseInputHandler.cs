@@ -19,7 +19,7 @@ public class MouseInputHandler : IInteractionHandler
 
     public void HandleInteraction()
     {
-        if (Camera.main != null && TutorialManager.Instance.CanPlayerPickTowers)
+        if (Camera.main != null && TutorialManager.Instance.CanPlayerPickTowers && ScreenManager.Instance.ActiveGameScreen == null)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             HandleMouseClick(mousePosition);
