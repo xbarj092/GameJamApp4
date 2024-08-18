@@ -34,8 +34,18 @@ public class TutorialUpgradesAction : TutorialAction
     private void OnPlayerNearCore()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
+        TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnShopItemsDisabledInvoke();
+        TutorialEvents.OnTowerPurchased += OnTowerPurchased;
+    }
+
+    private void OnTowerPurchased()
+    {
+        TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
+        TutorialManager.Instance.CanPlayerMove = true;
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
     }
 
