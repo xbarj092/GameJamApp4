@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -10,6 +11,8 @@ public abstract class TutorialAction : MonoBehaviour
     public event Action OnActionFinished;
 
     protected TutorialPlayer _tutorialPlayer;
+
+    protected static readonly Vector3 TRANSFORM_POSITION_OFFSET = new(0, 200);
 
     /// <summary>
     /// Default implementation of Init method, override if you need different behaviour

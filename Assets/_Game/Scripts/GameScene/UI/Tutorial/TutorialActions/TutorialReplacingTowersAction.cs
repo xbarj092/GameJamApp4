@@ -34,6 +34,7 @@ public class TutorialReplacingTowersAction : TutorialAction
         Vector2 towerPosition = TutorialManager.Instance.TowerPosition.normalized;
         _spawnPosition = -towerPosition * sceneSize;
         TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(true);
         TutorialManager.Instance.CanPlayerMove = false;
@@ -58,6 +59,7 @@ public class TutorialReplacingTowersAction : TutorialAction
 
     private void PickupTower()
     {
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
         TutorialManager.Instance.CanPlayerMove = true;
@@ -68,6 +70,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     private void OnTowerPickedUp()
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialManager.Instance.PlacePosition = -TutorialManager.Instance.TowerPosition.normalized * (FindObjectOfType<SizeIncrease>().transform.localScale.x - 1);
         _positionHighlighter.HighlightPosition(TutorialManager.Instance.PlacePosition, PLACE_POSITION_THRESHOLD);
