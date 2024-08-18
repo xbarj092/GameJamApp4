@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using EasyButtons;
@@ -8,6 +6,7 @@ using EasyButtons;
 public class EnemyBehavior : MonoBehaviour
 {
     [SerializeField] private EnemyInfo _infoTemplate;
+    public EnemyInfo Info => _infoTemplate;
     [SerializeField] private Coin _CoinPrefab;
     
     private Health _health;
