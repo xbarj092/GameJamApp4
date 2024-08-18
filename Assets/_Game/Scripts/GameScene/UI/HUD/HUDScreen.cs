@@ -38,15 +38,15 @@ public class HUDScreen : MonoBehaviour
 
         if (time.Hours > 0)
         {
-            timeComponents.Add($"{time.Hours:D2}h");
+            timeComponents.Add($"{time.Hours}h");
         }
         if (time.Minutes > 0)
         {
-            timeComponents.Add($"{time.Minutes:D2}m");
+            timeComponents.Add($"{time.Minutes}m");
         }
         if (time.Seconds > 0 || timeComponents.Count == 0)
         {
-            timeComponents.Add($"{time.Seconds:D2}s");
+            timeComponents.Add($"{time.Seconds}s");
         }
 
         _timeText.text = string.Join(" ", timeComponents);

@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 8187261176386368295}
   - component: {fileID: 7898345271302058971}
   - component: {fileID: 6940597548519063822}
+  - component: {fileID: 7639039954379976915}
   m_Layer: 0
   m_Name: Zone
   m_TagString: Untagged
@@ -245,6 +246,18 @@ MonoBehaviour:
   <OnDeath>k__BackingField:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7639039954379976915
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426972441717743477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5967075896b7dc4ab66d9c14cd4d050, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7363298816714610543
 GameObject:
   m_ObjectHideFlags: 0
@@ -380,6 +393,7 @@ MonoBehaviour:
   _maxHealth: 5
   _healthSystem: {fileID: 6940597548519063822}
   _renderer: {fileID: 8828611680390900493}
+  _damageChecker: {fileID: 7639039954379976915}
 --- !u!58 &1982385385842157881
 CircleCollider2D:
   m_ObjectHideFlags: 0

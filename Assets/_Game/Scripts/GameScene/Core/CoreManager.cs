@@ -6,19 +6,21 @@ public class CoreManager : MonoSingleton<CoreManager>
     [SerializeField] float _maxHealth;
     [SerializeField] Health _healthSystem;
     [SerializeField] private SpriteRenderer _renderer;
-
-    private const int CORE_DAMAGE = 1;
+    [SerializeField] private DamageChecker _damageChecker;
 
     public void UpdateCore() { }
 
     private void OnEnable()
     {
+        _damageChecker.OnDamageTaken += DamageCore;
         _healthSystem.SetMaxHealth(_maxHealth);
         _healthSystem.OnDeath.AddListener(GameOver);
         _healthSystem.OnHealthChange.AddListener(UpdateUI);
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
+        _damageChecker.OnDamageTaken -= DamageCore;
         _healthSystem.OnDeath.RemoveListener(GameOver);
         _healthSystem.OnHealthChange.RemoveListener(UpdateUI);
     }
@@ -26,6 +28,11 @@ public class CoreManager : MonoSingleton<CoreManager>
     private void UpdateUI(float damage)
     {
         _renderer.material.SetFloat("_DamageProgress", damage / _healthSystem.MaxHealth);
+    }
+
+    private void DamageCore(float damage)
+    {
+        _healthSystem.DealDamage(damage);
     }
 
     private void GameOver() { 
@@ -56,13 +63,4 @@ public class CoreManager : MonoSingleton<CoreManager>
     }
 
     public void DestroyCore() { }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.TryGetComponent(out EnemyBehavior enemy))
-        {
-            _healthSystem.DealDamage(enemy.Info.CoreDamage);
-            Destroy(enemy.gameObject);
-        }
-    }
 }
