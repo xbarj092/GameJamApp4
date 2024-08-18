@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e2714d051fb92e4ebf070a3f42505ed, type: 3}
   m_Name: EliteEnemy
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 0.15
+  <Speed>k__BackingField: 0.1
   <Health>k__BackingField: 30
+  <CoinAmount>k__BackingField: 2
   <CoreDamage>k__BackingField: 2
