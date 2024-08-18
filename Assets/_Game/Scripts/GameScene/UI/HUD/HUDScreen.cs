@@ -8,8 +8,7 @@ public class HUDScreen : GameScreen
     [SerializeField] private TMP_Text _coinAmount;
     [SerializeField] private TMP_Text _timeText;
 
-    private void Awake()
-    {
+    private void Start() {
         UpdateCoinAmount(LocalDataStorage.Instance.PlayerData.CurrencyData);
         if (TutorialManager.Instance.TutorialCompleted)
         {
