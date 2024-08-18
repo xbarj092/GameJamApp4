@@ -4,6 +4,11 @@ public class TutorialMovementAction : TutorialAction
 {
     [SerializeField] private GameObject _clickToContinue;
 
+    private void OnDisable()
+    {
+        TutorialEvents.OnPlayerMoved -= OnPlayerMoved;
+    }
+
     public override void StartAction()
     {
         _tutorialPlayer.MoveToNextNarratorText();
@@ -13,13 +18,6 @@ public class TutorialMovementAction : TutorialAction
     private void OnPlayerMoved()
     {
         TutorialEvents.OnPlayerMoved -= OnPlayerMoved;
-        _tutorialPlayer.MoveToNextNarratorText();
-        TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
-    }
-
-    private void OnPlayerNearCore()
-    {
-        TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
         OnActionFinishedInvoke();
     }
 

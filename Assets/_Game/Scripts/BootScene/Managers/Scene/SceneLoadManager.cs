@@ -1,3 +1,5 @@
+using System;
+
 public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 {
     protected override void Init()
@@ -26,15 +28,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     private void OnMenuToGameLoadDone(SceneLoader.Scenes scenes)
     {
         ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.HUD);
-
-        foreach (TutorialPlayer tutorial in TutorialManager.Instance.TutorialList)
-        {
-            if (!TutorialManager.Instance.CompletedTutorials.Contains(tutorial.TutorialID))
-            {
-                TutorialManager.Instance.InstantiateTutorial(tutorial.TutorialID);
-                break;
-            }
-        }
+        TryShowTutorial();
 
         SceneLoader.OnSceneLoadDone -= OnMenuToGameLoadDone;
     }
@@ -58,11 +52,26 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnRestartGameDone(SceneLoader.Scenes scenes)
     {
+        ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.HUD);
+        TryShowTutorial();
+
         SceneLoader.OnSceneLoadDone -= OnRestartGameDone;
     }
 
     public bool IsSceneLoaded(SceneLoader.Scenes sceneToCheck)
     {
         return SceneLoader.IsSceneLoaded(sceneToCheck);
+    }
+
+    private void TryShowTutorial()
+    {
+        foreach (TutorialPlayer tutorial in TutorialManager.Instance.TutorialList)
+        {
+            if (!TutorialManager.Instance.CompletedTutorials.Contains(tutorial.TutorialID))
+            {
+                TutorialManager.Instance.InstantiateTutorial(tutorial.TutorialID);
+                break;
+            }
+        }
     }
 }

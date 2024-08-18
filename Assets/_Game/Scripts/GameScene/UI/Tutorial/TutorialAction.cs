@@ -19,11 +19,6 @@ public abstract class TutorialAction : MonoBehaviour
         _tutorialPlayer = parentPlayer;
     }
 
-    private void OnDisable()
-    {
-        OnActionFinishedInvoke();
-    }
-
     protected void OnActionFinishedInvoke()
     {
         OnActionFinished?.Invoke();

@@ -24,6 +24,7 @@ public class PlayerInteractions : MonoBehaviour
 
         _input = new GameInput();
         _input.Player.Interact.performed += _ => _mouseInputHandler.HandleInteraction();
+        _input.Player.UI.performed += _ => _keyboardInputHandler.HandleInteraction();
     }
 
     private void OnEnable()
@@ -48,8 +49,6 @@ public class PlayerInteractions : MonoBehaviour
 
     private void Update()
     {
-        _keyboardInputHandler.HandleInteraction();
-        
         if(Camera.main != null) {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _mouseInputHandler.HandleMouseHover(mousePosition);
