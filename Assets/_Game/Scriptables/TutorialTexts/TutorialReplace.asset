@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f84bec4a9d4092428f078d4824ce73a, type: 3}
+  m_Name: TutorialReplace
+  m_EditorClassIdentifier: 
+  <Strings>k__BackingField:
+  - Oh no, the enemy spawned on the opposite side
+  - You can pick your tower up by clicking LMB on it
+  - When your tower is picked up, you can move with it
+  - When you are in the right position, you can drop your tower by clicking LMB again

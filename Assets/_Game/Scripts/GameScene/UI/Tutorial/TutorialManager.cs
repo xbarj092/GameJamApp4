@@ -2,13 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TutorialID
-{
-    None = 0,
-    Field = 1,
-    Attack = 2,
-}
-
 public class TutorialManager : MonoSingleton<TutorialManager>
 {
     [field: SerializeField] public bool TutorialsEnabled { get; private set; } = true;
@@ -27,7 +20,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         {
             if (CurrentTutorial != null)
             {
-                Debug.LogError($"[TutorialManager] Trying to spawn tutorial {tutorialID}, but there is already tutorial {CurrentTutorial.TutorialID} playing. Returning");
+                Debug.LogError($"[TutorialManager] - Trying to spawn tutorial {tutorialID}, but there is already tutorial {CurrentTutorial.TutorialID} playing. Returning");
                 return;
             }
         }
@@ -41,7 +34,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
             }
         }
 
-        Debug.LogError($"[TutorialManager] Cannot spawn tutorial {tutorialID}! Check if it exists!");
+        Debug.LogError($"[TutorialManager] - Cannot spawn tutorial {tutorialID}! Check if it exists!");
     }
 
     public bool IsTutorialPlaying(TutorialID tutorialID)
@@ -68,12 +61,11 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         CurrentTutorial = Instantiate(tutorial, FindObjectOfType<BaseCanvasController>().transform);
         if (CurrentTutorial == null)
         {
-            Debug.LogError($"[TutorialManager] Cannot instantiate tutorial {tutorial.TutorialID}! Check if it exists!");
+            Debug.LogError($"[TutorialManager] - Cannot instantiate tutorial {tutorial.TutorialID}! Check if it exists!");
         }
         else
         {
             CurrentTutorial.OnTutorialEnd += OnCurrentTutorialEnd;
-            // CurrentTutorial.Action.StartAction();
         }
     }
 
@@ -82,6 +74,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         if (CurrentTutorial != null)
         {
             CurrentTutorial.OnTutorialEnd -= OnCurrentTutorialEnd;
+            CurrentTutorial = null;
         }
 
         CompletedTutorials.Add(tutorialID);

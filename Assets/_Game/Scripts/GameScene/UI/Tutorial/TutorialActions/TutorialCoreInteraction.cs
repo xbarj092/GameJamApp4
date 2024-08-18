@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TutorialFieldAction : TutorialAction
+public class TutorialCoreAction : TutorialAction
 {
     [SerializeField] private GameObject _eventExplaining;
     [SerializeField] private GameObject _clickToContinue;

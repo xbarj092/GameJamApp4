@@ -25,6 +25,17 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnMenuToGameLoadDone(SceneLoader.Scenes scenes)
     {
+        ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.HUD);
+
+        foreach (TutorialPlayer tutorial in TutorialManager.Instance.TutorialList)
+        {
+            if (!TutorialManager.Instance.CompletedTutorials.Contains(tutorial.TutorialID))
+            {
+                TutorialManager.Instance.InstantiateTutorial(tutorial.TutorialID);
+                break;
+            }
+        }
+
         SceneLoader.OnSceneLoadDone -= OnMenuToGameLoadDone;
     }
 

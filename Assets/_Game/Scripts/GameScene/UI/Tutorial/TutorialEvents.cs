@@ -8,9 +8,9 @@ public static class TutorialEvents
         OnPlayerMoved?.Invoke();
     }
 
-    public static event Action OnPlayerAttacked;
-    public static void OnPlayerAttackedInvoke()
+    public static event Action OnPlayerNearCore;
+    public static void OnPlayerNearCoreInvoke()
     {
-        OnPlayerAttacked?.Invoke();
+        OnPlayerNearCore?.Invoke();
     }
 }

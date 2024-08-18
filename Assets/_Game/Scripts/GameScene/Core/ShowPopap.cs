@@ -13,6 +13,10 @@ public class ShowPopap : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("Player")) {
             _toShow.SetActive(true);
+            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Movement))
+            {
+                TutorialEvents.OnPlayerNearCoreInvoke();
+            }
         }
     }
 

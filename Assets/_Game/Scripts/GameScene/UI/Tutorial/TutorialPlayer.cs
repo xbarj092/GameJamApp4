@@ -3,12 +3,6 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public enum ChosenActionType
-{
-    Default,
-    Custom
-}
-
 public class TutorialPlayer : MonoBehaviour
 { 
     [SerializeField] private TMP_Text _text;
@@ -34,9 +28,9 @@ public class TutorialPlayer : MonoBehaviour
 
     private void OnCurrentActionFinished()
     {
-        Action.Exit();
         Action.OnActionFinished -= OnCurrentActionFinished;
         OnTutorialEnd?.Invoke(TutorialID);
+        Action.Exit();
         Destroy(gameObject);
     }
 
