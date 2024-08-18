@@ -168,13 +168,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8770cb8343905d47a6f515586123abb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <TutorialsEnabled>k__BackingField: 1
+  <TutorialsEnabled>k__BackingField: 0
   <TutorialList>k__BackingField:
   - {fileID: 2948798742160830293, guid: 44161edbb9d00d54f8e8a18140c5660c, type: 3}
   - {fileID: 2948798742160830293, guid: 53ae4cc805e773749a3efb715955975b, type: 3}
   - {fileID: 2948798742160830293, guid: d414289f13d8daa44bdaa800970eb478, type: 3}
   - {fileID: 2948798742160830293, guid: aa9cb5852e2b9e3418db3be4a2d05dbc, type: 3}
   CompletedTutorials: 
+  TowerPosition: {x: 0, y: 0}
 --- !u!1 &9142167771989009767
 GameObject:
   m_ObjectHideFlags: 0

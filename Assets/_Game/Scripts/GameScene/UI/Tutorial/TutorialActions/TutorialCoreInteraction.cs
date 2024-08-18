@@ -14,7 +14,8 @@ public class TutorialCoreAction : TutorialAction
     private void OnDisable()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
-        TutorialEvents.OnPlayerMoved -= OnPlayerMoved;
+        TutorialEvents.OnTowerPurchased += OnTowerPurchased;
+        TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
     }
 
     public override void StartAction()
@@ -26,38 +27,37 @@ public class TutorialCoreAction : TutorialAction
     private void OnPlayerNearCore()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
+        // disable all shop items
+        // show all different towers and what they are doing
         _clickToContinue.SetActive(true);
         _tutorialPlayer.MoveToNextNarratorText();
-        _actionScheduler.ScheduleAction(ExplainEvents, () => Input.GetMouseButtonDown(0));
+        _actionScheduler.ScheduleAction(OnBeforePlayerBuy, () => Input.GetMouseButtonDown(0));
     }
 
-    private void ExplainEvents()
+    private void OnBeforePlayerBuy()
     {
         _tutorialPlayer.MoveToNextNarratorText();
-        _actionScheduler.ScheduleAction(ExplainDiceStep, () => Input.GetMouseButtonDown(0));
-    }
-
-    private void ExplainDiceStep()
-    {
-        _tutorialPlayer.MoveToNextNarratorText();
-        _actionScheduler.ScheduleAction(OnAfterDiceStep, () => Input.GetMouseButtonDown(0));
-    }
-
-    private void OnAfterDiceStep()
-    {
         _clickToContinue.SetActive(false);
-
-        _tutorialPlayer.MoveToNextNarratorText();
-        TutorialEvents.OnPlayerMoved += OnPlayerMoved;
+        // reenable relevant item
+        // highlight relevant item
+        TutorialEvents.OnTowerPurchased += OnTowerPurchased;
     }
 
-    private void OnPlayerMoved()
+    private void OnTowerPurchased()
     {
-        TutorialEvents.OnPlayerMoved -= OnPlayerMoved;
+        TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
+        _tutorialPlayer.MoveToNextNarratorText();
+        TutorialEvents.OnTowerPlaced += OnTowerPlaced;
+    }
+
+    private void OnTowerPlaced()
+    {
+        TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         OnActionFinishedInvoke();
     }
 
     public override void Exit()
     {
+        TutorialManager.Instance.InstantiateTutorial(TutorialID.Replacing);
     }
 }

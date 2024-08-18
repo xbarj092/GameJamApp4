@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -67,12 +66,35 @@ public class EnemySpawner : MonoBehaviour
         cam = Camera.main;
         UpdateScreenSize();
 
-        StartCoroutine(IdleSpawn());
-        StartCoroutine(BurstSpawn());
+        if (TutorialManager.Instance.TutorialCompleted)
+        {
+            StartSpawning();
+        }
+    }
+
+    private void OnEnable()
+    {
+        TutorialEvents.OnTutorialCompleted += StartSpawning;
+        TutorialEvents.OnEnemySpawned += SpawnEnemy;
+    }
+
+    private void OnDisable()
+    {
+        TutorialEvents.OnTutorialCompleted -= StartSpawning;
+        TutorialEvents.OnEnemySpawned -= SpawnEnemy;
     }
 
     private void Update() {
-        UpdateScreenSize();
+        if (TutorialManager.Instance.TutorialCompleted)
+        {
+            UpdateScreenSize();
+        }
+    }
+
+    private void StartSpawning()
+    {
+        StartCoroutine(IdleSpawn());
+        StartCoroutine(BurstSpawn());
     }
 
     private void UpdateScreenSize() {

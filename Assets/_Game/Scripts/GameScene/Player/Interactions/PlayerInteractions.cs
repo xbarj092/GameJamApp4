@@ -75,6 +75,11 @@ public class PlayerInteractions : MonoBehaviour
     {
         if (_carryingTower == null)
         {
+            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing))
+            {
+                TutorialEvents.OnTowerPickedUpInvoke();
+            }
+
             _carryingTower = tower;
             _carryingTower.GetTowerObject().SetActive(false);
             _ghostTower = Instantiate(tower.GetGhostTower(), transform);
@@ -90,6 +95,13 @@ public class PlayerInteractions : MonoBehaviour
             Collider2D[] colliders = Physics2D.OverlapCircleAll(placementPosition, _placementRadius, _interact);
             if (colliders.Length == 0)
             {
+                if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Core) ||
+                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing))
+                {
+                    TutorialManager.Instance.TowerPosition = placementPosition;
+                    TutorialEvents.OnTowerPlacedInvoke();
+                }
+
                 _carryingTower.GetTowerObject().transform.position = placementPosition;
                 _carryingTower.GetTowerObject().SetActive(true);
                 _carryingTower = null;
