@@ -60,6 +60,102 @@ MonoBehaviour:
   OnEnemySpawn:
     m_PersistentCalls:
       m_Calls: []
-  IdleSpawnTime: 4
-  _enemyPrefab: {fileID: 4752528150407295558, guid: 21eb5b729b34559448b03b8c56210839, type: 3}
+  IdleSpawnTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 3
+      inSlope: -0.6005073
+      outSlope: -0.6005073
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.019812878
+    - serializedVersion: 3
+      time: 9.994507
+      value: 0.2
+      inSlope: 0.008334317
+      outSlope: 0.008334317
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.026983397
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  IdleEliteSpawnTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: -2.3497345
+      outSlope: -2.3497345
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.01706109
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0.008334317
+      outSlope: 0.008334317
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.026983397
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  NumberEnemyToSpawn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 0.29823276
+      outSlope: 0.29823276
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.02696753
+    - serializedVersion: 3
+      time: 18
+      value: 30
+      inSlope: 3.2900486
+      outSlope: 3.2900486
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.022564676
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  NumberEliteEnemyToSpawn:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 3
+      inSlope: 0.27562144
+      outSlope: 0.27562144
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.028618602
+    - serializedVersion: 3
+      time: 12
+      value: 20
+      inSlope: 1.9612622
+      outSlope: 1.9612622
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0209136
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _tutorialEnemyPrefab: {fileID: 4752528150407295558, guid: 8ae094da7e7729b40ab6fa44bfcc0a99, type: 3}
+  _enemyPrefab: {fileID: 4752528150407295558, guid: 21eb5b729b34559448b03b8c56210839, type: 3}
+  _eliteEnemyPrefab: {fileID: 4361386723114298047, guid: ef8571a2d4eb1404986244a82b64f198, type: 3}

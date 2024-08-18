@@ -8,14 +8,6 @@ public class Shop : MonoBehaviour {
     [SerializeField] private PlayerMovement _movement;
     [SerializeField] private PlayerInteractions _interaction;
 
-    private void Awake() {
-        _items[0].UpdateCost(2);
-        _items[1].UpdateCost(10);
-        _items[2].UpdateCost(10);
-        _items[3].UpdateCost(10);
-        _items[4].UpdateCost(5);
-        _items[5].UpdateCost(5);
-    }
 
     private void OnEnable() {
         DataEvents.OnCurrencyDataChanged += UpdateItems;
@@ -27,6 +19,12 @@ public class Shop : MonoBehaviour {
 
     private void Start() {
         UpdateItems(new(0));
+        _items[0].UpdateCost(2);
+        _items[1].UpdateCost(10);
+        _items[2].UpdateCost(10);
+        _items[3].UpdateCost(10);
+        _items[4].UpdateCost(5);
+        _items[5].UpdateCost(5);
     }
 
     private void UpdateItems(CurrencyData data) {

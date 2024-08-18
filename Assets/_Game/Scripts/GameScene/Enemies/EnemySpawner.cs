@@ -21,7 +21,7 @@ public class EnemySpawner : MonoBehaviour
     private int _burstCount = 0;
     
     IEnumerator IdleSpawn(EnemyBehavior prefab, AnimationCurve timing, float startTime = 0) {
-        while(true) { 
+        while(true) {
             yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
             SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
             yield return new WaitForSeconds(timing.Evaluate(LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive - startTime));
@@ -61,9 +61,10 @@ public class EnemySpawner : MonoBehaviour
     private void Awake() {
         cam = Camera.main;
         UpdateScreenSize();
+    }
 
-        if (TutorialManager.Instance.TutorialCompleted)
-        {
+    private void Start() {
+        if(TutorialManager.Instance.TutorialCompleted) {
             StartSpawning();
         }
     }
