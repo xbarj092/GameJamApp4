@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 7baa42521e960db4facf37bd6f2855ce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -379,6 +379,7 @@ MonoBehaviour:
   sizeIncrease: {fileID: 8187261176386368295}
   _maxHealth: 5
   _healthSystem: {fileID: 6940597548519063822}
+  _renderer: {fileID: 8828611680390900493}
 --- !u!58 &1982385385842157881
 CircleCollider2D:
   m_ObjectHideFlags: 0

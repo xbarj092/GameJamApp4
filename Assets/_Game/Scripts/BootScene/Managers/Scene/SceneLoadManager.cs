@@ -39,13 +39,19 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
         SceneLoader.OnSceneLoadDone -= OnGameToMenuLoadDone;
     }
 
+    public void RestartGame()
+    {
+        SceneLoader.OnSceneLoadDone += OnRestartGameDone;
+        SceneLoader.LoadScene(SceneLoader.Scenes.GameScene, toUnload: SceneLoader.Scenes.GameScene);
+    }
+
+    private void OnRestartGameDone(SceneLoader.Scenes scenes)
+    {
+        SceneLoader.OnSceneLoadDone -= OnRestartGameDone;
+    }
+
     public bool IsSceneLoaded(SceneLoader.Scenes sceneToCheck)
     {
         return SceneLoader.IsSceneLoaded(sceneToCheck);
-    }
-
-    public void RestartGame()
-    {
-        SceneLoader.LoadScene(SceneLoader.Scenes.GameScene, toUnload: SceneLoader.Scenes.GameScene);
     }
 }

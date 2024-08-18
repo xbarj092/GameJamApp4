@@ -1,14 +1,19 @@
 using UnityEngine;
 
-public class CoreManager : MonoSingleton<CoreManager> 
+public class CoreManager : MonoSingleton<CoreManager>
 {
     [SerializeField] SizeIncrease sizeIncrease;
     [SerializeField] float _maxHealth;
     [SerializeField] Health _healthSystem;
+    [SerializeField] private SpriteRenderer _renderer;
+
+    private const int CORE_DAMAGE = 1;
 
     public void UpdateCore() { }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
+        _healthSystem.SetMaxHealth(_maxHealth);
         _healthSystem.OnDeath.AddListener(GameOver);
         _healthSystem.OnHealthChange.AddListener(UpdateUI);
     }
@@ -18,12 +23,14 @@ public class CoreManager : MonoSingleton<CoreManager>
         _healthSystem.OnHealthChange.RemoveListener(UpdateUI);
     }
 
-    private void UpdateUI(float damage) { 
-        //Todo
+    private void UpdateUI(float damage)
+    {
+        _renderer.material.SetFloat("_DamageProgress", damage / _healthSystem.MaxHealth);
     }
 
     private void GameOver() { 
-        //Todo
+        // maybe some core destroy animation beforehand?
+        ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.GameOver);
     }
 
     private void FixedUpdate()
@@ -49,4 +56,13 @@ public class CoreManager : MonoSingleton<CoreManager>
     }
 
     public void DestroyCore() { }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.TryGetComponent(out EnemyBehavior enemy))
+        {
+            _healthSystem.DealDamage(enemy.Info.CoreDamage);
+            Destroy(enemy.gameObject);
+        }
+    }
 }
