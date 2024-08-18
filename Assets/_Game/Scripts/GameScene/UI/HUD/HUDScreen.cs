@@ -1,13 +1,17 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class HUDScreen : MonoBehaviour
 {
     [SerializeField] private TMP_Text _coinAmount;
+    [SerializeField] private TMP_Text _timeText;
 
     private void Awake()
     {
         UpdateCoinAmount(LocalDataStorage.Instance.PlayerData.CurrencyData);
+        InvokeRepeating(nameof(UpdateTimeText), 0, 1);
     }
 
     private void OnEnable()
@@ -23,5 +27,29 @@ public class HUDScreen : MonoBehaviour
     private void UpdateCoinAmount(CurrencyData data)
     {
         _coinAmount.text = data.Coins.ToString();
+    }
+
+    private void UpdateTimeText()
+    {
+        PlayerStats stats = LocalDataStorage.Instance.PlayerData.PlayerStats;
+        stats.TimeAlive++;
+        TimeSpan time = TimeSpan.FromSeconds(stats.TimeAlive);
+        List<string> timeComponents = new();
+
+        if (time.Hours > 0)
+        {
+            timeComponents.Add($"{time.Hours:D2}h");
+        }
+        if (time.Minutes > 0)
+        {
+            timeComponents.Add($"{time.Minutes:D2}m");
+        }
+        if (time.Seconds > 0 || timeComponents.Count == 0)
+        {
+            timeComponents.Add($"{time.Seconds:D2}s");
+        }
+
+        _timeText.text = string.Join(" ", timeComponents);
+        LocalDataStorage.Instance.PlayerData.PlayerStats = stats;
     }
 }
