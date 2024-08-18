@@ -36,6 +36,8 @@ public class TutorialReplacingTowersAction : TutorialAction
         TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(true);
+        TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
 
         TutorialEvents.OnEnemyKilled += SpawnNewEnemy;
         _actionScheduler.ScheduleAction(PickupTower, () => Input.GetMouseButtonDown(0));
@@ -50,6 +52,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        TutorialManager.Instance.CanPlayerMove = true;
         TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTowerPickedUp += OnTowerPickedUp;
     }

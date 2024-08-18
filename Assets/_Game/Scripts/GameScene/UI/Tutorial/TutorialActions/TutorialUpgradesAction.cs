@@ -53,6 +53,8 @@ public class TutorialUpgradesAction : TutorialAction
     {
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _clickToContinue.SetActive(true);
+        TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
 
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnAfterTowerPlaced, () => Input.GetMouseButtonDown(0));
@@ -66,6 +68,8 @@ public class TutorialUpgradesAction : TutorialAction
 
     public override void Exit()
     {
+        TutorialManager.Instance.CanPlayerMove = true;
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTutorialCompletedInvoke();
     }
 }

@@ -29,6 +29,7 @@ public class TutorialCoreAction : TutorialAction
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
         TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
         _towerTypes.SetActive(true);
         _clickToContinue.SetActive(true);
         _tutorialPlayer.MoveToNextNarratorText();
@@ -39,6 +40,7 @@ public class TutorialCoreAction : TutorialAction
     {
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         _towerTypes.SetActive(false);
         TutorialEvents.OnTowerPurchased += OnTowerPurchased;
     }
