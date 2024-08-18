@@ -10,7 +10,7 @@ public class DamageChecker : MonoBehaviour
         if (other.gameObject.TryGetComponent(out EnemyBehavior enemy))
         {
             OnDamageTaken?.Invoke(enemy.Info.CoreDamage);
-            enemy.Death();
+            enemy.Death(true);
         }
     }
 }

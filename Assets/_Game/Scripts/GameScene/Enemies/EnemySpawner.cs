@@ -9,6 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float IdleSpawnTime;
 
     [SerializeField] private EnemyBehavior _enemyPrefab;
+    [SerializeField] private EnemyBehavior _tutorialEnemyPrefab;
     private Vector2 _sceneSize;
 
     private Camera cam;
@@ -103,8 +104,14 @@ public class EnemySpawner : MonoBehaviour
         _sceneSize /= 2;
     } 
 
-    private void SpawnEnemy(Vector2 position) {
-        EnemyBehavior enemy = Instantiate(_enemyPrefab, position, Quaternion.identity, null);
+    private void SpawnEnemy(Vector2 position, bool tutorial = false) {
+        EnemyBehavior prefab = _enemyPrefab;
+        if (tutorial)
+        {
+            prefab = _tutorialEnemyPrefab;
+        }
+
+        EnemyBehavior enemy = Instantiate(prefab, position, Quaternion.identity, null);
         OnEnemySpawn.Invoke(enemy);
     }
 }

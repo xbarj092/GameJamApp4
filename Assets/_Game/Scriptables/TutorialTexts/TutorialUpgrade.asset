@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: TutorialUpgrade
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
+  - Coins dropped from enemy, go pick em up
   - You have enough money for upgrade tower, go buy one!
   - All regular towers will get buffed when in range of upgrade tower
   - When near upgrade tower, you can increase the level of it

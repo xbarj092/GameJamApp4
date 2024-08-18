@@ -12,6 +12,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     public bool TutorialCompleted => CompletedTutorials.Contains(TutorialID.Upgrades);
 
     public Vector2 TowerPosition;
+    public Vector2 PlacePosition;
 
     public event Action<TutorialID> OnTutorialEnd;
 

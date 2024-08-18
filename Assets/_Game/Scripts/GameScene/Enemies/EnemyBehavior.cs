@@ -39,8 +39,20 @@ public class EnemyBehavior : MonoBehaviour
         _movement.SetTargetPoint(target, () => {if(affterArrive != null) affterArrive(this);});
     }
 
-    public void Death() {
-        Instantiate(_CoinPrefab, transform.position, Quaternion.identity, null);
+    public void Death(bool coreDeath = false) {
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing))
+        {
+            TutorialEvents.OnEnemyKilledInvoke();
+        }
+
+        if (!coreDeath)
+        {
+            for (int i = 0; i < _infoTemplate.CoinAmount; i++)
+            {
+                Instantiate(_CoinPrefab, transform.position, Quaternion.identity, null);
+            }
+        }
+
         Destroy(gameObject);
     }
 

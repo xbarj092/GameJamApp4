@@ -10,7 +10,7 @@ public class Health : MonoBehaviour {
 
     [field: SerializeField] public UnityEvent<float> OnHealthChange { get; private set; }
     [field: SerializeField] public UnityEvent<float> OnMaxHealthChange { get; private set; }
-    [field: SerializeField] public UnityEvent OnDeath { get; private set; }
+    [field: SerializeField] public UnityEvent<bool> OnDeath { get; private set; }
 
     private void Awake() {
         /*OnHealthChange = new UnityEvent<float>();
@@ -35,7 +35,7 @@ public class Health : MonoBehaviour {
         OnHealthChange.Invoke(CurrDamage);
 
         if(CurrHealth <= 0) {
-            OnDeath.Invoke();
+            OnDeath.Invoke(false);
         }
     }
 

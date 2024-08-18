@@ -5,6 +5,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     [SerializeField] private GameObject _clickToContinue;
 
     private ActionScheduler _actionScheduler;
+    private Vector2 _spawnPosition;
 
     private void Awake()
     {
@@ -14,7 +15,6 @@ public class TutorialReplacingTowersAction : TutorialAction
     private void OnDisable()
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
-        TutorialEvents.OnPlayerCorrectPosition -= OnPlayerCorrectPosition;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
     }
 
@@ -26,11 +26,18 @@ public class TutorialReplacingTowersAction : TutorialAction
         sceneSize /= 2;
 
         Vector2 towerPosition = TutorialManager.Instance.TowerPosition.normalized;
-        Vector2 spawnPosition = -towerPosition * sceneSize;
-        TutorialEvents.OnEnemySpawnedInvoke(spawnPosition);
+        _spawnPosition = -towerPosition * sceneSize;
+        TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(true);
+
+        TutorialEvents.OnEnemyKilled += SpawnNewEnemy;
         _actionScheduler.ScheduleAction(PickupTower, () => Input.GetMouseButtonDown(0));
+    }
+
+    private void SpawnNewEnemy()
+    {
+        TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
     }
 
     private void PickupTower()
@@ -44,21 +51,30 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
         _tutorialPlayer.MoveToNextNarratorText();
-        Vector2 position = -TutorialManager.Instance.TowerPosition.normalized * FindObjectOfType<SizeIncrease>().transform.localScale.x;
-        TutorialEvents.OnPlayerCorrectPosition += OnPlayerCorrectPosition;
-    }
-
-    private void OnPlayerCorrectPosition()
-    {
-        TutorialEvents.OnPlayerCorrectPosition -= OnPlayerCorrectPosition;
-        _tutorialPlayer.MoveToNextNarratorText();
+        TutorialManager.Instance.PlacePosition = -TutorialManager.Instance.TowerPosition.normalized * FindObjectOfType<SizeIncrease>().transform.localScale.x;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
     }
 
     private void OnTowerPlaced()
     {
+        if (Mathf.Abs(TutorialManager.Instance.TowerPosition.x - TutorialManager.Instance.PlacePosition.x) < 2 &&
+            Mathf.Abs(TutorialManager.Instance.TowerPosition.y - TutorialManager.Instance.PlacePosition.y) < 2)
+        {
+            OnTowerPlacedCorrectly();
+        }
+    }
+
+    private void OnTowerPlacedCorrectly()
+    {
+        TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
-        _tutorialPlayer.MoveToNextNarratorText();
+        _tutorialPlayer.TextFadeAway();
+        TutorialEvents.OnEnemyKilled += OnEnemyKilled;
+    }
+
+    private void OnEnemyKilled()
+    {
+        TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
         OnActionFinishedInvoke();
     }
 

@@ -35,7 +35,7 @@ public class CoreManager : MonoSingleton<CoreManager>
         _healthSystem.DealDamage(damage);
     }
 
-    private void GameOver() { 
+    private void GameOver(bool coreDeath = false) { 
         // maybe some core destroy animation beforehand?
         ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.GameOver);
     }

@@ -96,7 +96,8 @@ public class PlayerInteractions : MonoBehaviour
             if (colliders.Length == 0)
             {
                 if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Core) ||
-                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing))
+                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing) ||
+                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
                 {
                     TutorialManager.Instance.TowerPosition = placementPosition;
                     TutorialEvents.OnTowerPlacedInvoke();
