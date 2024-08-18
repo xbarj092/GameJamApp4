@@ -20,7 +20,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
-        TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled -= TrySpawnNewEnemy;
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
     }
 
@@ -34,22 +34,35 @@ public class TutorialReplacingTowersAction : TutorialAction
         Vector2 towerPosition = TutorialManager.Instance.TowerPosition.normalized;
         _spawnPosition = -towerPosition * sceneSize;
         TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(true);
+        TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
 
-        TutorialEvents.OnEnemyKilled += SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled += TrySpawnNewEnemy;
         _actionScheduler.ScheduleAction(PickupTower, () => Input.GetMouseButtonDown(0));
     }
 
-    private void SpawnNewEnemy()
+    private void TrySpawnNewEnemy(bool coreDeath)
     {
-        TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
+        if (coreDeath)
+        {
+            TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
+        }
+        else
+        {
+            OnTowerPlacedCorrectly();
+            OnEnemyKilled(coreDeath);
+        }
     }
 
     private void PickupTower()
     {
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        TutorialManager.Instance.CanPlayerMove = true;
         TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTowerPickedUp += OnTowerPickedUp;
     }
@@ -57,6 +70,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     private void OnTowerPickedUp()
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialManager.Instance.PlacePosition = -TutorialManager.Instance.TowerPosition.normalized * (FindObjectOfType<SizeIncrease>().transform.localScale.x - 1);
         _positionHighlighter.HighlightPosition(TutorialManager.Instance.PlacePosition, PLACE_POSITION_THRESHOLD);
@@ -75,14 +89,14 @@ public class TutorialReplacingTowersAction : TutorialAction
     private void OnTowerPlacedCorrectly()
     {
         TutorialManager.Instance.CanPlayerPickTowers = false;
-        TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled -= TrySpawnNewEnemy;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _positionHighlighter.LowlightPosition();
         _tutorialPlayer.TextFadeAway();
         TutorialEvents.OnEnemyKilled += OnEnemyKilled;
     }
 
-    private void OnEnemyKilled()
+    private void OnEnemyKilled(bool coreDeath)
     {
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
         TutorialManager.Instance.CanPlayerPickTowers = true;

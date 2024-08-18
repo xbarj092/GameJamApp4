@@ -20,6 +20,7 @@ public class TutorialUpgradesAction : TutorialAction
 
     public override void StartAction()
     {
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
     }
@@ -27,6 +28,7 @@ public class TutorialUpgradesAction : TutorialAction
     private void OnCoinPickedUp()
     {
         TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
     }
@@ -34,8 +36,19 @@ public class TutorialUpgradesAction : TutorialAction
     private void OnPlayerNearCore()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
+        TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnShopItemsDisabledInvoke();
+        TutorialEvents.OnTowerPurchased += OnTowerPurchased;
+    }
+
+    private void OnTowerPurchased()
+    {
+        TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
+        TutorialManager.Instance.CanPlayerMove = true;
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
     }
 
@@ -43,19 +56,25 @@ public class TutorialUpgradesAction : TutorialAction
     {
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _clickToContinue.SetActive(true);
+        TutorialManager.Instance.CanPlayerMove = false;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
 
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnAfterTowerPlaced, () => Input.GetMouseButtonDown(0));
     }
 
     private void OnAfterTowerPlaced()
     {
+        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnActionFinishedInvoke, () => Input.GetMouseButtonDown(0));
     }
 
     public override void Exit()
     {
+        TutorialManager.Instance.CanPlayerMove = true;
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTutorialCompletedInvoke();
     }
 }

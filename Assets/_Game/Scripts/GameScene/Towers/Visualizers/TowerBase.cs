@@ -8,6 +8,7 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
     [SerializeField] private GameObject _ghostTower;
 
     private bool _interactable = false;
+    protected bool _pickedUp = false;
 
     public bool Highlighting;
     public TInstance Instance;
@@ -49,6 +50,11 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
 
     public bool IsInteractable() {
         return _interactable;
+    }
+
+    public void IsPickedUp(bool pickedUp)
+    {
+        _pickedUp = pickedUp;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

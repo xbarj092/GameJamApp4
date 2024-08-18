@@ -62,7 +62,13 @@ public class Shop : MonoBehaviour {
 
     }
 
-    public void BuyAttackSpeedTower() {
+    public void BuyAttackSpeedTower()
+    {
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
+        {
+            TutorialEvents.OnTowerPurchasedInvoke();
+        }
+
         int cost = _items[1].Cost;
         SpendMoney(cost);
         _items[1].UpdateCost(cost+15);
@@ -72,7 +78,13 @@ public class Shop : MonoBehaviour {
         _interaction.OnTowerPickedUp(tower);
     }
 
-    public void BuyDamageTower() {
+    public void BuyDamageTower()
+    {
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
+        {
+            TutorialEvents.OnTowerPurchasedInvoke();
+        }
+
         int cost = _items[2].Cost;
         SpendMoney(cost);
         _items[2].UpdateCost(cost+15);
@@ -82,7 +94,13 @@ public class Shop : MonoBehaviour {
         _interaction.OnTowerPickedUp(tower);
     }
 
-    public void BuyRangeTower() {
+    public void BuyRangeTower()
+    {
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
+        {
+            TutorialEvents.OnTowerPurchasedInvoke();
+        }
+
         int cost = _items[3].Cost;
         SpendMoney(cost);
         _items[3].UpdateCost(cost+15);
