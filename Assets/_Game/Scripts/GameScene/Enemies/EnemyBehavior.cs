@@ -39,7 +39,7 @@ public class EnemyBehavior : MonoBehaviour
         _movement.SetTargetPoint(target, () => {if(affterArrive != null) affterArrive(this);});
     }
 
-    private void Death() {
+    public void Death() {
         Instantiate(_CoinPrefab, transform.position, Quaternion.identity, null);
         Destroy(gameObject);
     }

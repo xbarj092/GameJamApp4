@@ -36,15 +36,15 @@ public class MouseInputHandler : IInteractionHandler
 
     private bool HandlePickUpAction(Vector2 mousePosition)
     {
-        if (IsInRangeOfPlayer())
-        {
+        /*if (IsInRangeOfPlayer())
+        {*/
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
-            if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower))
+            if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower) && tower != null && tower.IsInteractable())
             {
                 OnTowerPickedUp?.Invoke(tower); 
                 return true;
             }
-        }
+        //}
         return false;
     }
 
@@ -57,7 +57,7 @@ public class MouseInputHandler : IInteractionHandler
     public void HandleMouseHover(Vector2 mousePosition)
     {
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
-        if (IsInRangeOfPlayer() && hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower))
+        if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower) && tower != null && tower.IsInteractable())
         {
             OnTowerHighlighted?.Invoke(tower);
         }

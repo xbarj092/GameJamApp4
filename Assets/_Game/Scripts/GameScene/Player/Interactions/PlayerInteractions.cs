@@ -12,6 +12,7 @@ public class PlayerInteractions : MonoBehaviour
     private ITowerBase _highlightedTower;
     private ITowerBase _carryingTower;
     private GameObject _ghostTower;
+    private SpriteRenderer _ghostRenderer;
 
     private KeyboardInputHandler _keyboardInputHandler = new();
     private MouseInputHandler _mouseInputHandler;
@@ -57,7 +58,18 @@ public class PlayerInteractions : MonoBehaviour
         if (_ghostTower != null)
         {
             SnapGhostToMousePosition();
+            _ghostRenderer.material.SetInt("_Outlined" , CanBeTowerPlace() ? 0 : 1);
         }
+    }
+
+    private bool CanBeTowerPlace() {
+        Vector3 placementPosition = _ghostTower.transform.position;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(placementPosition, _placementRadius, _interact);
+        if(colliders.Length == 0) {
+            return true;
+        }
+
+        return false;
     }
 
     public void OnTowerPickedUp(ITowerBase tower)
@@ -67,6 +79,7 @@ public class PlayerInteractions : MonoBehaviour
             _carryingTower = tower;
             _carryingTower.GetTowerObject().SetActive(false);
             _ghostTower = Instantiate(tower.GetGhostTower(), transform);
+            _ghostRenderer = _ghostTower.GetComponent<SpriteRenderer>();
         }
     }
 
