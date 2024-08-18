@@ -61,19 +61,23 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
         if (Instance.Level == Stats.MaxLevel)
         {
             levelText = Instance.Level.ToString();
-            priceText = "<color=white>MAX</color>";
+            //priceText = "<color=white>MAX</color>";
+            priceText = "xxx";
         }
         else
         {
-            levelText = $"{Instance.Level} -> {Instance.Level + 1}";
+            //levelText = $"{Instance.Level} -> {Instance.Level + 1}";
+            levelText = Instance.Level.ToString();
 
             if (HasEnoughCoins())
             {
                 priceText = $"<color=white>{Stats.UpgradePrices[Instance.Level - 1]}</color>";
+                _popup.EnableButton(true);
             }
             else
             {
                 priceText = $"<color=red>{Stats.UpgradePrices[Instance.Level - 1]}</color>";
+                _popup.EnableButton(false);
             }
         }
 

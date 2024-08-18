@@ -5,11 +5,11 @@ using UnityEngine;
 public class CameraScaler : MonoBehaviour
 {
     private Camera _camera;
-    private float startScreenHight;
+    private static float startScreenHight = -1;
 
     private void Awake() {
         _camera = Camera.main;
-        startScreenHight = _camera.orthographicSize;
+        if(startScreenHight == -1) startScreenHight = _camera.orthographicSize;
     }
 
     void Update()
