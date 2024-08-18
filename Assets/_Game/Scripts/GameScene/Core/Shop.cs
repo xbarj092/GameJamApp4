@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,10 +10,12 @@ public class Shop : MonoBehaviour {
 
     private void OnEnable() {
         DataEvents.OnCurrencyDataChanged += UpdateItems;
+        TutorialEvents.OnShopItemsDisabled += DisableNonUpgradeShopItems;
     }
     
     private void OnDisable() {
         DataEvents.OnCurrencyDataChanged -= UpdateItems;
+        TutorialEvents.OnShopItemsDisabled -= DisableNonUpgradeShopItems;
     }
 
     private void Start() {
@@ -25,6 +26,13 @@ public class Shop : MonoBehaviour {
         _items[3].UpdateCost(10);
         _items[4].UpdateCost(5);
         _items[5].UpdateCost(5);
+    }
+
+    private void DisableNonUpgradeShopItems()
+    {
+        _items[0].DisableFunction(false);
+        _items[4].DisableFunction(false);
+        _items[5].DisableFunction(false);
     }
 
     private void UpdateItems(CurrencyData data) {

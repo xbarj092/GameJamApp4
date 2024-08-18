@@ -13,8 +13,12 @@ public class ShopItem : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
-    public void DisableFunction() {
-        _costText.text = $"<color=red>{Cost}</color>";
+    public void DisableFunction(bool disableText = true) {
+        if (disableText)
+        {
+            _costText.text = $"<color=red>{Cost}</color>";
+        }
+
         _button.interactable = false;
     }
     

@@ -13,6 +13,8 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     public Vector2 TowerPosition;
     public Vector2 PlacePosition;
+    public bool CanPlayerPickTowers = true;
+    public bool CanPlayerMove = true;
 
     public event Action<TutorialID> OnTutorialEnd;
 

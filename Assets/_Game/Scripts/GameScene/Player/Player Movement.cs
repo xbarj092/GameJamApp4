@@ -20,8 +20,15 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         Vector2 direction = gameInput.Player.Movement.ReadValue<Vector2>();
-        RotatePlayer(direction);
-        MovePlayer(direction);
+        if (TutorialManager.Instance.CanPlayerMove)
+        {
+            RotatePlayer(direction);
+            MovePlayer(direction);
+        }
+        else
+        {
+            MovePlayer(Vector2.zero);
+        }
     }
 
     public void AddSpeed(float speed) {

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class TutorialCoreAction : TutorialAction
 {
+    [SerializeField] private GameObject _towerTypes;
     [SerializeField] private GameObject _clickToContinue;
 
     private ActionScheduler _actionScheduler;
@@ -27,8 +28,8 @@ public class TutorialCoreAction : TutorialAction
     private void OnPlayerNearCore()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
-        // disable all shop items
-        // show all different towers and what they are doing
+        TutorialManager.Instance.CanPlayerMove = false;
+        _towerTypes.SetActive(true);
         _clickToContinue.SetActive(true);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnBeforePlayerBuy, () => Input.GetMouseButtonDown(0));
@@ -38,8 +39,7 @@ public class TutorialCoreAction : TutorialAction
     {
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
-        // reenable relevant item
-        // highlight relevant item
+        _towerTypes.SetActive(false);
         TutorialEvents.OnTowerPurchased += OnTowerPurchased;
     }
 
@@ -47,12 +47,14 @@ public class TutorialCoreAction : TutorialAction
     {
         TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
         _tutorialPlayer.MoveToNextNarratorText();
+        TutorialManager.Instance.CanPlayerMove = true;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
     }
 
     private void OnTowerPlaced()
     {
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
+        TutorialManager.Instance.CanPlayerPickTowers = false;
         OnActionFinishedInvoke();
     }
 

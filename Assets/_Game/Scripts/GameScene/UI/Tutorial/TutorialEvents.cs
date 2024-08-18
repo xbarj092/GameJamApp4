@@ -49,11 +49,16 @@ public static class TutorialEvents
     }
 
     // upgrade tutorial
-
     public static Action OnCoinPickedUp;
     public static void OnCoinPickedUpInvoke()
     {
         OnCoinPickedUp?.Invoke();
+    }
+
+    public static Action OnShopItemsDisabled;
+    public static void OnShopItemsDisabledInvoke()
+    {
+        OnShopItemsDisabled?.Invoke();
     }
 
     // end
