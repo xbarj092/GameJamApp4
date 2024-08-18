@@ -77,6 +77,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnDisable()
     {
+        TutorialEvents.OnEnemySpawned -= (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
         TutorialEvents.OnTutorialCompleted -= StartSpawning;
     }
 

@@ -38,14 +38,12 @@ public class GameOverScreen : GameScreen
     // bound from inspector
     public void PlayAgain()
     {
-        LocalDataStorage.Instance.PlayerData.PlayerStats = new(0);
         SceneLoadManager.Instance.RestartGame();
     }
 
     // bound from inspector
     public void MainMenu()
     {
-        LocalDataStorage.Instance.PlayerData.PlayerStats = new(0);
         SceneLoadManager.Instance.GoGameToMenu();
     }
 }

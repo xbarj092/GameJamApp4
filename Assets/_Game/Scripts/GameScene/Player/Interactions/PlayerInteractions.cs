@@ -49,12 +49,13 @@ public class PlayerInteractions : MonoBehaviour
 
     private void Update()
     {
-        if(Camera.main != null) {
+        if(Camera.main != null && ScreenManager.Instance.ActiveGameScreen == null)
+        {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             _mouseInputHandler.HandleMouseHover(mousePosition);
         }
 
-        if (_ghostTower != null)
+        if (_ghostTower != null && ScreenManager.Instance.ActiveGameScreen == null)
         {
             SnapGhostToMousePosition();
             _ghostRenderer.material.SetInt("_Outlined" , CanBeTowerPlace() ? 0 : 1);
