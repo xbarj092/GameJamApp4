@@ -20,7 +20,7 @@ public class Shop : MonoBehaviour {
 
     private void Start() {
         UpdateItems(new(0));
-        _items[0].UpdateCost(2);
+        _items[0].UpdateCost(1);
         _items[1].UpdateCost(10);
         _items[2].UpdateCost(10);
         _items[3].UpdateCost(10);
@@ -54,7 +54,7 @@ public class Shop : MonoBehaviour {
 
         int cost = _items[0].Cost;
         SpendMoney(cost);
-        _items[0].UpdateCost(cost+3);
+        _items[0].UpdateCost(cost+2);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ITowerBase tower = Instantiate(_towers[0], mousePosition, Quaternion.identity, null).GetComponent<ITowerBase>();
