@@ -19,7 +19,7 @@ public class MouseInputHandler : IInteractionHandler
 
     public void HandleInteraction()
     {
-        if (Camera.main != null)
+        if (Camera.main != null && TutorialManager.Instance.CanPlayerPickTowers)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             HandleMouseClick(mousePosition);
@@ -56,14 +56,17 @@ public class MouseInputHandler : IInteractionHandler
 
     public void HandleMouseHover(Vector2 mousePosition)
     {
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
-        if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower) && tower != null && tower.IsInteractable())
+        if (TutorialManager.Instance.CanPlayerPickTowers)
         {
-            OnTowerHighlighted?.Invoke(tower);
-        }
-        else
-        {
-            OnTowerLowlighted?.Invoke();
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
+            if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower) && tower != null && tower.IsInteractable())
+            {
+                OnTowerHighlighted?.Invoke(tower);
+            }
+            else
+            {
+                OnTowerLowlighted?.Invoke();
+            }
         }
     }
 

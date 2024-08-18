@@ -177,6 +177,8 @@ MonoBehaviour:
   CompletedTutorials: 
   TowerPosition: {x: 0, y: 0}
   PlacePosition: {x: 0, y: 0}
+  CanPlayerPickTowers: 1
+  CanPlayerMove: 1
 --- !u!1 &9142167771989009767
 GameObject:
   m_ObjectHideFlags: 0

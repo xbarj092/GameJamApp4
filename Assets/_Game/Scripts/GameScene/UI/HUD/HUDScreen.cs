@@ -13,6 +13,7 @@ public class HUDScreen : GameScreen
         UpdateCoinAmount(LocalDataStorage.Instance.PlayerData.CurrencyData);
         if (TutorialManager.Instance.TutorialCompleted)
         {
+            _timeText.enabled = true;
             InvokeRepeating(nameof(UpdateTimeText), 0, 1);
         }
     }

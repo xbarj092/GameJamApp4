@@ -35,6 +35,7 @@ public class TutorialUpgradesAction : TutorialAction
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
         _tutorialPlayer.MoveToNextNarratorText();
+        TutorialEvents.OnShopItemsDisabledInvoke();
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
     }
 

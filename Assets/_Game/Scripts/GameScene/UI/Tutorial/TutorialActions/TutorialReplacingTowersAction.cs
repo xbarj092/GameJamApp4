@@ -5,10 +5,14 @@ public class TutorialReplacingTowersAction : TutorialAction
     [SerializeField] private GameObject _clickToContinue;
 
     private ActionScheduler _actionScheduler;
+    private PositionHighlighter _positionHighlighter;
     private Vector2 _spawnPosition;
+
+    private const float PLACE_POSITION_THRESHOLD = 2f;
 
     private void Awake()
     {
+        _positionHighlighter = FindObjectOfType<PositionHighlighter>();
         _actionScheduler = FindObjectOfType<ActionScheduler>();
     }
 
@@ -16,6 +20,8 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
+        TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
+        TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
     }
 
     public override void StartAction()
@@ -44,6 +50,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTowerPickedUp += OnTowerPickedUp;
     }
 
@@ -51,14 +58,15 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
         _tutorialPlayer.MoveToNextNarratorText();
-        TutorialManager.Instance.PlacePosition = -TutorialManager.Instance.TowerPosition.normalized * FindObjectOfType<SizeIncrease>().transform.localScale.x;
+        TutorialManager.Instance.PlacePosition = -TutorialManager.Instance.TowerPosition.normalized * (FindObjectOfType<SizeIncrease>().transform.localScale.x - 1);
+        _positionHighlighter.HighlightPosition(TutorialManager.Instance.PlacePosition, PLACE_POSITION_THRESHOLD);
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
     }
 
     private void OnTowerPlaced()
     {
-        if (Mathf.Abs(TutorialManager.Instance.TowerPosition.x - TutorialManager.Instance.PlacePosition.x) < 2 &&
-            Mathf.Abs(TutorialManager.Instance.TowerPosition.y - TutorialManager.Instance.PlacePosition.y) < 2)
+        if (Mathf.Abs(TutorialManager.Instance.TowerPosition.x - TutorialManager.Instance.PlacePosition.x) < PLACE_POSITION_THRESHOLD &&
+            Mathf.Abs(TutorialManager.Instance.TowerPosition.y - TutorialManager.Instance.PlacePosition.y) < PLACE_POSITION_THRESHOLD)
         {
             OnTowerPlacedCorrectly();
         }
@@ -66,8 +74,10 @@ public class TutorialReplacingTowersAction : TutorialAction
 
     private void OnTowerPlacedCorrectly()
     {
+        TutorialManager.Instance.CanPlayerPickTowers = false;
         TutorialEvents.OnEnemyKilled -= SpawnNewEnemy;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
+        _positionHighlighter.LowlightPosition();
         _tutorialPlayer.TextFadeAway();
         TutorialEvents.OnEnemyKilled += OnEnemyKilled;
     }
@@ -75,6 +85,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     private void OnEnemyKilled()
     {
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
+        TutorialManager.Instance.CanPlayerPickTowers = true;
         OnActionFinishedInvoke();
     }
 
