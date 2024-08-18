@@ -27,7 +27,7 @@ public class CoreManager : MonoSingleton<CoreManager>
 
     private void UpdateUI(float damage)
     {
-        _renderer.material.SetFloat("_DamageProgress", damage / _healthSystem.MaxHealth);
+        _renderer.material.SetFloat("_Damage", damage / _healthSystem.MaxHealth);
     }
 
     private void DamageCore(float damage)
