@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerInteractions : MonoBehaviour
@@ -81,11 +82,18 @@ public class PlayerInteractions : MonoBehaviour
                 TutorialEvents.OnTowerPickedUpInvoke();
             }
 
+            tower.IsPickedUp(true);
             _carryingTower = tower;
-            _carryingTower.GetTowerObject().SetActive(false);
-            _ghostTower = Instantiate(tower.GetGhostTower(), transform);
-            _ghostRenderer = _ghostTower.GetComponent<SpriteRenderer>();
+            StartCoroutine(DelayObjectSetActive(tower));
         }
+    }
+
+    private IEnumerator DelayObjectSetActive(ITowerBase tower)
+    {
+        yield return null;
+        _carryingTower.GetTowerObject().SetActive(false);
+        _ghostTower = Instantiate(tower.GetGhostTower(), transform);
+        _ghostRenderer = _ghostTower.GetComponent<SpriteRenderer>();
     }
 
     private void OnTowerPlaced()
@@ -104,6 +112,7 @@ public class PlayerInteractions : MonoBehaviour
                     TutorialEvents.OnTowerPlacedInvoke();
                 }
 
+                _carryingTower.IsPickedUp(false);
                 _carryingTower.GetTowerObject().transform.position = placementPosition;
                 _carryingTower.GetTowerObject().SetActive(true);
                 _carryingTower = null;

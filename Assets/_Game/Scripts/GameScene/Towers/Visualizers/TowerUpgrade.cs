@@ -29,6 +29,11 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
 
     private void Update()
     {
+        if (_pickedUp)
+        {
+            return;
+        }
+
         CheckPlayerInRange();
     }
 

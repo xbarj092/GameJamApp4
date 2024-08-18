@@ -19,6 +19,17 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 
     private void Update()
     {
+        if (_pickedUp)
+        {
+            if (_target != null)
+            {
+                CancelInvoke();
+                _target = null;
+            }
+
+            return;
+        }
+
         if (_target == null || !IsTargetInRange())
         {
             FindNewTarget();
