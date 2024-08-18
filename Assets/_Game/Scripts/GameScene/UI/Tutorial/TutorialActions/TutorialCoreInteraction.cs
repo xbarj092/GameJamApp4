@@ -15,7 +15,7 @@ public class TutorialCoreAction : TutorialAction
     private void OnDisable()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
-        TutorialEvents.OnTowerPurchased += OnTowerPurchased;
+        TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
     }
 

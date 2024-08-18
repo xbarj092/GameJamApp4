@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -39,12 +38,10 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 
     public void FocusOnEnemy(GameObject enemy)
     {
-        CancelInvoke();
-
-        _target = enemy;
-
-        if (_target != null)
+        if (_target == null)
         {
+            CancelInvoke();
+            _target = enemy;
             InvokeRepeating(nameof(ShootEnemy), 0.5f, 1 / Instance.StatValues[UpgradeTowerType.AttackSpeed].Value);
         }
     }
@@ -97,7 +94,6 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
         else
         {
             CancelInvoke();
-            _target = null;
         }
     }
 
