@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class HUDScreen : MonoBehaviour
+public class HUDScreen : GameScreen
 {
     [SerializeField] private TMP_Text _coinAmount;
     [SerializeField] private TMP_Text _timeText;

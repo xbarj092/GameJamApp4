@@ -32,7 +32,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3231579679214691750}
+  - {fileID: 7471188079047424718}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -116,7 +116,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameOverScreenPrefab: {fileID: 2678856782013166148, guid: b042b922cedd9d34fa7ff403f61972c6, type: 3}
---- !u!1001 &7533406760915159091
+  _pauseScreenPrefab: {fileID: 4951442453910556866, guid: 82a637fc94e81044f814baf2f8048fff, type: 3}
+--- !u!1001 &2592407526396434267
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -213,8 +214,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1d7003f99afbe074a964f8f02faacfa0, type: 3}
---- !u!224 &3231579679214691750 stripped
+--- !u!224 &7471188079047424718 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4923816554902695317, guid: 1d7003f99afbe074a964f8f02faacfa0, type: 3}
-  m_PrefabInstance: {fileID: 7533406760915159091}
+  m_PrefabInstance: {fileID: 2592407526396434267}
   m_PrefabAsset: {fileID: 0}

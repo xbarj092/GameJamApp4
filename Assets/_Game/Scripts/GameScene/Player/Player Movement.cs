@@ -37,6 +37,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
+            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Movement))
+            {
+                TutorialEvents.OnPlayerMovedInvoke();
+            }
+
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(transform.forward ,direction), Time.deltaTime * 20f);
             //transform.up = new Vector3(direction.x, direction.y, 0);
         }

@@ -32,6 +32,7 @@ Transform:
   - {fileID: 8631423345682045032}
   - {fileID: 6526047943729715749}
   - {fileID: 3230767833102337938}
+  - {fileID: 7877868939910395927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4301000126956545055
@@ -123,6 +124,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00aad755e08430844bb10bc86f5d3277, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8673023924183636132
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7877868939910395927}
+  - component: {fileID: 20017790215765026}
+  m_Layer: 0
+  m_Name: TutorialManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7877868939910395927
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8673023924183636132}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1079557810082613088}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &20017790215765026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8673023924183636132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8770cb8343905d47a6f515586123abb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <TutorialsEnabled>k__BackingField: 1
+  <TutorialList>k__BackingField:
+  - {fileID: 2948798742160830293, guid: 44161edbb9d00d54f8e8a18140c5660c, type: 3}
+  - {fileID: 2948798742160830293, guid: 53ae4cc805e773749a3efb715955975b, type: 3}
+  - {fileID: 2948798742160830293, guid: d414289f13d8daa44bdaa800970eb478, type: 3}
+  - {fileID: 2948798742160830293, guid: aa9cb5852e2b9e3418db3be4a2d05dbc, type: 3}
+  CompletedTutorials: 
 --- !u!1 &9142167771989009767
 GameObject:
   m_ObjectHideFlags: 0
