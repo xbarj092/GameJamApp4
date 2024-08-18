@@ -16,13 +16,13 @@ public class ShopItem : MonoBehaviour
     }
 
     public void DisableFunction() {
-        //_costText.text = "xxx";
+        _costText.text = $"<color=red>{Cost}</color>";
         _button.interactable = false;
     }
     
     public void EnableFunction() {
-        //_costText.text = "xxx";
-        _button.interactable = true;
+        _costText.text = $"<color=white>{Cost}</color>";
+       _button.interactable = true;
     }
 
     public void SetMaxLevel() {
