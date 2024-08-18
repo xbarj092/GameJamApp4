@@ -11,6 +11,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private AnimationCurve NumberEnemyToSpawn;
     [SerializeField] private AnimationCurve NumberEliteEnemyToSpawn;
 
+    [SerializeField] private EnemyBehavior _tutorialEnemyPrefab;
     [SerializeField] private EnemyBehavior _enemyPrefab;
     [SerializeField] private EnemyBehavior _eliteEnemyPrefab;
     private Vector2 _sceneSize;
@@ -70,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
     private void OnEnable()
     {
         TutorialEvents.OnTutorialCompleted += StartSpawning;
-        TutorialEvents.OnEnemySpawned += (pos) => SpawnEnemy(pos, _enemyPrefab);
+        TutorialEvents.OnEnemySpawned += (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
     }
 
     private void OnDisable()

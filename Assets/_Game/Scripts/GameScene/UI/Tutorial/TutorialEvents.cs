@@ -36,16 +36,24 @@ public static class TutorialEvents
         OnTowerPickedUp?.Invoke();
     }
 
-    public static Action OnPlayerCorrectPosition;
-    public static void OnPlayerCorrectPositionInvoke()
-    {
-        OnPlayerCorrectPosition?.Invoke();
-    }
-
     public static Action<Vector2> OnEnemySpawned;
     public static void OnEnemySpawnedInvoke(Vector2 position)
     {
         OnEnemySpawned?.Invoke(position);
+    }
+
+    public static Action OnEnemyKilled;
+    public static void OnEnemyKilledInvoke()
+    {
+        OnEnemyKilled?.Invoke();
+    }
+
+    // upgrade tutorial
+
+    public static Action OnCoinPickedUp;
+    public static void OnCoinPickedUpInvoke()
+    {
+        OnCoinPickedUp?.Invoke();
     }
 
     // end

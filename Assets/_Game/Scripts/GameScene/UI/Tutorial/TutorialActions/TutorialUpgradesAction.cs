@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class TutorialUpgradesAction : TutorialAction
 {
-    [SerializeField] private GameObject _eventExplaining;
     [SerializeField] private GameObject _clickToContinue;
 
     private ActionScheduler _actionScheduler;
@@ -12,42 +11,50 @@ public class TutorialUpgradesAction : TutorialAction
         _actionScheduler = FindObjectOfType<ActionScheduler>();
     }
 
+    private void OnDisable()
+    {
+        TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
+        TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
+        TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
+    }
+
     public override void StartAction()
     {
         _tutorialPlayer.MoveToNextNarratorText();
+        TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
+    }
+
+    private void OnCoinPickedUp()
+    {
+        TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
+        _tutorialPlayer.MoveToNextNarratorText();
+        TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
+    }
+
+    private void OnPlayerNearCore()
+    {
+        TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
+        _tutorialPlayer.MoveToNextNarratorText();
+        TutorialEvents.OnTowerPlaced += OnTowerPlaced;
+    }
+
+    private void OnTowerPlaced()
+    {
+        TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _clickToContinue.SetActive(true);
-        _actionScheduler.ScheduleAction(ExplainEvents, () => Input.GetMouseButtonDown(0));
-    }
-
-    private void ExplainEvents()
-    {
-        _tutorialPlayer.MoveToNextNarratorText();
-        _eventExplaining.SetActive(true);
-        _actionScheduler.ScheduleAction(ExplainDiceStep, () => Input.GetMouseButtonDown(0));
-    }
-
-    private void ExplainDiceStep()
-    {
-        _tutorialPlayer.MoveToNextNarratorText();
-        _eventExplaining.SetActive(false);
-        _actionScheduler.ScheduleAction(OnAfterDiceStep, () => Input.GetMouseButtonDown(0));
-    }
-
-    private void OnAfterDiceStep()
-    {
-        _clickToContinue.SetActive(false);
 
         _tutorialPlayer.MoveToNextNarratorText();
-        TutorialEvents.OnPlayerMoved += OnPlayerMoved;
+        _actionScheduler.ScheduleAction(OnAfterTowerPlaced, () => Input.GetMouseButtonDown(0));
     }
 
-    private void OnPlayerMoved()
+    private void OnAfterTowerPlaced()
     {
-        TutorialEvents.OnPlayerMoved -= OnPlayerMoved;
-        OnActionFinishedInvoke();
+        _tutorialPlayer.MoveToNextNarratorText();
+        _actionScheduler.ScheduleAction(OnActionFinishedInvoke, () => Input.GetMouseButtonDown(0));
     }
 
     public override void Exit()
     {
+        TutorialEvents.OnTutorialCompletedInvoke();
     }
 }

@@ -62,3 +62,4 @@ MonoBehaviour:
       m_Calls: []
   IdleSpawnTime: 4
   _enemyPrefab: {fileID: 4752528150407295558, guid: 21eb5b729b34559448b03b8c56210839, type: 3}
+  _tutorialEnemyPrefab: {fileID: 4752528150407295558, guid: 8ae094da7e7729b40ab6fa44bfcc0a99, type: 3}

@@ -14,6 +14,11 @@ public class Coin : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("PlayerInteraction")) {
+            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
+            {
+                TutorialEvents.OnCoinPickedUpInvoke();
+            }
+
             StartCoroutine(MoveTo(collision.transform));
         }
     }
