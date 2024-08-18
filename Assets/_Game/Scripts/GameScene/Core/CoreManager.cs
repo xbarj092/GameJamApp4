@@ -42,8 +42,11 @@ public class CoreManager : MonoSingleton<CoreManager>
 
     private void FixedUpdate()
     {
-        sizeIncrease.UpdateCameraSize();
-        sizeIncrease.UpdateCoreSize();
+        if (TutorialManager.Instance.TutorialCompleted)
+        {
+            sizeIncrease.UpdateCameraSize();
+            sizeIncrease.UpdateCoreSize();
+        }
     }
 
     public Vector2 GetRandomPointOnCircle(Vector2 EnemyPosition)

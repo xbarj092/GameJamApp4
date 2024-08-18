@@ -9,6 +9,9 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     public List<TutorialID> CompletedTutorials = new();
     public TutorialPlayer CurrentTutorial { get; private set; }
+    public bool TutorialCompleted => CompletedTutorials.Contains(TutorialID.Upgrades);
+
+    public Vector2 TowerPosition;
 
     public event Action<TutorialID> OnTutorialEnd;
 
@@ -16,6 +19,12 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     public void InstantiateTutorial(TutorialID tutorialID, bool allowMultipleTutorialsAtOnce = false)
     {
+        if (!TutorialsEnabled)
+        {
+            CompletedTutorials.Add(TutorialID.Upgrades);
+            return;
+        }
+
         if (!allowMultipleTutorialsAtOnce)
         {
             if (CurrentTutorial != null)

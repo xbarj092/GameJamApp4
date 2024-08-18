@@ -41,6 +41,11 @@ public class Shop : MonoBehaviour {
     }
 
     public void BuyShootTower() {
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Core))
+        {
+            TutorialEvents.OnTowerPurchasedInvoke();
+        }
+
         int cost = _items[0].Cost;
         SpendMoney(cost);
         _items[0].UpdateCost(cost+3);

@@ -11,22 +11,33 @@ public class HUDScreen : GameScreen
     private void Awake()
     {
         UpdateCoinAmount(LocalDataStorage.Instance.PlayerData.CurrencyData);
-        InvokeRepeating(nameof(UpdateTimeText), 0, 1);
+        if (TutorialManager.Instance.TutorialCompleted)
+        {
+            InvokeRepeating(nameof(UpdateTimeText), 0, 1);
+        }
     }
 
     private void OnEnable()
     {
         DataEvents.OnCurrencyDataChanged += UpdateCoinAmount;
+        TutorialEvents.OnTutorialCompleted += StartCountingTime;
     }
 
     private void OnDisable()
     {
-        DataEvents.OnCurrencyDataChanged += UpdateCoinAmount;
+        DataEvents.OnCurrencyDataChanged -= UpdateCoinAmount;
+        TutorialEvents.OnTutorialCompleted -= StartCountingTime;
     }
 
     private void UpdateCoinAmount(CurrencyData data)
     {
         _coinAmount.text = data.Coins.ToString();
+    }
+
+    private void StartCountingTime()
+    {
+        _timeText.enabled = true;
+        InvokeRepeating(nameof(UpdateTimeText), 0, 1);
     }
 
     private void UpdateTimeText()

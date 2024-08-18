@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -32,7 +30,13 @@ public class ShopItem : MonoBehaviour
 
     public void UpdateCost(int cost) {
         Cost = cost;
-        _costText.text = cost.ToString();
+        if (Cost > LocalDataStorage.Instance.PlayerData.CurrencyData.Coins)
+        {
+            DisableFunction();
+        }
+        else
+        {
+            EnableFunction();
+        }
     }
-
 }
