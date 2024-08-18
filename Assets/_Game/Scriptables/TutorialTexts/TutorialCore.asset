@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f84bec4a9d4092428f078d4824ce73a, type: 3}
   m_Name: TutorialCore
   m_EditorClassIdentifier: 
-  <Strings>k__BackingField: []
+  <Strings>k__BackingField:
+  - Go to core
+  - When in range of core, you can buy various towers
+  - Buy this tower
+  - You can now place your tower where you would like it to be

@@ -2,7 +2,8 @@ public class KeyboardInputHandler : IInteractionHandler
 {
     public void HandleInteraction()
     {
-        if (ScreenManager.Instance.ActiveGameScreen.GameScreenType == GameScreenType.Pause)
+        if (ScreenManager.Instance.ActiveGameScreen != null && 
+            ScreenManager.Instance.ActiveGameScreen.GameScreenType == GameScreenType.Pause)
         {
             ScreenEvents.OnGameScreenClosedInvoke(GameScreenType.Pause);
         }

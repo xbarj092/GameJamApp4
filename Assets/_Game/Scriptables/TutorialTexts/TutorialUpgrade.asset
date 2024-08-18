@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f84bec4a9d4092428f078d4824ce73a, type: 3}
   m_Name: TutorialUpgrade
   m_EditorClassIdentifier: 
-  <Strings>k__BackingField: []
+  <Strings>k__BackingField:
+  - You have enough money for upgrade tower, go buy one!
+  - All regular towers will get buffed when in range of upgrade tower
+  - When near upgrade tower, you can increase the level of it
+  - Increasing level of upgrade tower means higher stats for regular towers

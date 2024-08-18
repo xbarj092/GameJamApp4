@@ -27,7 +27,6 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnMenuToGameLoadDone(SceneLoader.Scenes scenes)
     {
-        ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.HUD);
         TryShowTutorial();
 
         SceneLoader.OnSceneLoadDone -= OnMenuToGameLoadDone;
@@ -52,7 +51,6 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnRestartGameDone(SceneLoader.Scenes scenes)
     {
-        ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.HUD);
         TryShowTutorial();
 
         SceneLoader.OnSceneLoadDone -= OnRestartGameDone;
