@@ -8,6 +8,13 @@ public class TutorialUpgradesAction : TutorialAction
     [SerializeField] private Transform _coinDropTransform;
     [SerializeField] private Transform _upgradePlaceTransform;
 
+    [Header("Cutouts")]
+    [SerializeField] private RectTransform _coinCutout;
+    [SerializeField] private GameObject _upgradeTowerCutout;
+    [SerializeField] private RectTransform _levellingTowerCutout;
+
+    [SerializeField] private GameObject _background;
+
     private ActionScheduler _actionScheduler;
 
     private void Awake()
@@ -24,6 +31,13 @@ public class TutorialUpgradesAction : TutorialAction
 
     public override void StartAction()
     {
+        _background.SetActive(true);
+        _coinCutout.gameObject.SetActive(true);
+        Vector3 worldPosition = FindObjectOfType<Coin>().transform.position;
+        _coinCutout.anchorMin = new(0, 0);
+        _coinCutout.anchorMax = new(0, 0);
+
+        _coinCutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
         _tutorialPlayer.SetTextPosition(_coinDropTransform.position);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
@@ -31,6 +45,8 @@ public class TutorialUpgradesAction : TutorialAction
 
     private void OnCoinPickedUp()
     {
+        _background.SetActive(false);
+        _coinCutout.gameObject.SetActive(false);
         TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
         _tutorialPlayer.SetTextLocalPosition(FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
@@ -39,6 +55,8 @@ public class TutorialUpgradesAction : TutorialAction
 
     private void OnPlayerNearCore()
     {
+        _background.SetActive(true);
+        _upgradeTowerCutout.SetActive(true);
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
@@ -49,6 +67,9 @@ public class TutorialUpgradesAction : TutorialAction
 
     private void OnTowerPurchased()
     {
+        _background.SetActive(false);
+        _upgradeTowerCutout.SetActive(false);
+        _tutorialPlayer.TextFadeAway();
         TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
         TutorialManager.Instance.CanPlayerMove = true;
         TutorialManager.Instance.CanPlayerPickTowers = true;
@@ -57,6 +78,19 @@ public class TutorialUpgradesAction : TutorialAction
 
     private void OnTowerPlaced()
     {
+        UpgradePopup popup = FindObjectOfType<UpgradePopup>();
+        if (popup != null)
+        {
+            _background.SetActive(true);
+            _levellingTowerCutout.gameObject.SetActive(true);
+
+            Vector3 worldPosition = popup.transform.position;
+            _levellingTowerCutout.anchorMin = new(0, 0);
+            _levellingTowerCutout.anchorMax = new(0, 0);
+
+            _levellingTowerCutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
+        }
+
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _clickToContinue.SetActive(true);
         TutorialManager.Instance.CanPlayerMove = false;
@@ -69,6 +103,8 @@ public class TutorialUpgradesAction : TutorialAction
 
     private void OnAfterTowerPlaced()
     {
+        _background.SetActive(false);
+        _levellingTowerCutout.gameObject.SetActive(false);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnLastText, () => Input.GetMouseButtonDown(0));
     }
