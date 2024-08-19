@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
   - Go near the core
-  - When near, you can buy various structures, turrets that automatically shoot,
-    or stat boosting towers
+  - When near, you can buy various structures, turrets that automatically shoot or
+    stat boosting towers
   - ...or you can upgrade your player
   - Buy the highlighted turret
-  - Place it where you like
+  - And place it where you like

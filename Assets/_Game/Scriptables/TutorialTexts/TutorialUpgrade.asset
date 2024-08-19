@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: TutorialUpgrade
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
-  - Something dropped from the enemy, go pick it up.
-  - Money! You have enough for an upgrade tower, go buy one.
-  - When placed, these towers upgrade your turrets in their proximity.
-  - When you go near an upgrade tower, you can increase its level...
+  - Enemies drop currency that you need to pick up to use.
+  - You now have enough money for an upgrade tower, buy it at the core!
+  - When placed, these towers have an aura that boosts your turrets.
+  - Similar to the core, if you go near an upgrade tower, you can increase its level...
   - ...which increases the stat bonus it gives.
-  - Finally, the core keeps growing, and with it the area you need to protect, good
-    luck!
+  - Lastly, the core keeps growing, and with it its area, good luck and don't let
+    them corrupt it!
