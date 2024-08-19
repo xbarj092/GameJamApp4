@@ -46,9 +46,16 @@ public class LeaderboardManager : MonoBehaviour
         StartCoroutine(UpdateLeaderboard());
     }
 
+    private void OnDisable() {
+        StopAllCoroutines();
+    }
+
     IEnumerator UpdateLeaderboard() {
-        yield return new WaitForSecondsRealtime(1);
-        ShowLeaderboard();
+        while(true) { 
+            yield return new WaitForSecondsRealtime(3);
+            ShowLeaderboard();
+            yield return new WaitForSecondsRealtime(2);
+        }
     }
 
     public void ShowLeaderboard() {
