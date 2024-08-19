@@ -1,40 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-/*using Dan.Main;
-using Dan.Models;*/
+using Dan.Main;
+using Dan.Models;
 using TMPro;
 using UnityEngine.Events;
+using System;
 
 public class ScoreSender : MonoBehaviour
 {
     [SerializeField] string publicKey;
     [SerializeField] private TMP_InputField nickname;
     [SerializeField] private TextMeshProUGUI score;
-    [SerializeField] private TextMeshProUGUI startScore;
+
     [SerializeField] private Item playerData;
     [SerializeField] private GameObject sendButton;
 
     private int currentScore;
-    private int newStartScore;
     private GameInput inputs;
 
     public UnityEvent OnScoreSend;
 
     private void Awake() {
         nickname.text = PlayerPrefs.GetString("Nickname", "");
-        currentScore = (int)PlayerPrefs.GetFloat("Score", 0);
-        newStartScore = currentScore/2;
+        currentScore = LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive;
         
-        score.text = currentScore.ToString();
-        startScore.text = newStartScore.ToString();
-
-        PlayerPrefs.SetFloat("Score", newStartScore);
+        score.text = SetTimeText(currentScore);
 
         inputs = new GameInput();
         inputs.Enable();
 
         //inputs.Player.Inte.performed += c => SendScore();
+    }
+
+    private string SetTimeText(int num) {
+        TimeSpan time = TimeSpan.FromSeconds(num);
+
+        string timeString = "";
+
+        if(time.Hours > 0) {
+            timeString += $"{time.Hours}h ";
+        }
+        if(time.Minutes > 0) {
+            timeString += $"{time.Minutes}m ";
+        }
+        if(time.Seconds > 0 || timeString == "") {
+            timeString += $"{time.Seconds}s";
+        }
+
+        return timeString.Trim();
     }
 
     public void SendScore() {
@@ -44,15 +58,15 @@ public class ScoreSender : MonoBehaviour
         PlayerPrefs.SetString("Nickname", nickname.text);
         string name = nickname.text != "" ? nickname.text : "Anonym";
         nickname.text = name;
-        playerData.Name.text = name;
-        playerData.Score.text = score.text;
+        /*playerData.Name.text = name;
+        playerData.Score.text = score.text;*/
 
-        //LeaderboardCreator.UploadNewEntry(publicKey, name, currentScore, OnScoreUploaded);
+        LeaderboardCreator.UploadNewEntry(publicKey, name, currentScore, OnScoreUploaded);
     }
 
     private void OnScoreUploaded(bool done) {
         OnScoreSend.Invoke();
-        //LeaderboardCreator.ResetPlayer();
+        LeaderboardCreator.ResetPlayer();
         gameObject.SetActive(false);
     }
 
