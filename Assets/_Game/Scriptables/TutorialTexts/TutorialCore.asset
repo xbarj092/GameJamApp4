@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: TutorialCore
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
-  - Go to core
-  - When in range of core, you can buy various towers
-  - Or you can upgrade your statistics
-  - Buy this tower
-  - You can now place your tower where you would like it to be
+  - Go near the core
+  - When near, you can buy various structures, turrets that automatically shoot,
+    or stat boosting towers
+  - ...or you can upgrade your player
+  - Buy the highlighted turret
+  - Place it where you like
