@@ -196,5 +196,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1eb3bb8671f37341ab23850b98d4c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _poolType: 2
   _infoTemplate: {fileID: 11400000, guid: 3d46ebaffb2fbe545ba9390518b9d6a7, type: 2}
-  _CoinPrefab: {fileID: 4105871805832362005, guid: 405b30e17f099c24fb66cf8d2ac43f6c, type: 3}

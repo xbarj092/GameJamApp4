@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class TutorialUpgradesAction : TutorialAction
 {
@@ -13,14 +14,17 @@ public class TutorialUpgradesAction : TutorialAction
     [SerializeField] private RectTransform _coinCutout;
     [SerializeField] private GameObject _upgradeTowerCutout;
     [SerializeField] private RectTransform _levellingTowerCutout;
+    [SerializeField] private RectTransform _playerCutout;
 
     [SerializeField] private GameObject _background;
 
-    private List<RectTransform> _coinCutouts = new();
+    private Dictionary<Coin, RectTransform> _coinCutouts = new();
     private ActionScheduler _actionScheduler;
+    private PlayerInteractions _player;
 
     private void Awake()
     {
+        _player = FindObjectOfType<PlayerInteractions>();
         _actionScheduler = FindObjectOfType<ActionScheduler>();
     }
 
@@ -31,8 +35,30 @@ public class TutorialUpgradesAction : TutorialAction
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
     }
 
+    private void Update()
+    {
+        Vector3 newWorldPosition = _player.transform.position;
+        Vector2 newScreenPosition = Camera.main.WorldToScreenPoint(newWorldPosition);
+
+        _playerCutout.transform.rotation = _player.transform.rotation;
+        _playerCutout.transform.position = newScreenPosition;
+
+        foreach (KeyValuePair<Coin, RectTransform> pair in _coinCutouts)
+        {
+            Coin coin = pair.Key;
+            RectTransform cutout = pair.Value;
+            newWorldPosition = coin.transform.position;
+            newScreenPosition = Camera.main.WorldToScreenPoint(newWorldPosition);
+
+            cutout.transform.position = newScreenPosition;
+        }
+    }
+
     public override void StartAction()
     {
+        _playerCutout.gameObject.SetActive(true);
+        _playerCutout.anchorMin = new Vector2(0, 0);
+        _playerCutout.anchorMax = new Vector2(0, 0);
         _background.SetActive(true);
         Coin[] coins = FindObjectsOfType<Coin>();
         Vector3 worldPosition = Vector3.zero;
@@ -41,10 +67,11 @@ public class TutorialUpgradesAction : TutorialAction
             worldPosition = coin.transform.position;
             RectTransform cutout = Instantiate(_coinCutout, transform);
             cutout.gameObject.SetActive(true);
-            cutout.anchorMin = new(0, 0);
-            cutout.anchorMax = new(0, 0);
+            cutout.anchorMin = new Vector2(0, 0);
+            cutout.anchorMax = new Vector2(0, 0);
             cutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
-            _coinCutouts.Add(cutout);
+
+            _coinCutouts.Add(coin, cutout);
         }
 
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(0, 2, 0));
@@ -56,21 +83,23 @@ public class TutorialUpgradesAction : TutorialAction
         TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
     }
 
-    private void OnCoinPickedUp()
+    private void OnCoinPickedUp(Coin pickedUpCoin)
     {
         StopAllCoroutines();
-        StartCoroutine(DelayedCoinPickedUp());
+        StartCoroutine(DelayedCoinPickedUp(pickedUpCoin));
     }
 
-    private IEnumerator DelayedCoinPickedUp()
+    private IEnumerator DelayedCoinPickedUp(Coin pickedUpCoin)
     {
-        yield return null;
-        foreach (RectTransform cutout in _coinCutouts)
+        if (_coinCutouts.TryGetValue(pickedUpCoin, out RectTransform cutout))
         {
             cutout.gameObject.SetActive(false);
+            _coinCutouts.Remove(pickedUpCoin);
         }
 
-        if (FindObjectsOfType<Coin>().Length == 0)
+        yield return null;
+
+        if (_coinCutouts.Count == 0)
         {
             _background.SetActive(false);
             TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;

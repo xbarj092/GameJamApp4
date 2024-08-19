@@ -1,16 +1,19 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 {
     [SerializeField] private CircleCollider2D _enemyChecker;
-    [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _rotationSpeed = 5f;
     [SerializeField] private LayerMask _enemyLayer;
 
     private List<TowerUpgrade> _upgradingTowers = new();
     private GameObject _target;
+
+    public VFXHandler EffectHandler;
 
     private void Awake()
     {
@@ -53,6 +56,7 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
         {
             CancelInvoke();
             _target = enemy;
+            _target.GetComponent<EnemyBehavior>().OnEnemyKilled += OnEnemyKilled;
             InvokeRepeating(nameof(ShootEnemy), 0.5f, 1 / Instance.StatValues[UpgradeTowerType.AttackSpeed].Value);
         }
     }
@@ -65,7 +69,8 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
         }
 
         AudioManager.Instance.Play(SoundType.TowerShoot);
-        Projectile projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
+        Projectile projectile = ObjectSpawner.Instance.GetObject<Projectile>(PoolType.Projectile);
+        projectile.transform.position = _spawnPoint.position;
         projectile.Init(Instance.StatValues[UpgradeTowerType.Damage].Value, _target);
     }
 
@@ -84,7 +89,7 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 
     private void FindNewTarget()
     {
-        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, Instance.StatValues[UpgradeTowerType.Range].Value, _enemyLayer);
+        Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(transform.position, Instance.StatValues[UpgradeTowerType.Range].Value, _enemyLayer).Where(enemy => enemy.isActiveAndEnabled).ToArray();
 
         GameObject closestEnemy = null;
         float shortestDistance = Mathf.Infinity;
@@ -107,6 +112,12 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
         {
             CancelInvoke();
         }
+    }
+
+    private void OnEnemyKilled(EnemyBehavior enemy)
+    {
+        _target.GetComponent<EnemyBehavior>().OnEnemyKilled -= OnEnemyKilled;
+        _target = null;
     }
 
     public void Upgrade(TowerUpgrade upgradeTower, int upgradeLevel)

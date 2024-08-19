@@ -21,6 +21,7 @@ public class UpgradeTowerActiveRange : MonoBehaviour
         if (collision.TryGetComponent(out TowerShoot towerShoot) && !_towers.Contains(towerShoot))
         {
             towerShoot.UpdateLevel(_upgradeTower, _upgradeTower.Instance.Level);
+            towerShoot.EffectHandler.SetFX(_upgradeTower.Stats.UpgradeTowerType, true);
             _towers.Add(towerShoot);
         }
     }
@@ -31,6 +32,7 @@ public class UpgradeTowerActiveRange : MonoBehaviour
         {
             _towers.Remove(towerShoot);
             towerShoot.UpdateLevel(_upgradeTower, towerShoot.Stats.BaseLevel, true);
+            towerShoot.EffectHandler.SetFX(_upgradeTower.Stats.UpgradeTowerType, false);
         }
     }
 }

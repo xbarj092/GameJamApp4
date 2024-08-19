@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Rendering.CameraUI;
 
 public class TutorialCoreAction : TutorialAction
 {
@@ -13,15 +14,18 @@ public class TutorialCoreAction : TutorialAction
     [Header("Cutouts")]
     [SerializeField] private GameObject _coreCutout;
     [SerializeField] private GameObject _shopItemCutout;
+    [SerializeField] private RectTransform _playerCutout;
 
     [SerializeField] private GameObject _background;
 
     private Vector2 _corePosition;
 
+    private PlayerInteractions _player;
     private ActionScheduler _actionScheduler;
 
     private void Awake()
     {
+        _player = FindObjectOfType<PlayerInteractions>();
         _actionScheduler = FindObjectOfType<ActionScheduler>();
     }
 
@@ -32,9 +36,21 @@ public class TutorialCoreAction : TutorialAction
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
     }
 
+    private void Update()
+    {
+        Vector3 newWorldPosition = _player.transform.position;
+        Vector2 newScreenPosition = Camera.main.WorldToScreenPoint(newWorldPosition);
+
+        _playerCutout.transform.rotation = _player.transform.rotation;
+        _playerCutout.transform.position = newScreenPosition;
+    }
+
     public override void StartAction()
     {
         _corePosition = FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET;
+        _playerCutout.gameObject.SetActive(true);
+        _playerCutout.anchorMin = new Vector2(0, 0);
+        _playerCutout.anchorMax = new Vector2(0, 0);
         _coreCutout.SetActive(true);
         _background.SetActive(true);
         _tutorialPlayer.SetTextLocalPosition(_corePosition);

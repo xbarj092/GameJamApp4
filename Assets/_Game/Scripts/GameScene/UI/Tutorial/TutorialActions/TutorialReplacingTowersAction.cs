@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class TutorialReplacingTowersAction : TutorialAction
 {
@@ -12,9 +13,12 @@ public class TutorialReplacingTowersAction : TutorialAction
     [Header("Cutouts")]
     [SerializeField] private GameObject _coreZoneCutout;
     [SerializeField] private RectTransform _towerCutout;
+    [SerializeField] private RectTransform _playerCutout;
 
     [SerializeField] private GameObject _background;
 
+    private TowerShoot _towerShoot;
+    private PlayerInteractions _player;
     private ActionScheduler _actionScheduler;
     private PositionHighlighter _positionHighlighter;
     private Vector2 _spawnPosition;
@@ -23,6 +27,7 @@ public class TutorialReplacingTowersAction : TutorialAction
 
     private void Awake()
     {
+        _player = FindObjectOfType<PlayerInteractions>();
         _positionHighlighter = FindObjectOfType<PositionHighlighter>();
         _actionScheduler = FindObjectOfType<ActionScheduler>();
     }
@@ -35,6 +40,24 @@ public class TutorialReplacingTowersAction : TutorialAction
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
     }
 
+    private void Update()
+    {
+        Vector3 newWorldPosition = _player.transform.position;
+        Vector2 newScreenPosition = Camera.main.WorldToScreenPoint(newWorldPosition);
+
+        _playerCutout.transform.rotation = _player.transform.rotation;
+        _playerCutout.transform.position = newScreenPosition;
+
+        if (_towerShoot != null)
+        {
+            newWorldPosition = _towerShoot.transform.position;
+            newScreenPosition = Camera.main.WorldToScreenPoint(newWorldPosition);
+
+            _towerCutout.transform.rotation = _towerShoot.transform.rotation;
+            _towerCutout.transform.position = newScreenPosition;
+        }
+    }
+
     public override void StartAction()
     {
         Vector2 sceneSize;
@@ -42,6 +65,9 @@ public class TutorialReplacingTowersAction : TutorialAction
         sceneSize.x = sceneSize.y * Camera.main.aspect;
         sceneSize /= 2;
 
+        _playerCutout.gameObject.SetActive(true);
+        _playerCutout.anchorMin = new Vector2(0, 0);
+        _playerCutout.anchorMax = new Vector2(0, 0);
         Vector2 towerPosition = TutorialManager.Instance.TowerPosition.normalized;
         _spawnPosition = -towerPosition * sceneSize;
         TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
@@ -87,7 +113,8 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         _coreZoneCutout.SetActive(false);
         _towerCutout.gameObject.SetActive(true);
-        Vector3 worldPosition = FindObjectOfType<TowerShoot>().transform.position;
+        _towerShoot = FindObjectOfType<TowerShoot>();
+        Vector3 worldPosition = _towerShoot.transform.position;
         _towerCutout.anchorMin = new(0, 0);
         _towerCutout.anchorMax = new(0, 0);
 
@@ -142,6 +169,7 @@ public class TutorialReplacingTowersAction : TutorialAction
 
     private void OnTowerPlacedCorrectly()
     {
+        _towerShoot = null;
         TutorialManager.Instance.CanPlayerPickTowers = false;
         TutorialEvents.OnEnemyKilled -= TrySpawnNewEnemy;
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
@@ -152,6 +180,7 @@ public class TutorialReplacingTowersAction : TutorialAction
 
     private void OnEnemyKilled(bool coreDeath)
     {
+        _towerShoot = null;
         TutorialEvents.OnEnemyKilled -= OnEnemyKilled;
         TutorialManager.Instance.CanPlayerPickTowers = true;
         OnActionFinishedInvoke();

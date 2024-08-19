@@ -105,6 +105,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
         {
             if (!TutorialManager.Instance.CompletedTutorials.Contains(tutorial.TutorialID))
             {
+                LocalDataStorage.Instance.PlayerData.CurrencyData = new(2);
                 TutorialManager.Instance.InstantiateTutorial(tutorial.TutorialID);
                 return;
             }

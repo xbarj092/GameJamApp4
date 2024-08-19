@@ -13,7 +13,7 @@ public class Projectile : MonoBehaviour
     {
         _damage = damage;
         _target = target.transform;
-        Destroy(gameObject, 50);
+        ObjectSpawner.Instance.ReturnObjectWithDelay(PoolType.Projectile, this, 50);
 
         Vector2 direction = (_target.position - transform.position).normalized;
         _rb.velocity = direction * _speed;
@@ -40,8 +40,7 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy") && collision.TryGetComponent(out Health health))
         {
             health.DealDamage(_damage);
-            // Implement damage logic here
-            Destroy(gameObject);
+            ObjectSpawner.Instance.ReturnObject(PoolType.Projectile, this);
         }
     }
 }

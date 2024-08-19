@@ -13,6 +13,10 @@ PrefabInstance:
       value: EliteEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 4752528150407295558, guid: 21eb5b729b34559448b03b8c56210839, type: 3}
+      propertyPath: _poolType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4752528150407295558, guid: 21eb5b729b34559448b03b8c56210839, type: 3}
       propertyPath: _infoTemplate
       value: 
       objectReference: {fileID: 11400000, guid: 3103a0fd673c42847afec5d649a3cc3f, type: 2}
