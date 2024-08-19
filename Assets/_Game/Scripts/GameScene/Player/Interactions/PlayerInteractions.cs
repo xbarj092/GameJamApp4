@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -104,24 +105,30 @@ public class PlayerInteractions : MonoBehaviour
             Collider2D[] colliders = Physics2D.OverlapCircleAll(placementPosition, _placementRadius, _interact);
             if (colliders.Length == 0)
             {
-                if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Core) ||
-                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing) ||
-                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
-                {
-                    TutorialManager.Instance.TowerPosition = placementPosition;
-                    TutorialEvents.OnTowerPlacedInvoke();
-                }
-
                 _carryingTower.IsPickedUp(false);
                 _carryingTower.GetTowerObject().transform.position = placementPosition;
                 _carryingTower.GetTowerObject().SetActive(true);
                 _carryingTower = null;
                 Destroy(_ghostTower);
+
+                StartCoroutine(DelayedTowerPlace(placementPosition));
             }
             else
             {
                 Debug.Log("Cannot place tower here, another object is too close.");
             }
+        }
+    }
+
+    private IEnumerator DelayedTowerPlace(Vector3 placementPosition)
+    {
+        yield return new WaitForSeconds(0.05f);
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Core) ||
+                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing) ||
+                    TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
+        {
+            TutorialManager.Instance.TowerPosition = placementPosition;
+            TutorialEvents.OnTowerPlacedInvoke();
         }
     }
 
