@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class TutorialCoreAction : TutorialAction
 {
@@ -10,6 +9,13 @@ public class TutorialCoreAction : TutorialAction
     [Header("TextTransforms")]
     [SerializeField] private Transform _towerPopupTransform;
     [SerializeField] private Transform _upgradePopupTransform;
+
+    [Header("Cutouts")]
+    [SerializeField] private GameObject _coreCutout;
+    [SerializeField] private GameObject _shopItemCutout;
+
+    [SerializeField] private GameObject _background;
+
     private Vector2 _corePosition;
 
     private ActionScheduler _actionScheduler;
@@ -29,7 +35,9 @@ public class TutorialCoreAction : TutorialAction
     public override void StartAction()
     {
         _corePosition = FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET;
-        _tutorialPlayer.SetTextPosition(_corePosition);
+        _coreCutout.SetActive(true);
+        _background.SetActive(true);
+        _tutorialPlayer.SetTextLocalPosition(_corePosition);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
     }
@@ -37,11 +45,12 @@ public class TutorialCoreAction : TutorialAction
     private void OnPlayerNearCore()
     {
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
+        _coreCutout.SetActive(false);
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
         _towerTypes.SetActive(true);
         _clickToContinue.SetActive(true);
-        _tutorialPlayer.SetTextPosition(_towerPopupTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_towerPopupTransform.localPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnSecondTable, () => Input.GetMouseButtonDown(0));
     }
@@ -50,16 +59,17 @@ public class TutorialCoreAction : TutorialAction
     {
         _towerTypes.SetActive(false);
         _playerUpgradeTypes.SetActive(true);
-        _tutorialPlayer.SetTextPosition(_upgradePopupTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_upgradePopupTransform.localPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnBeforePlayerBuy, () => Input.GetMouseButtonDown(0));
     }
 
     private void OnBeforePlayerBuy()
     {
-        _tutorialPlayer.SetTextPosition(_corePosition);
+        _tutorialPlayer.SetTextLocalPosition(_corePosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        _shopItemCutout.SetActive(true);
         TutorialManager.Instance.CanPlayerPickTowers = true;
         _playerUpgradeTypes.SetActive(false);
         TutorialEvents.OnTowerPurchased += OnTowerPurchased;
@@ -67,8 +77,10 @@ public class TutorialCoreAction : TutorialAction
 
     private void OnTowerPurchased()
     {
+        _shopItemCutout.SetActive(false);
+        _background.SetActive(false);
         TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
-        _tutorialPlayer.SetTextPosition(_towerPopupTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_towerPopupTransform.localPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialManager.Instance.CanPlayerMove = true;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;

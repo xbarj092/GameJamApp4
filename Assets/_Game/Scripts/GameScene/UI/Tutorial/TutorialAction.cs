@@ -12,7 +12,7 @@ public abstract class TutorialAction : MonoBehaviour
 
     protected TutorialPlayer _tutorialPlayer;
 
-    protected static readonly Vector3 TRANSFORM_POSITION_OFFSET = new(0, 200);
+    protected static readonly Vector3 TRANSFORM_POSITION_OFFSET = new(0, 400);
 
     /// <summary>
     /// Default implementation of Init method, override if you need different behaviour
