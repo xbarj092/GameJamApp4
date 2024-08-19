@@ -68,6 +68,13 @@ public class TutorialUpgradesAction : TutorialAction
     {
         // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
+        _actionScheduler.ScheduleAction(OnLastText, () => Input.GetMouseButtonDown(0));
+    }
+
+    private void OnLastText()
+    {
+        // MoveTextToNextPosition();
+        _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnActionFinishedInvoke, () => Input.GetMouseButtonDown(0));
     }
 

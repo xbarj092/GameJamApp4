@@ -4,10 +4,12 @@ using UnityEngine.UIElements;
 public class TutorialCoreAction : TutorialAction
 {
     [SerializeField] private GameObject _towerTypes;
+    [SerializeField] private GameObject _playerUpgradeTypes;
     [SerializeField] private GameObject _clickToContinue;
 
     [Header("TextTransforms")]
-    [SerializeField] private Transform _popupTransform;
+    [SerializeField] private Transform _towerPopupTransform;
+    [SerializeField] private Transform _upgradePopupTransform;
     private Vector2 _corePosition;
 
     private ActionScheduler _actionScheduler;
@@ -39,7 +41,16 @@ public class TutorialCoreAction : TutorialAction
         TutorialManager.Instance.CanPlayerPickTowers = false;
         _towerTypes.SetActive(true);
         _clickToContinue.SetActive(true);
-        _tutorialPlayer.SetTextPosition(_popupTransform.localPosition);
+        _tutorialPlayer.SetTextPosition(_towerPopupTransform.localPosition);
+        _tutorialPlayer.MoveToNextNarratorText();
+        _actionScheduler.ScheduleAction(OnSecondTable, () => Input.GetMouseButtonDown(0));
+    }
+
+    private void OnSecondTable()
+    {
+        _towerTypes.SetActive(false);
+        _playerUpgradeTypes.SetActive(true);
+        _tutorialPlayer.SetTextPosition(_upgradePopupTransform.localPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnBeforePlayerBuy, () => Input.GetMouseButtonDown(0));
     }
@@ -50,14 +61,14 @@ public class TutorialCoreAction : TutorialAction
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
         TutorialManager.Instance.CanPlayerPickTowers = true;
-        _towerTypes.SetActive(false);
+        _playerUpgradeTypes.SetActive(false);
         TutorialEvents.OnTowerPurchased += OnTowerPurchased;
     }
 
     private void OnTowerPurchased()
     {
         TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
-        _tutorialPlayer.SetTextPosition(_popupTransform.localPosition);
+        _tutorialPlayer.SetTextPosition(_towerPopupTransform.localPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialManager.Instance.CanPlayerMove = true;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
