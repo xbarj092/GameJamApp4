@@ -27,8 +27,9 @@ public class ShopItem : MonoBehaviour
        _button.interactable = true;
     }
 
-    public void SetMaxLevel() {
-        _costText.text = "xxx";
+    public void SetMaxLevel()
+    {
+        _costText.text = "<color=red>MAX</color>";
         _button.interactable = false;
     }
 
