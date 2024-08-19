@@ -32,6 +32,7 @@ public class CoreManager : MonoSingleton<CoreManager>
 
     private void DamageCore(float damage)
     {
+        AudioManager.Instance.Play(SoundType.CoreDamaged);
         _healthSystem.DealDamage(damage);
     }
 

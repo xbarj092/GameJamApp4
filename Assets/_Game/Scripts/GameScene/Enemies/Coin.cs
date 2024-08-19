@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,10 +13,6 @@ public class Coin : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.CompareTag("PlayerInteraction")) {
-            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
-            {
-                TutorialEvents.OnCoinPickedUpInvoke();
-            }
 
             StartCoroutine(MoveTo(collision.transform));
         }
@@ -34,7 +29,13 @@ public class Coin : MonoBehaviour {
             data.Coins += 1;
             LocalDataStorage.Instance.PlayerData.CurrencyData = data;
         }
-       
+
+        if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
+        {
+            TutorialEvents.OnCoinPickedUpInvoke();
+        }
+
+        AudioManager.Instance.Play(SoundType.CoinPickUp);
         Destroy(gameObject);
     }
 }
