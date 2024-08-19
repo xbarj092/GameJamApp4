@@ -54,11 +54,11 @@ MonoBehaviour:
     NumberOfSource: 1
     source: []
   - name: 2
-    clip: {fileID: 8300000, guid: da0066b1423ca2e4e827d8ddbe35d7cc, type: 3}
-    volume: 0.5
-    pitch: 1.5
+    clip: {fileID: 8300000, guid: 746c0d53f4ffec94c94f03823aa9d213, type: 3}
+    volume: 0.2
+    pitch: 0.8
     SpatialBlend: 0
-    NumberOfSource: 1
+    NumberOfSource: 3
     source: []
   - name: 3
     clip: {fileID: 8300000, guid: 0bd48507985aed642b93f828b4a9b3bd, type: 3}
@@ -87,6 +87,20 @@ MonoBehaviour:
     pitch: 1
     SpatialBlend: 0
     NumberOfSource: 10
+    source: []
+  - name: 7
+    clip: {fileID: 8300000, guid: c4e90844ba44cad4ba1dcf19bce0b6ed, type: 3}
+    volume: 0.05
+    pitch: 1
+    SpatialBlend: 0
+    NumberOfSource: 1
+    source: []
+  - name: 8
+    clip: {fileID: 8300000, guid: c648bc506a344da4f812070959e386f2, type: 3}
+    volume: 0.5
+    pitch: 1
+    SpatialBlend: 0
+    NumberOfSource: 1
     source: []
   SpacialBlend: 0
   mixer: {fileID: 24300002, guid: 4eb9e298dab092a428fdaa23f8ba613b, type: 2}

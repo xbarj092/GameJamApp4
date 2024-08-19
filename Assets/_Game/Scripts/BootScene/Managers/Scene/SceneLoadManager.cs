@@ -1,4 +1,4 @@
-using System;
+using UnityEngine;
 
 public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 {
@@ -16,6 +16,8 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnBootToMenuLoadDone(SceneLoader.Scenes scene)
     {
+        PlayMenuMusic();
+        Time.timeScale = 1;
         SceneLoader.OnSceneLoadDone -= OnBootToMenuLoadDone;
     }
 
@@ -29,8 +31,9 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnMenuToGameLoadDone(SceneLoader.Scenes scenes)
     {
+        Time.timeScale = 1;
         TryShowTutorial();
-
+        PlayAmbience();
         SceneLoader.OnSceneLoadDone -= OnMenuToGameLoadDone;
     }
 
@@ -42,6 +45,8 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnGameToMenuLoadDone(SceneLoader.Scenes scenes)
     {
+        Time.timeScale = 1;
+        PlayMenuMusic();
         SceneLoader.OnSceneLoadDone -= OnGameToMenuLoadDone;
     }
 
@@ -55,13 +60,41 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void OnRestartGameDone(SceneLoader.Scenes scenes)
     {
+        Time.timeScale = 1;
         TryShowTutorial();
+        PlayAmbience();
         SceneLoader.OnSceneLoadDone -= OnRestartGameDone;
     }
 
     public bool IsSceneLoaded(SceneLoader.Scenes sceneToCheck)
     {
         return SceneLoader.IsSceneLoaded(sceneToCheck);
+    }
+
+    private void PlayMenuMusic()
+    {
+        if (AudioManager.Instance.IsPlaying(SoundType.Ambience))
+        {
+            AudioManager.Instance.Stop(SoundType.Ambience);
+        }
+        
+        if (!AudioManager.Instance.IsPlaying(SoundType.Menu))
+        {
+            AudioManager.Instance.Play(SoundType.Menu);
+        }
+    }
+
+    private void PlayAmbience()
+    {
+        if (AudioManager.Instance.IsPlaying(SoundType.Menu))
+        {
+            AudioManager.Instance.Stop(SoundType.Menu);
+        }
+
+        if (!AudioManager.Instance.IsPlaying(SoundType.Ambience))
+        {
+            AudioManager.Instance.Play(SoundType.Ambience);
+        }
     }
 
     private void TryShowTutorial()
