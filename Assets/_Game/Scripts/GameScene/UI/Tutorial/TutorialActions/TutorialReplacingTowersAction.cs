@@ -41,6 +41,18 @@ public class TutorialReplacingTowersAction : TutorialAction
         TutorialManager.Instance.CanPlayerPickTowers = false;
 
         TutorialEvents.OnEnemyKilled += TrySpawnNewEnemy;
+        _actionScheduler.ScheduleAction(OnSecondText, () => Input.GetMouseButtonDown(0));
+    }
+
+    private void OnSecondText()
+    {
+        _tutorialPlayer.MoveToNextNarratorText();
+        _actionScheduler.ScheduleAction(OnThirdText, () => Input.GetMouseButtonDown(0));
+    }
+
+    private void OnThirdText()
+    {
+        _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(PickupTower, () => Input.GetMouseButtonDown(0));
     }
 

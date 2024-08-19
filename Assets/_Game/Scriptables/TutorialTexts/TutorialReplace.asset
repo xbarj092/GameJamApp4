@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
   - Oh no, the enemy spawned on the opposite side
+  - If it gets to the core, it will corrupt it!
+  - You need to protect it, or you will lose your life goal
   - You can pick your tower up by clicking LMB on it
   - When your tower is picked up, you can move with it
   - When you are in the right position, you can drop your tower by clicking LMB again
