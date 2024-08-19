@@ -8,7 +8,7 @@ public class GameOverScreen : GameScreen
 
     private const string TIME_TEXT_PREFIX = "You survived for ";
 
-    private void Awake()
+    /*private void Awake()
     {
         SetTimeText();
     }
@@ -33,7 +33,7 @@ public class GameOverScreen : GameScreen
         }
 
         _timeText.text = TIME_TEXT_PREFIX + timeString.Trim();
-    }
+    }*/
 
     // bound from inspector
     public void PlayAgain()
