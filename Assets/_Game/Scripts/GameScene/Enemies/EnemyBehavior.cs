@@ -49,7 +49,9 @@ public class EnemyBehavior : MonoBehaviour
         {
             for (int i = 0; i < _infoTemplate.CoinAmount; i++)
             {
-                Instantiate(_CoinPrefab, transform.position, Quaternion.identity, null);
+                Vector2 randomPoint = Random.insideUnitCircle * 0.5f;
+                Vector3 spawnPosition = new(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
+                Instantiate(_CoinPrefab, spawnPosition, Quaternion.identity, null);
             }
         }
 

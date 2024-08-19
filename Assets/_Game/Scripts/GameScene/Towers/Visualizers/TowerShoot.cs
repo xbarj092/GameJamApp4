@@ -64,6 +64,7 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
             return;
         }
 
+        AudioManager.Instance.Play(SoundType.TowerShoot);
         Projectile projectile = Instantiate(_projectilePrefab, _spawnPoint.position, Quaternion.identity);
         projectile.Init(Instance.StatValues[UpgradeTowerType.Damage].Value, _target);
     }
