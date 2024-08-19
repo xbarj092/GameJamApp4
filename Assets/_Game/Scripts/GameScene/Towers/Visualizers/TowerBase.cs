@@ -6,8 +6,8 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
 {
     [SerializeField] private SpriteRenderer _renderer;
     [SerializeField] private GameObject _ghostTower;
+    [SerializeField] private InteractionControler _interaction;
 
-    private bool _interactable = false;
     protected bool _pickedUp = false;
 
     public bool Highlighting;
@@ -49,23 +49,11 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
     }
 
     public bool IsInteractable() {
-        return _interactable;
+        return _interaction.Interactable;
     }
 
     public void IsPickedUp(bool pickedUp)
     {
         _pickedUp = pickedUp;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.CompareTag("PlayerInteraction")) {
-            _interactable = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision) {
-        if(collision.CompareTag("PlayerInteraction")) {
-            _interactable = false;
-        }
     }
 }
