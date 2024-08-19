@@ -11,63 +11,62 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private AnimationCurve NumberEnemyToSpawn;
     [SerializeField] private AnimationCurve NumberEliteEnemyToSpawn;
 
-    [SerializeField] private EnemyBehavior _tutorialEnemyPrefab;
-    [SerializeField] private EnemyBehavior _enemyPrefab;
-    [SerializeField] private EnemyBehavior _eliteEnemyPrefab;
     private Vector2 _sceneSize;
 
     private bool _gameOver = false;
     private Camera cam;
 
     private int _burstCount = 0;
-    
-    IEnumerator IdleSpawn(EnemyBehavior prefab, AnimationCurve timing, float startTime = 0) {
+
+    private System.Action<Vector2> _onEnemySpawnedHandler;
+
+    IEnumerator IdleSpawn(PoolType poolType, AnimationCurve timing, float startTime = 0) {
         while(true) {
             yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
-            SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+            SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), poolType);
             yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
-            SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+            SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), poolType);
             yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
-            SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+            SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), poolType);
             yield return new WaitForSeconds(timing.Evaluate((LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive-startTime)/60));
-            SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+            SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), poolType);
         }
     }
 
-    IEnumerator BurstSpawn(EnemyBehavior prefab, AnimationCurve amount) {
+    IEnumerator BurstSpawn(PoolType poolType, AnimationCurve amount) {
         while(true) {
             yield return new WaitForSeconds(40f);
             _burstCount++;
             for(int j = 0; j < amount.Evaluate(_burstCount); j++) {
                 if(_burstCount%4 == 0) {
-                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), poolType);
                 } else if(_burstCount%4 == 1) { 
-                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), poolType);
                 } else if(_burstCount%4 == 1) {
-                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), prefab);
+                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), poolType);
                 } else if(_burstCount%4 == 1) {
-                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), prefab);
+                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), poolType);
                 }
 
             }
 
             if(_burstCount > 3) {
                 if(_burstCount%4 == 0) {
-                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), _eliteEnemyPrefab);
+                    SpawnEnemy(Vector2.up * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), PoolType.EliteEnemy);
                 } else if(_burstCount%4 == 1) {
-                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), _eliteEnemyPrefab);
+                    SpawnEnemy(Vector2.right * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), PoolType.EliteEnemy);
                 } else if(_burstCount%4 == 1) {
-                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), _eliteEnemyPrefab);
+                    SpawnEnemy(Vector2.left * _sceneSize.x + Vector2.up * Random.Range(_sceneSize.y, -_sceneSize.y), PoolType.EliteEnemy);
                 } else if(_burstCount%4 == 1) {
-                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), _eliteEnemyPrefab);
+                    SpawnEnemy(Vector2.down * _sceneSize.y + Vector2.right * Random.Range(_sceneSize.x, -_sceneSize.x), PoolType.EliteEnemy);
                 }
             }
             
             if(_burstCount == 8)
-                StartCoroutine(IdleSpawn(_eliteEnemyPrefab, IdleEliteSpawnTime, LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive));
+                StartCoroutine(IdleSpawn(PoolType.EliteEnemy, IdleEliteSpawnTime, LocalDataStorage.Instance.PlayerData.PlayerStats.TimeAlive));
 
             if(_burstCount == 12) { 
-                StartCoroutine(BurstSpawn(_eliteEnemyPrefab, NumberEliteEnemyToSpawn));
+                StartCoroutine(BurstSpawn(PoolType.EliteEnemy, NumberEliteEnemyToSpawn));
                 _burstCount = 0;
                 break;
             }
@@ -89,13 +88,14 @@ public class EnemySpawner : MonoBehaviour
     {
         ScreenEvents.OnGameScreenOpened += OnGameScreenOpened;
         TutorialEvents.OnTutorialCompleted += StartSpawning;
-        TutorialEvents.OnEnemySpawned += (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
+        _onEnemySpawnedHandler = (pos) => SpawnEnemy(pos, PoolType.TutorialEnemy);
+        TutorialEvents.OnEnemySpawned += _onEnemySpawnedHandler;
     }
 
     private void OnDisable()
     {
         ScreenEvents.OnGameScreenOpened -= OnGameScreenOpened;
-        TutorialEvents.OnEnemySpawned -= (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
+        TutorialEvents.OnEnemySpawned -= _onEnemySpawnedHandler;
         TutorialEvents.OnTutorialCompleted -= StartSpawning;
     }
 
@@ -117,8 +117,8 @@ public class EnemySpawner : MonoBehaviour
 
     private void StartSpawning()
     {
-        StartCoroutine(IdleSpawn(_enemyPrefab, IdleSpawnTime));
-        StartCoroutine(BurstSpawn(_enemyPrefab, NumberEnemyToSpawn));
+        StartCoroutine(IdleSpawn(PoolType.Enemy, IdleSpawnTime));
+        StartCoroutine(BurstSpawn(PoolType.Enemy, NumberEnemyToSpawn));
     }
 
     private void UpdateScreenSize() {
@@ -127,8 +127,9 @@ public class EnemySpawner : MonoBehaviour
         _sceneSize /= 2;
     } 
 
-    private void SpawnEnemy(Vector2 position, EnemyBehavior pref) {
-        EnemyBehavior enemy = Instantiate(pref, position, Quaternion.identity, null);
+    private void SpawnEnemy(Vector2 position, PoolType poolType) {
+        EnemyBehavior enemy = ObjectSpawner.Instance.GetObject<EnemyBehavior>(poolType);
+        enemy.transform.position = position;
         OnEnemySpawn.Invoke(enemy);
     }
 }

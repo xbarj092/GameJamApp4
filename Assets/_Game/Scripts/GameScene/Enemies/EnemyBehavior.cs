@@ -1,17 +1,20 @@
 using UnityEngine;
 using UnityEngine.Events;
 using EasyButtons;
+using System;
 
 [RequireComponent(typeof(EnemyMovement), typeof(Health), typeof(SpriteRenderer))]
 public class EnemyBehavior : MonoBehaviour
 {
+    [SerializeField] private PoolType _poolType;
     [SerializeField] private EnemyInfo _infoTemplate;
     public EnemyInfo Info => _infoTemplate;
-    [SerializeField] private Coin _CoinPrefab;
-    
+
     private Health _health;
     private SpriteRenderer _renderer;
     private EnemyMovement _movement;
+
+    public event Action<EnemyBehavior> OnEnemyKilled;
 
     private void Awake() {
         _health = GetComponent<Health>();
@@ -49,13 +52,15 @@ public class EnemyBehavior : MonoBehaviour
         {
             for (int i = 0; i < _infoTemplate.CoinAmount; i++)
             {
-                Vector2 randomPoint = Random.insideUnitCircle * 0.5f;
+                Vector2 randomPoint = UnityEngine.Random.insideUnitCircle * 0.5f;
                 Vector3 spawnPosition = new(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
-                Instantiate(_CoinPrefab, spawnPosition, Quaternion.identity, null);
+                Coin coin = ObjectSpawner.Instance.GetObject<Coin>(PoolType.Coin);
+                coin.transform.position = spawnPosition;
             }
         }
 
-        Destroy(gameObject);
+        OnEnemyKilled?.Invoke(this);
+        ObjectSpawner.Instance.ReturnObject(_poolType, this);
     }
 
     [Button]

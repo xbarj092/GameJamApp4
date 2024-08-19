@@ -36,11 +36,11 @@ public class Coin : MonoBehaviour {
         }
 
         AudioManager.Instance.Play(SoundType.CoinPickUp);
-        Destroy(gameObject);
+        ObjectSpawner.Instance.ReturnObject(PoolType.Coin, this);
 
         if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Upgrades))
         {
-            TutorialEvents.OnCoinPickedUpInvoke();
+            TutorialEvents.OnCoinPickedUpInvoke(this);
         }
     }
 }
