@@ -41,7 +41,17 @@ public class TutorialPlayer : MonoBehaviour
 
     public void SetTextPosition(Vector2 position)
     {
+        _text.rectTransform.position = position;
+    }
+
+    public void SetTextLocalPosition(Vector2 position)
+    {
         _text.rectTransform.localPosition = position;
+    }
+
+    public RectTransform GetTextTransform()
+    {
+        return _text.rectTransform;
     }
 
     private void UpdateNarratorFrameText(string text)

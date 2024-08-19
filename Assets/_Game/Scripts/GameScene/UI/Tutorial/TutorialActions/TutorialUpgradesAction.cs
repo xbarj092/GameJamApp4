@@ -4,6 +4,10 @@ public class TutorialUpgradesAction : TutorialAction
 {
     [SerializeField] private GameObject _clickToContinue;
 
+    [Header("TextTransforms")]
+    [SerializeField] private Transform _coinDropTransform;
+    [SerializeField] private Transform _upgradePlaceTransform;
+
     private ActionScheduler _actionScheduler;
 
     private void Awake()
@@ -20,7 +24,7 @@ public class TutorialUpgradesAction : TutorialAction
 
     public override void StartAction()
     {
-        // MoveTextToNextPosition();
+        _tutorialPlayer.SetTextPosition(_coinDropTransform.position);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
     }
@@ -28,7 +32,7 @@ public class TutorialUpgradesAction : TutorialAction
     private void OnCoinPickedUp()
     {
         TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
-        // MoveTextToNextPosition();
+        _tutorialPlayer.SetTextLocalPosition(FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
     }
@@ -38,7 +42,6 @@ public class TutorialUpgradesAction : TutorialAction
         TutorialEvents.OnPlayerNearCore -= OnPlayerNearCore;
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
-        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnShopItemsDisabledInvoke();
         TutorialEvents.OnTowerPurchased += OnTowerPurchased;
@@ -59,21 +62,20 @@ public class TutorialUpgradesAction : TutorialAction
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
 
-        // MoveTextToNextPosition();
+        _tutorialPlayer.SetTextPosition(_upgradePlaceTransform.position);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnAfterTowerPlaced, () => Input.GetMouseButtonDown(0));
     }
 
     private void OnAfterTowerPlaced()
     {
-        // MoveTextToNextPosition();
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnLastText, () => Input.GetMouseButtonDown(0));
     }
 
     private void OnLastText()
     {
-        // MoveTextToNextPosition();
+        _tutorialPlayer.SetTextLocalPosition(FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnActionFinishedInvoke, () => Input.GetMouseButtonDown(0));
     }

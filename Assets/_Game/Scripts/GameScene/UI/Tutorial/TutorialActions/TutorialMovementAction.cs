@@ -12,7 +12,7 @@ public class TutorialMovementAction : TutorialAction
     public override void StartAction()
     {
         Vector2 position = FindObjectOfType<PlayerInteractions>().transform.position + TRANSFORM_POSITION_OFFSET;
-        _tutorialPlayer.SetTextPosition(position);
+        _tutorialPlayer.SetTextLocalPosition(position);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnPlayerMoved += OnPlayerMoved;
     }

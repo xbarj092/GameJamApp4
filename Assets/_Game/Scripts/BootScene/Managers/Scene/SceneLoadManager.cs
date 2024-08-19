@@ -87,7 +87,7 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
     {
         if (TutorialManager.Instance.TutorialCompleted)
         {
-            LocalDataStorage.Instance.PlayerData.CurrencyData = new(10);
+            LocalDataStorage.Instance.PlayerData.CurrencyData = new(12);
         }
     }
 }

@@ -44,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (direction != Vector2.zero)
         {
-            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Movement))
+            if (TutorialManager.Instance.IsTutorialPlaying(TutorialID.Movement) ||
+                TutorialManager.Instance.IsTutorialPlaying(TutorialID.Replacing))
             {
                 TutorialEvents.OnPlayerMovedInvoke();
             }
