@@ -58,7 +58,7 @@ MonoBehaviour:
     volume: 0.5
     pitch: 1.5
     SpatialBlend: 0
-    NumberOfSource: 1
+    NumberOfSource: 3
     source: []
   - name: 3
     clip: {fileID: 8300000, guid: 0bd48507985aed642b93f828b4a9b3bd, type: 3}
