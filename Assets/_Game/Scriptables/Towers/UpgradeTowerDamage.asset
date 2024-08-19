@@ -22,13 +22,7 @@ MonoBehaviour:
   UpgradeTowerType: 1
   StatValues:
   - 1.5
-  - 2
   - 3
-  - 4
-  - 5
   UpgradePrices:
-  - 100
-  - 500
-  - 1000
-  - 2500
-  - 5000
+  - 10
+  - 10

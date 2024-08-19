@@ -115,7 +115,7 @@ public class Shop : MonoBehaviour {
         SpendMoney(cost);
         _items[4].UpdateCost(cost+20);
 
-        _movement.AddSpeed(0.2f);
+        _movement.AddSpeed(0.5f);
     }
 
     public void BuyPlayerInteractionRange() {
