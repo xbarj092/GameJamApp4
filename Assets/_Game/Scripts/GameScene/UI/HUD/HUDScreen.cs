@@ -21,12 +21,14 @@ public class HUDScreen : GameScreen
     {
         DataEvents.OnCurrencyDataChanged += UpdateCoinAmount;
         TutorialEvents.OnTutorialCompleted += StartCountingTime;
+        ScreenEvents.OnGameScreenOpened += OnGameScreenOpened;
     }
 
     private void OnDisable()
     {
         DataEvents.OnCurrencyDataChanged -= UpdateCoinAmount;
         TutorialEvents.OnTutorialCompleted -= StartCountingTime;
+        ScreenEvents.OnGameScreenOpened -= OnGameScreenOpened;
     }
 
     private void UpdateCoinAmount(CurrencyData data)
@@ -62,5 +64,13 @@ public class HUDScreen : GameScreen
 
         _timeText.text = string.Join(" ", timeComponents);
         LocalDataStorage.Instance.PlayerData.PlayerStats = stats;
+    }
+
+    private void OnGameScreenOpened(GameScreenType type)
+    {
+        if (type == GameScreenType.GameOver)
+        {
+            CancelInvoke();
+        }
     }
 }

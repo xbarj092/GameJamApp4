@@ -37,6 +37,7 @@ public class CoreManager : MonoSingleton<CoreManager>
 
     private void GameOver(bool coreDeath = false) { 
         // maybe some core destroy animation beforehand?
+        
         ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.GameOver);
     }
 
