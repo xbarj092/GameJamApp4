@@ -23,12 +23,6 @@ MonoBehaviour:
   StatValues:
   - 1.5
   - 2
-  - 2.5
-  - 3
-  - 3.5
   UpgradePrices:
-  - 100
-  - 500
-  - 1000
-  - 2500
-  - 5000
+  - 10
+  - 10

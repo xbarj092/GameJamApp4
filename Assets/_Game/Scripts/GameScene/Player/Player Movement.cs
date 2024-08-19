@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void AddSpeed(float speed) {
-        _speed += speed;
+        _speed *= speed + 1.0f;
     }
 
     private void MovePlayer(Vector2 direction)
