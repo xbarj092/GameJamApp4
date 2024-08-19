@@ -66,8 +66,7 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
         if (Instance.Level == Stats.MaxLevel)
         {
             levelText = Instance.Level.ToString();
-            //priceText = "<color=white>MAX</color>";
-            priceText = "xxx";
+            priceText = "<color=red>MAX</color>";
         }
         else
         {

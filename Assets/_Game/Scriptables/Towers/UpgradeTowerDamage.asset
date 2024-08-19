@@ -17,7 +17,7 @@ MonoBehaviour:
   FriendlyID: tower_upgrade_damage
   Description: Tower that upgrades damage
   BaseLevel: 1
-  MaxLevel: 5
+  MaxLevel: 2
   Icon: {fileID: 0}
   UpgradeTowerType: 1
   StatValues:
