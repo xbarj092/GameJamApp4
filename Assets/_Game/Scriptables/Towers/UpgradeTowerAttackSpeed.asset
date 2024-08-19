@@ -21,14 +21,8 @@ MonoBehaviour:
   Icon: {fileID: 0}
   UpgradeTowerType: 3
   StatValues:
-  - 1.2
-  - 1.4
-  - 1.6
-  - 1.8
+  - 1.5
   - 2
   UpgradePrices:
-  - 100
-  - 500
-  - 1000
-  - 2500
-  - 5000
+  - 10
+  - 10
