@@ -7,4 +7,6 @@ public enum SoundType
     TowerPlace = 4,
     CoinPickUp = 5,
     TowerShoot = 6,
+    Ambience = 7,
+    Menu = 8,
 }

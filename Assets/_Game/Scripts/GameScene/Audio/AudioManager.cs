@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -7,14 +8,16 @@ public class AudioManager : MonoSingleton<AudioManager>
     public Sound[] sounds;
     [SerializeField] private bool SpacialBlend;
     [SerializeField] private AudioMixerGroup mixer;
-    
+
+    public bool Muted = false;
+
     void Awake()
     {
         foreach (Sound s in sounds) {
             for(int i = 0; i < s.NumberOfSource; i++) { 
                 AudioSource source = gameObject.AddComponent<AudioSource>();
                 source.playOnAwake = false;
-                source.loop = false;
+                source.loop = s.name == SoundType.Ambience || s.name == SoundType.Menu;
                 source.clip = s.clip;
                 source.volume = s.volume;
                 source.pitch = s.pitch;
@@ -37,20 +40,10 @@ public class AudioManager : MonoSingleton<AudioManager>
         if (foundSource != null)
         {
             foundSource.Play();
-
-            if (name == SoundType.CoreDamaged)
-            {
-                foundSource.pitch *= 0.8f;
-            }
         }
         else
         {
             s.source[0].Play();
-
-            if (name == SoundType.CoreDamaged)
-            {
-                s.source[0].pitch *= 0.8f;
-            }
         }
     }
 
@@ -60,8 +53,14 @@ public class AudioManager : MonoSingleton<AudioManager>
         s.source.ForEach((source) => source.Stop());
     }
 
-    public bool NewIsPlaying(SoundType name) { 
+    public bool IsPlaying(SoundType name) { 
         Sound s = Array.Find(sounds, sound => sound.name == name);
         return s.source.Exists((source) => source.isPlaying);
+    }
+
+    public void SetVolume(bool mute)
+    {
+        Muted = mute;
+        AudioListener.volume = mute ? 0 : 1;
     }
 }

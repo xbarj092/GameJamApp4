@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialUpgradesAction : TutorialAction
@@ -14,6 +16,7 @@ public class TutorialUpgradesAction : TutorialAction
 
     [SerializeField] private GameObject _background;
 
+    private List<RectTransform> _coinCutouts = new();
     private ActionScheduler _actionScheduler;
 
     private void Awake()
@@ -31,30 +34,50 @@ public class TutorialUpgradesAction : TutorialAction
     public override void StartAction()
     {
         _background.SetActive(true);
-        _coinCutout.gameObject.SetActive(true);
-        Vector3 worldPosition = FindObjectOfType<Coin>().transform.position;
-        _coinCutout.anchorMin = new(0, 0);
-        _coinCutout.anchorMax = new(0, 0);
+        Coin[] coins = FindObjectsOfType<Coin>();
+        Vector3 worldPosition = Vector3.zero;
+        foreach (Coin coin in coins)
+        {
+            worldPosition = coin.transform.position;
+            RectTransform cutout = Instantiate(_coinCutout, transform);
+            cutout.gameObject.SetActive(true);
+            cutout.anchorMin = new(0, 0);
+            cutout.anchorMax = new(0, 0);
+            cutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
+            _coinCutouts.Add(cutout);
+        }
 
         Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(0, 2, 0));
-
         _tutorialPlayer.GetTextTransform().anchorMin = new(0, 0);
         _tutorialPlayer.GetTextTransform().anchorMax = new(0, 0);
 
         _tutorialPlayer.SetTextPosition(screenPosition);
-        _coinCutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
     }
 
     private void OnCoinPickedUp()
     {
-        _background.SetActive(false);
-        _coinCutout.gameObject.SetActive(false);
-        TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
-        _tutorialPlayer.SetTextLocalPosition(FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET);
-        _tutorialPlayer.MoveToNextNarratorText();
-        TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
+        StopAllCoroutines();
+        StartCoroutine(DelayedCoinPickedUp());
+    }
+
+    private IEnumerator DelayedCoinPickedUp()
+    {
+        yield return null;
+        foreach (RectTransform cutout in _coinCutouts)
+        {
+            cutout.gameObject.SetActive(false);
+        }
+
+        if (FindObjectsOfType<Coin>().Length == 0)
+        {
+            _background.SetActive(false);
+            TutorialEvents.OnCoinPickedUp -= OnCoinPickedUp;
+            _tutorialPlayer.SetTextLocalPosition(FindObjectOfType<CoreManager>().transform.position + TRANSFORM_POSITION_OFFSET);
+            _tutorialPlayer.MoveToNextNarratorText();
+            TutorialEvents.OnPlayerNearCore += OnPlayerNearCore;
+        }
     }
 
     private void OnPlayerNearCore()

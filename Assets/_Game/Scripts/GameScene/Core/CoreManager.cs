@@ -36,9 +36,12 @@ public class CoreManager : MonoSingleton<CoreManager>
         _healthSystem.DealDamage(damage);
     }
 
-    private void GameOver(bool coreDeath = false) { 
+    private void GameOver(bool coreDeath = false) {
         // maybe some core destroy animation beforehand?
-        
+
+        AudioManager.Instance.Stop(SoundType.Ambience);
+        AudioManager.Instance.Play(SoundType.Menu);
+        Time.timeScale = 0;
         ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.GameOver);
     }
 
