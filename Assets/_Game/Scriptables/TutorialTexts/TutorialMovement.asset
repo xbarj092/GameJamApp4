@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: TutorialMovement
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
-  - You can use WASD keys for movement
+  - WASD keys to move
