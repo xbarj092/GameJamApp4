@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: TutorialReplace
   m_EditorClassIdentifier: 
   <Strings>k__BackingField:
-  - An enemy is trying to get to your core!
-  - If it gets to the highlighted area around your core, it will corrupt it!
-  - The core will collapse if you don't protect it.
+  - An enemy! They're trying to get to your core.
+  - If an enemy gets to the highlighted area around your core, it will corrupt it!
+  - And the core will start to collapse as it can't handle too much corruption.
   - You can pick a tower up by clicking on it [LMB]
-  - You can now move the held tower...
-  - ...and place it by clicking on a spot you like [LMB]
+  - ...move the held tower...
+  - ...and place it by clicking on a spot you like [LMB] (or the highlighted one
+    as that's where the enemy is coming from)
