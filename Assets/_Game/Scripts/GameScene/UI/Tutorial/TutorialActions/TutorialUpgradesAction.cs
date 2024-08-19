@@ -5,7 +5,6 @@ public class TutorialUpgradesAction : TutorialAction
     [SerializeField] private GameObject _clickToContinue;
 
     [Header("TextTransforms")]
-    [SerializeField] private Transform _coinDropTransform;
     [SerializeField] private Transform _upgradePlaceTransform;
 
     [Header("Cutouts")]
@@ -37,8 +36,13 @@ public class TutorialUpgradesAction : TutorialAction
         _coinCutout.anchorMin = new(0, 0);
         _coinCutout.anchorMax = new(0, 0);
 
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(0, 2, 0));
+
+        _tutorialPlayer.GetTextTransform().anchorMin = new(0, 0);
+        _tutorialPlayer.GetTextTransform().anchorMax = new(0, 0);
+
+        _tutorialPlayer.SetTextPosition(screenPosition);
         _coinCutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
-        _tutorialPlayer.SetTextPosition(_coinDropTransform.position);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialEvents.OnCoinPickedUp += OnCoinPickedUp;
     }
