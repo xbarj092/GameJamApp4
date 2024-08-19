@@ -83,6 +83,7 @@ public class PlayerInteractions : MonoBehaviour
                 TutorialEvents.OnTowerPickedUpInvoke();
             }
 
+            AudioManager.Instance.Play(SoundType.TowerPickUp);
             tower.IsPickedUp(true);
             _carryingTower = tower;
             StartCoroutine(DelayObjectSetActive(tower));
@@ -111,6 +112,7 @@ public class PlayerInteractions : MonoBehaviour
                 _carryingTower = null;
                 Destroy(_ghostTower);
 
+                AudioManager.Instance.Play(SoundType.TowerPlace);
                 StartCoroutine(DelayedTowerPlace(placementPosition));
             }
             else

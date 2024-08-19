@@ -46,40 +46,47 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: ButtonPress
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: 1
+    clip: {fileID: 8300000, guid: 117beb16e94f4e64ab5d9afa3b289462, type: 3}
+    volume: 1
+    pitch: 1
     SpatialBlend: 0
     NumberOfSource: 1
     source: []
-  - name: PlayerHit
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: 2
+    clip: {fileID: 8300000, guid: da0066b1423ca2e4e827d8ddbe35d7cc, type: 3}
+    volume: 0.5
+    pitch: 1.5
     SpatialBlend: 0
     NumberOfSource: 1
     source: []
-  - name: TowerPickUp
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: 3
+    clip: {fileID: 8300000, guid: 0bd48507985aed642b93f828b4a9b3bd, type: 3}
+    volume: 0.5
+    pitch: 0.8
     SpatialBlend: 0
     NumberOfSource: 1
     source: []
-  - name: TowerPlace
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: 4
+    clip: {fileID: 8300000, guid: 0bd48507985aed642b93f828b4a9b3bd, type: 3}
+    volume: 0.5
+    pitch: 1
     SpatialBlend: 0
     NumberOfSource: 1
     source: []
-  - name: TowerPlace
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: 5
+    clip: {fileID: 8300000, guid: a9f40037208f95748bbfda4ee9235061, type: 3}
+    volume: 0.1
+    pitch: 1
     SpatialBlend: 0
-    NumberOfSource: 1
+    NumberOfSource: 10
+    source: []
+  - name: 6
+    clip: {fileID: 8300000, guid: 7dd515e6f97125847a15b0c12f2725fe, type: 3}
+    volume: 0.1
+    pitch: 1
+    SpatialBlend: 0
+    NumberOfSource: 10
     source: []
   SpacialBlend: 0
   mixer: {fileID: 24300002, guid: 4eb9e298dab092a428fdaa23f8ba613b, type: 2}
@@ -92,7 +99,7 @@ AudioSource:
   m_GameObject: {fileID: 492718982613567401}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 4eb9e298dab092a428fdaa23f8ba613b, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

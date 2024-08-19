@@ -16,6 +16,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private EnemyBehavior _eliteEnemyPrefab;
     private Vector2 _sceneSize;
 
+    private bool _gameOver = false;
     private Camera cam;
 
     private int _burstCount = 0;
@@ -86,18 +87,29 @@ public class EnemySpawner : MonoBehaviour
 
     private void OnEnable()
     {
+        ScreenEvents.OnGameScreenOpened += OnGameScreenOpened;
         TutorialEvents.OnTutorialCompleted += StartSpawning;
         TutorialEvents.OnEnemySpawned += (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
     }
 
     private void OnDisable()
     {
+        ScreenEvents.OnGameScreenOpened -= OnGameScreenOpened;
         TutorialEvents.OnEnemySpawned -= (pos) => SpawnEnemy(pos, _tutorialEnemyPrefab);
         TutorialEvents.OnTutorialCompleted -= StartSpawning;
     }
 
+    private void OnGameScreenOpened(GameScreenType type)
+    {
+        if (type == GameScreenType.GameOver)
+        {
+            _gameOver = true;
+            StopAllCoroutines();
+        }
+    }
+
     private void Update() {
-        if (TutorialManager.Instance.TutorialCompleted)
+        if (TutorialManager.Instance.TutorialCompleted && !_gameOver)
         {
             UpdateScreenSize();
         }

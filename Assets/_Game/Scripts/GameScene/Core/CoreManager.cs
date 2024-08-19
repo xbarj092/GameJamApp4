@@ -32,11 +32,13 @@ public class CoreManager : MonoSingleton<CoreManager>
 
     private void DamageCore(float damage)
     {
+        AudioManager.Instance.Play(SoundType.CoreDamaged);
         _healthSystem.DealDamage(damage);
     }
 
     private void GameOver(bool coreDeath = false) { 
         // maybe some core destroy animation beforehand?
+        
         ScreenEvents.OnGameScreenOpenedInvoke(GameScreenType.GameOver);
     }
 
