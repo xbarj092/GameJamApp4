@@ -6,6 +6,7 @@ public class CoreManager : MonoSingleton<CoreManager>
     [SerializeField] float _maxHealth;
     [SerializeField] Health _healthSystem;
     [SerializeField] private SpriteRenderer _renderer;
+    [SerializeField] private SpriteRenderer _rendererOfCore;
     [SerializeField] private DamageChecker _damageChecker;
 
     public void UpdateCore() { }
@@ -28,6 +29,7 @@ public class CoreManager : MonoSingleton<CoreManager>
     private void UpdateUI(float damage)
     {
         _renderer.material.SetFloat("_Damage", damage / _healthSystem.MaxHealth);
+        _rendererOfCore.material.SetFloat("_Progress", damage / _healthSystem.MaxHealth);
     }
 
     private void DamageCore(float damage)

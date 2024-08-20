@@ -20,12 +20,12 @@ public class Shop : MonoBehaviour {
 
     private void Start() {
         UpdateItems(new(0));
-        _items[0].UpdateCost(1);
-        _items[1].UpdateCost(10);
-        _items[2].UpdateCost(10);
-        _items[3].UpdateCost(10);
-        _items[4].UpdateCost(5);
-        _items[5].UpdateCost(5);
+        _items[0].SetCost(1);
+        _items[1].SetCost(10);
+        _items[2].SetCost(10);
+        _items[3].SetCost(10);
+        _items[4].SetCost(5);
+        _items[5].SetCost(5);
     }
 
     private void DisableNonUpgradeShopItems()
@@ -54,7 +54,7 @@ public class Shop : MonoBehaviour {
 
         int cost = _items[0].Cost;
         SpendMoney(cost);
-        _items[0].UpdateCost(cost+2);
+        _items[0].UpdateCost(1.5f);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ITowerBase tower = Instantiate(_towers[0], mousePosition, Quaternion.identity, null).GetComponent<ITowerBase>();
@@ -71,7 +71,7 @@ public class Shop : MonoBehaviour {
 
         int cost = _items[1].Cost;
         SpendMoney(cost);
-        _items[1].UpdateCost(cost+15);
+        _items[1].UpdateCost(1);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ITowerBase tower = Instantiate(_towers[1], mousePosition, Quaternion.identity, null).GetComponent<ITowerBase>();
@@ -87,7 +87,7 @@ public class Shop : MonoBehaviour {
 
         int cost = _items[2].Cost;
         SpendMoney(cost);
-        _items[2].UpdateCost(cost+15);
+        _items[2].UpdateCost(1);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ITowerBase tower = Instantiate(_towers[2], mousePosition, Quaternion.identity, null).GetComponent<ITowerBase>();
@@ -103,7 +103,7 @@ public class Shop : MonoBehaviour {
 
         int cost = _items[3].Cost;
         SpendMoney(cost);
-        _items[3].UpdateCost(cost+15);
+        _items[3].UpdateCost(1);
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         ITowerBase tower = Instantiate(_towers[3], mousePosition, Quaternion.identity, null).GetComponent<ITowerBase>();
@@ -113,16 +113,16 @@ public class Shop : MonoBehaviour {
     public void BuyPlayerMovementSpeed() {
         int cost = _items[4].Cost;
         SpendMoney(cost);
-        _items[4].UpdateCost(cost+20);
+        _items[4].UpdateCost(5);
 
-        _movement.AddSpeed(0.5f);
+        _movement.AddSpeed(0.66f);
     }
 
     public void BuyPlayerInteractionRange() {
         int cost = _items[5].Cost;
         SpendMoney(cost);
-        _items[5].UpdateCost(cost+20);
+        _items[5].UpdateCost(5);
 
-        _interaction.MaxRange *= 1.66f;
+        _interaction.MaxRange += 0.66f;
     }
 }
