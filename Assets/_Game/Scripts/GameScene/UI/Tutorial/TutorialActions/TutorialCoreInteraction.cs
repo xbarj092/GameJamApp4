@@ -81,7 +81,8 @@ public class TutorialCoreAction : TutorialAction
 
     private void OnBeforePlayerBuy()
     {
-        _tutorialPlayer.SetTextLocalPosition(_corePosition);
+        print("now");
+        _tutorialPlayer.SetTextLocalPosition(_corePosition + Vector2.down*200);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
         _shopItemCutout.SetActive(true);
