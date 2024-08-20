@@ -5,5 +5,6 @@ public enum PoolType
     Enemy = 2,
     Coin = 3,
     EliteEnemy = 4,
-    TutorialEnemy = 5
+    TutorialEnemy = 5,
+    MenuEnemy = 6
 }

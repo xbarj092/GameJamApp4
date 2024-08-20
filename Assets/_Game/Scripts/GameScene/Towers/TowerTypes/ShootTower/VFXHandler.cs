@@ -6,8 +6,13 @@ public class VFXHandler : MonoBehaviour
     [SerializeField] private GameObject _rangeBuffFX;
     [SerializeField] private GameObject _attackSpeedBuffFX;
 
+    [SerializeField] private bool _isOff;
+
     public void SetFX(UpgradeTowerType type, bool active)
     {
+        if(_isOff)
+            return;
+
         switch (type)
         {
             case UpgradeTowerType.Damage:
