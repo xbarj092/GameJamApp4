@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -19,6 +20,16 @@ public class Projectile : MonoBehaviour
         _rb.velocity = direction * _speed;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         transform.rotation = Quaternion.Euler(0, 0, angle);
+        _target.GetComponent<EnemyBehavior>().OnEnemyKilled += OnEnemyKilled;
+    }
+
+    private void OnEnemyKilled(EnemyBehavior behavior)
+    {
+        if (_target != null)
+        {
+            _target.GetComponent<EnemyBehavior>().OnEnemyKilled -= OnEnemyKilled;
+            _target = null;
+        }
     }
 
     private void FixedUpdate()

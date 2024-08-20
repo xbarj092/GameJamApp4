@@ -116,8 +116,11 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 
     private void OnEnemyKilled(EnemyBehavior enemy)
     {
-        _target.GetComponent<EnemyBehavior>().OnEnemyKilled -= OnEnemyKilled;
-        _target = null;
+        if (_target != null)
+        {
+            _target.GetComponent<EnemyBehavior>().OnEnemyKilled -= OnEnemyKilled;
+            _target = null;
+        }
     }
 
     public void Upgrade(TowerUpgrade upgradeTower, int upgradeLevel)
