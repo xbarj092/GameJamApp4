@@ -42,11 +42,13 @@ public class TutorialPlayer : MonoBehaviour
     public void SetTextPosition(Vector2 position)
     {
         _text.rectTransform.position = position;
+        _text.gameObject.SetActive(true);
     }
 
     public void SetTextLocalPosition(Vector2 position)
     {
         _text.rectTransform.localPosition = position;
+        _text.gameObject.SetActive(true);
     }
 
     public RectTransform GetTextTransform()
@@ -87,6 +89,7 @@ public class TutorialPlayer : MonoBehaviour
 
     private IEnumerator FadeInText()
     {
+        
         float startAlpha = _text.alpha;
         for (float t = 0; t < FADE_DURATION; t += Time.deltaTime)
         {
