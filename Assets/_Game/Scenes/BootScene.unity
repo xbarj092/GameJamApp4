@@ -175,10 +175,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
-    - target: {fileID: 8791537017907735536, guid: e1c70f85fadb8bf46a9656a0f9568911, type: 3}
-      propertyPath: sounds.Array.data[5].volume
-      value: 0.3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
