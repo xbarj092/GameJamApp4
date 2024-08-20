@@ -2140,7 +2140,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "AlphaClipThreshold",
     "m_StageCapability": 2,
-    "m_Value": 1.0,
+    "m_Value": 0.5,
     "m_DefaultValue": 0.5,
     "m_Labels": []
 }
@@ -3753,7 +3753,7 @@
     "m_ObjectId": "5a7e48c177b740ae8824986752dfd50b",
     "m_Datas": [],
     "m_ActiveSubTarget": {
-        "m_Id": "d6e9466800e94f0f99d036d03eee2eb5"
+        "m_Id": "cee46edde3154d87a3bc12bb811cec9c"
     },
     "m_AllowMaterialOverride": false,
     "m_SurfaceType": 1,
@@ -6643,6 +6643,12 @@
 }
 
 {
+    "m_SGVersion": 2,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
+    "m_ObjectId": "cee46edde3154d87a3bc12bb811cec9c"
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "cf1bda97de914e0b970ca9c38b5bbde1",
@@ -6873,12 +6879,6 @@
     "m_Labels": [
         "Y"
     ]
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalSpriteUnlitSubTarget",
-    "m_ObjectId": "d6e9466800e94f0f99d036d03eee2eb5"
 }
 
 {
