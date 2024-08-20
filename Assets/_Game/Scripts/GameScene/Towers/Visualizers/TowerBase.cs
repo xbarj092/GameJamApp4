@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
@@ -13,6 +14,22 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
     public bool Highlighting;
     public TInstance Instance;
     public TStats Stats;
+
+    public event Action OnTowerOutOfRange;
+    private void OnTowerOutOfRangeInvoke()
+    {
+        OnTowerOutOfRange?.Invoke();
+    }
+
+    private void OnEnable()
+    {
+        _interaction.OnTowerOutOfRange += OnTowerOutOfRangeInvoke;
+    }
+
+    private void OnDisable()
+    {
+        _interaction.OnTowerOutOfRange -= OnTowerOutOfRangeInvoke;
+    }
 
     public void Upgrade()
     {
