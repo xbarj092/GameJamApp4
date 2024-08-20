@@ -928,10 +928,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerTypes
       objectReference: {fileID: 0}
-    - target: {fileID: 1462203563222878799, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2770817625994238826, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1011,6 +1007,22 @@ PrefabInstance:
     - target: {fileID: 2770817625994238826, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3137838303368641795, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5286192710772061843, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5731804390523535744, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6184355705253985800, guid: f3a6579c2ed2a7d40a051599e565f013, type: 3}
+      propertyPath: m_Material
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
