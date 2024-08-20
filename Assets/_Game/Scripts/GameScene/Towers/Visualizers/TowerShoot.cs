@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
 {
+    [SerializeField] private Projectile _projectilePrefab;
     [SerializeField] private CircleCollider2D _enemyChecker;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _rotationSpeed = 5f;
@@ -69,8 +70,8 @@ public class TowerShoot : TowerBase<TowerInstanceShoot, TowerShootScriptable>
         }
 
         AudioManager.Instance.Play(SoundType.TowerShoot);
-        Projectile projectile;
-        projectile = ObjectSpawner.Instance.GetObject<Projectile>(PoolType.Projectile);
+        Projectile projectile = Instantiate(_projectilePrefab);
+        // projectile = ObjectSpawner.Instance.GetObject<Projectile>(PoolType.Projectile);
         projectile.transform.position = _spawnPoint.position;
         projectile.Init(Instance.StatValues[UpgradeTowerType.Damage].Value, _target);
     }
