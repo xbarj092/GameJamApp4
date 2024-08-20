@@ -8,7 +8,6 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _rotateSpeed = 200f;
     [SerializeField] private SpriteRenderer _renderer;
-    [SerializeField] private TrailRenderer _trailRenderer;
 
     private Transform _target;
     private float _damage;
@@ -20,7 +19,6 @@ public class Projectile : MonoBehaviour
         _target = target.transform;
         ObjectSpawner.Instance.ReturnObjectWithDelay(PoolType.Projectile, this, 50);
 
-        StartCoroutine(DelayedTrailRendererEnable());
         _rb.simulated = true;
         _renderer.enabled = true;
         _dead = false;
@@ -29,12 +27,6 @@ public class Projectile : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         transform.rotation = Quaternion.Euler(0, 0, angle);
         _target.GetComponent<EnemyBehavior>().OnEnemyKilled += OnEnemyKilled;
-    }
-
-    private IEnumerator DelayedTrailRendererEnable()
-    {
-        yield return null;
-        _trailRenderer.enabled = true;
     }
 
     private void OnEnemyKilled(EnemyBehavior behavior)
@@ -74,14 +66,7 @@ public class Projectile : MonoBehaviour
             _rb.simulated = false;
             _renderer.enabled = false;
             _dead = true;
-            ObjectSpawner.Instance.ReturnObjectWithDelay(PoolType.Projectile, this, 0.4f);
-            StartCoroutine(DelayedTrailTurnOff());
+            ObjectSpawner.Instance.ReturnObjectWithDelay(PoolType.Projectile, this, 0.3f);
         }
-    }
-
-    private IEnumerator DelayedTrailTurnOff()
-    {
-        yield return new WaitForSeconds(0.3f);
-        _trailRenderer.enabled = false;
     }
 }

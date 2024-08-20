@@ -189,6 +189,7 @@ MonoBehaviour:
     StatValues:
       _serializedList: []
   Stats: {fileID: 11400000, guid: 32bc8f6f7445bf64fa845eba11b204a8, type: 2}
+  _projectilePrefab: {fileID: -538516872533900494, guid: 3a9c99d883016954584f945dec8b7ac7, type: 3}
   _enemyChecker: {fileID: 5788622874312780802}
   _spawnPoint: {fileID: 6332307979835537257}
   _rotationSpeed: 5
