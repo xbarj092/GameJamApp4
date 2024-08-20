@@ -14,6 +14,7 @@ public class TutorialCoreAction : TutorialAction
     [SerializeField] private GameObject _coreCutout;
     [SerializeField] private GameObject _shopItemCutout;
     [SerializeField] private RectTransform _playerCutout;
+    [SerializeField] private GameObject _clickToContinueCutout;
 
     [SerializeField] private GameObject _background;
 
@@ -65,6 +66,7 @@ public class TutorialCoreAction : TutorialAction
         TutorialManager.Instance.CanPlayerPickTowers = false;
         _towerTypes.SetActive(true);
         _clickToContinue.SetActive(true);
+        _clickToContinueCutout.SetActive(true);
         _tutorialPlayer.SetTextLocalPosition(_towerPopupTransform.localPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnSecondTable, () => Input.GetMouseButtonDown(0));
@@ -82,9 +84,10 @@ public class TutorialCoreAction : TutorialAction
     private void OnBeforePlayerBuy()
     {
         print("now");
-        _tutorialPlayer.SetTextLocalPosition(_corePosition + Vector2.down*200);
+        _tutorialPlayer.SetTextLocalPosition(_corePosition + Vector2.down*150);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        _clickToContinueCutout.SetActive(false);
         _shopItemCutout.SetActive(true);
         TutorialManager.Instance.CanPlayerPickTowers = true;
         _playerUpgradeTypes.SetActive(false);

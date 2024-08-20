@@ -14,6 +14,7 @@ public class TutorialUpgradesAction : TutorialAction
     [SerializeField] private GameObject _upgradeTowerCutout;
     [SerializeField] private RectTransform _levellingTowerCutout;
     [SerializeField] private RectTransform _playerCutout;
+    [SerializeField] private GameObject _clickToContinueCutout;
 
     [SerializeField] private GameObject _background;
 
@@ -136,7 +137,6 @@ public class TutorialUpgradesAction : TutorialAction
         UpgradePopup popup = FindObjectOfType<UpgradePopup>();
         if (popup != null)
         {
-            _background.SetActive(true);
             _levellingTowerCutout.gameObject.SetActive(true);
 
             Vector3 worldPosition = popup.transform.position;
@@ -146,8 +146,10 @@ public class TutorialUpgradesAction : TutorialAction
             _levellingTowerCutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
         }
 
+        _background.SetActive(true);
         TutorialEvents.OnTowerPlaced -= OnTowerPlaced;
         _clickToContinue.SetActive(true);
+        _clickToContinueCutout.SetActive(true);
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
 
@@ -158,7 +160,6 @@ public class TutorialUpgradesAction : TutorialAction
 
     private void OnAfterTowerPlaced()
     {
-        _background.SetActive(false);
         _levellingTowerCutout.gameObject.SetActive(false);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnLastText, () => Input.GetMouseButtonDown(0));
