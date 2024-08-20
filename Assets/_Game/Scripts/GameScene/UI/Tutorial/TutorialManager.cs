@@ -18,6 +18,12 @@ public class TutorialManager : MonoSingleton<TutorialManager>
 
     public event Action<TutorialID> OnTutorialEnd;
 
+    private void Awake() {
+        if(PlayerPrefs.GetInt("TutorialDone", 0) == 1) {
+            CompletedTutorials.Add(TutorialID.Upgrades);
+        }
+    }
+
     protected override void Init() { }
 
     public void InstantiateTutorial(TutorialID tutorialID, bool allowMultipleTutorialsAtOnce = false)
@@ -87,6 +93,10 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         {
             CurrentTutorial.OnTutorialEnd -= OnCurrentTutorialEnd;
             CurrentTutorial = null;
+        }
+
+        if(tutorialID == TutorialID.Upgrades) {
+            PlayerPrefs.SetInt("TutorialDone", 1);
         }
 
         CompletedTutorials.Add(tutorialID);
