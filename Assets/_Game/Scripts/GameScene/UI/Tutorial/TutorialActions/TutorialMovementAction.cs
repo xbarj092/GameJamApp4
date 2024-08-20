@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class TutorialMovementAction : TutorialAction
 {
-    [SerializeField] private GameObject _clickToContinue;
-
     private void OnDisable()
     {
         TutorialEvents.OnPlayerMoved -= OnPlayerMoved;

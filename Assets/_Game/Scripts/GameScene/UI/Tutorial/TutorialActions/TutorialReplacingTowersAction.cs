@@ -13,6 +13,7 @@ public class TutorialReplacingTowersAction : TutorialAction
     [SerializeField] private GameObject _coreZoneCutout;
     [SerializeField] private RectTransform _towerCutout;
     [SerializeField] private RectTransform _playerCutout;
+    [SerializeField] private GameObject _clickToContinueCutout;
 
     [SerializeField] private GameObject _background;
 
@@ -75,6 +76,7 @@ public class TutorialReplacingTowersAction : TutorialAction
         _tutorialPlayer.SetTextLocalPosition(_coreTransform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(true);
+        _clickToContinueCutout.SetActive(true);
         TutorialManager.Instance.CanPlayerMove = false;
         TutorialManager.Instance.CanPlayerPickTowers = false;
 
@@ -129,6 +131,7 @@ public class TutorialReplacingTowersAction : TutorialAction
         _tutorialPlayer.SetTextPosition(screenPosition);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(false);
+        _clickToContinueCutout.SetActive(false);
         TutorialManager.Instance.CanPlayerMove = true;
         TutorialManager.Instance.CanPlayerPickTowers = true;
         TutorialEvents.OnTowerPickedUp += OnTowerPickedUp;
