@@ -15,14 +15,16 @@ public class TowerUpgrade : TowerBase<TowerInstanceUpgrade, TowerUpgradeScriptab
         SetStats();
     }
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         TowerManager.Instance.RegisterUpgradeTower(this);
         _popup.OnUpgradePressed += UpgradeTowers;
     }
 
-    private void OnDisable()
+    protected override void OnDisable()
     {
+        base.OnDisable();
         TowerManager.Instance.UnregisterUpgradeTower(this);
         _popup.OnUpgradePressed -= UpgradeTowers;
     }
