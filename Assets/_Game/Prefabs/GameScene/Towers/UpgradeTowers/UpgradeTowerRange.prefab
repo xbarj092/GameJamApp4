@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6074516093768074175}
   - component: {fileID: 891189090633825182}
   - component: {fileID: 3079998068832623231}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: InteractionControler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.45
+  m_Radius: 0.5
 --- !u!1 &2756140042800929011
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 6335169589725961054}
   - component: {fileID: -2381873967760828808}
   - component: {fileID: -493638665875391484}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: UpgradeTowerRange
   m_TagString: Tower
   m_Icon: {fileID: 0}
@@ -572,7 +572,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45
 --- !u!50 &-493638665875391484
 Rigidbody2D:
   serializedVersion: 4

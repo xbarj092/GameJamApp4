@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 6335169589725961054}
   - component: {fileID: -7335911931771900301}
   - component: {fileID: -3284946709900890574}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: UpgradeTowerDamage
   m_TagString: Tower
   m_Icon: {fileID: 0}
@@ -492,7 +492,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45
 --- !u!50 &-3284946709900890574
 Rigidbody2D:
   serializedVersion: 4
@@ -564,9 +564,9 @@ GameObject:
   - component: {fileID: 1787292918582226939}
   - component: {fileID: 9002107379319594119}
   - component: {fileID: 3105034043246406508}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: InteractionControler
-  m_TagString: Untagged
+  m_TagString: TowerInteraction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -632,7 +632,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.45
+  m_Radius: 0.5
 --- !u!1 &9193681132693808080
 GameObject:
   m_ObjectHideFlags: 0

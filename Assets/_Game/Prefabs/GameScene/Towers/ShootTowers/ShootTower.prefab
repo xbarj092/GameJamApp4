@@ -63,9 +63,9 @@ GameObject:
   - component: {fileID: 8688204401610464718}
   - component: {fileID: 9087725690449781935}
   - component: {fileID: 3932267366185125668}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: InteractionControler
-  m_TagString: Untagged
+  m_TagString: TowerInteraction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -131,7 +131,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.08259058}
   serializedVersion: 2
-  m_Radius: 0.442888
+  m_Radius: 0.45
 --- !u!1 &2202540863352011829
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ GameObject:
   - component: {fileID: 9209439474410179431}
   - component: {fileID: 5228065168636031491}
   - component: {fileID: 2813404340957623061}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: ShootTower
   m_TagString: Tower
   m_Icon: {fileID: 0}
@@ -257,9 +257,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.08574274}
+  m_Offset: {x: 0, y: 0.06}
   serializedVersion: 2
-  m_Radius: 0.442888
+  m_Radius: 0.35
 --- !u!1 &2530557322837334392
 GameObject:
   m_ObjectHideFlags: 0

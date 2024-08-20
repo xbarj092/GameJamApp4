@@ -139,6 +139,7 @@ public class PlayerInteractions : MonoBehaviour
         if (_highlightedTower == null)
         {
             _highlightedTower = tower;
+            _highlightedTower.OnTowerOutOfRange += OnTowerLowlighted;
             tower.Highlight();
         }
     }
@@ -147,6 +148,7 @@ public class PlayerInteractions : MonoBehaviour
     {
         if (_highlightedTower != null)
         {
+            _highlightedTower.OnTowerOutOfRange -= OnTowerLowlighted;
             _highlightedTower.Lowlight();
             _highlightedTower = null;
         }
