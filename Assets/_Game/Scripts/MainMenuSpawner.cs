@@ -11,7 +11,7 @@ public class MainMenuSpawner : MonoBehaviour
     float curTime = 0;
     private void Start() {
         Time.timeScale = 1;
-        StartCoroutine(StartEnemy());
+        //StartCoroutine(StartEnemy());
     }
 
     private IEnumerator StartEnemy() {
