@@ -21,12 +21,12 @@ public class TowerBase<TInstance, TStats> : MonoBehaviour, ITowerBase
         OnTowerOutOfRange?.Invoke();
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         _interaction.OnTowerOutOfRange += OnTowerOutOfRangeInvoke;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         _interaction.OnTowerOutOfRange -= OnTowerOutOfRangeInvoke;
     }
