@@ -95,7 +95,7 @@ public class TutorialCoreAction : TutorialAction
         _shopItemCutout.SetActive(false);
         _background.SetActive(false);
         TutorialEvents.OnTowerPurchased -= OnTowerPurchased;
-        _tutorialPlayer.SetTextLocalPosition(_towerPopupTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_corePosition);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialManager.Instance.CanPlayerMove = true;
         TutorialEvents.OnTowerPlaced += OnTowerPlaced;
