@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: TutorialEnemy
   m_EditorClassIdentifier: 
   <Speed>k__BackingField: 0.5
-  <Health>k__BackingField: 2
+  <Health>k__BackingField: 9
   <CoinAmount>k__BackingField: 10
   <CoreDamage>k__BackingField: 0
