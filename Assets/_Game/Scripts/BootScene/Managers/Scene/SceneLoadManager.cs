@@ -99,8 +99,12 @@ public class SceneLoadManager : MonoSingleton<SceneLoadManager>
 
     private void TryShowTutorial()
     {
+        if(TutorialManager.Instance.TutorialCompleted)
+            return;
+
         TutorialManager.Instance.CanPlayerMove = true;
         TutorialManager.Instance.CanPlayerPickTowers = true;
+
         foreach (TutorialPlayer tutorial in TutorialManager.Instance.TutorialList)
         {
             if (!TutorialManager.Instance.CompletedTutorials.Contains(tutorial.TutorialID))

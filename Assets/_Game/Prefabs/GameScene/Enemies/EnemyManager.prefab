@@ -107,7 +107,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 6
+      value: 4.533853
       inSlope: -0.004491104
       outSlope: -0.004491104
       tangentMode: 0
@@ -115,8 +115,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.15198882
     - serializedVersion: 3
-      time: 2.5021617
-      value: 4.485832
+      time: 2.0095916
+      value: 3.433048
       inSlope: -2.7452414
       outSlope: -2.7452414
       tangentMode: 0
@@ -192,6 +192,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _tutorialEnemyPrefab: {fileID: 4752528150407295558, guid: 8ae094da7e7729b40ab6fa44bfcc0a99, type: 3}
-  _enemyPrefab: {fileID: 4752528150407295558, guid: 21eb5b729b34559448b03b8c56210839, type: 3}
-  _eliteEnemyPrefab: {fileID: 4361386723114298047, guid: ef8571a2d4eb1404986244a82b64f198, type: 3}

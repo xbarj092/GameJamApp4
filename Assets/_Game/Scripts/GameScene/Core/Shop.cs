@@ -123,6 +123,6 @@ public class Shop : MonoBehaviour {
         SpendMoney(cost);
         _items[5].UpdateCost(cost+20);
 
-        _interaction.MaxRange += 1;
+        _interaction.MaxRange *= 0.66f;
     }
 }
