@@ -55,8 +55,8 @@ MonoBehaviour:
     source: []
   - name: 2
     clip: {fileID: 8300000, guid: 244e5f90c03e3ce478eb3677f1d6388f, type: 3}
-    volume: 0.2
-    pitch: 0.8
+    volume: 0.1
+    pitch: 1
     SpatialBlend: 0
     NumberOfSource: 3
     source: []
@@ -83,7 +83,7 @@ MonoBehaviour:
     source: []
   - name: 6
     clip: {fileID: 8300000, guid: 7dd515e6f97125847a15b0c12f2725fe, type: 3}
-    volume: 0.1
+    volume: 0.3
     pitch: 1
     SpatialBlend: 0
     NumberOfSource: 10
