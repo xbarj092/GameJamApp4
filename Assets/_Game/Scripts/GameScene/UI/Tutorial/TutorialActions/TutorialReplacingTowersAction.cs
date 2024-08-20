@@ -29,6 +29,8 @@ public class TutorialReplacingTowersAction : TutorialAction
         _player = FindObjectOfType<PlayerInteractions>();
         _positionHighlighter = FindObjectOfType<PositionHighlighter>();
         _actionScheduler = FindObjectOfType<ActionScheduler>();
+
+        _coreTransform = FindObjectOfType<CoreManager>().transform;
     }
 
     private void OnDisable()
@@ -70,7 +72,7 @@ public class TutorialReplacingTowersAction : TutorialAction
         Vector2 towerPosition = TutorialManager.Instance.TowerPosition.normalized;
         _spawnPosition = -towerPosition * sceneSize;
         TutorialEvents.OnEnemySpawnedInvoke(_spawnPosition);
-        _tutorialPlayer.SetTextLocalPosition(_enemySpawnTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_coreTransform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
         _clickToContinue.SetActive(true);
         TutorialManager.Instance.CanPlayerMove = false;
@@ -84,7 +86,8 @@ public class TutorialReplacingTowersAction : TutorialAction
     {
         _background.SetActive(true);
         _coreZoneCutout.SetActive(true);
-        _tutorialPlayer.SetTextLocalPosition(_coreTransform.localPosition);
+        //_tutorialPlayer.SetTextLocalPosition(_coreTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_coreTransform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
         _actionScheduler.ScheduleAction(OnThirdText, () => Input.GetMouseButtonDown(0));
     }
@@ -118,7 +121,7 @@ public class TutorialReplacingTowersAction : TutorialAction
         _towerCutout.anchorMax = new(0, 0);
 
         _towerCutout.transform.position = Camera.main.WorldToScreenPoint(worldPosition);
-        Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(0, 2, 0));
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(worldPosition + new Vector3(0, 1.5f, 0));
 
         _tutorialPlayer.GetTextTransform().anchorMin = new(0, 0);
         _tutorialPlayer.GetTextTransform().anchorMax = new(0, 0);
@@ -136,7 +139,7 @@ public class TutorialReplacingTowersAction : TutorialAction
         _towerCutout.gameObject.SetActive(false);
         _background.SetActive(false);
         TutorialEvents.OnTowerPickedUp -= OnTowerPickedUp;
-        _tutorialPlayer.SetTextLocalPosition(_towerPickedUpTransform.localPosition);
+        _tutorialPlayer.SetTextLocalPosition(_coreTransform.position + TRANSFORM_POSITION_OFFSET);
         _tutorialPlayer.MoveToNextNarratorText();
         TutorialManager.Instance.PlacePosition = -TutorialManager.Instance.TowerPosition.normalized * (FindObjectOfType<SizeIncrease>().transform.localScale.x - 1);
         _positionHighlighter.HighlightPosition(TutorialManager.Instance.PlacePosition, PLACE_POSITION_THRESHOLD);
