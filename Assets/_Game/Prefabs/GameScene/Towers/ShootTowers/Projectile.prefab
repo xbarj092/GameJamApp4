@@ -104,6 +104,7 @@ MonoBehaviour:
   _speed: 5
   _rotateSpeed: 200
   _renderer: {fileID: 8917370772386808497}
+  _trailRenderer: {fileID: 571386105133605038}
 --- !u!58 &5151171111529434538
 CircleCollider2D:
   m_ObjectHideFlags: 0
