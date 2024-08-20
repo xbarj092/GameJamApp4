@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8063993017460077344}
   - component: {fileID: 7733523080880142185}
   - component: {fileID: 404430817962006799}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: InteractionControler
-  m_TagString: Untagged
+  m_TagString: TowerInteraction
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +79,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.45
+  m_Radius: 0.5
 --- !u!1 &2756140042800929011
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,7 +540,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45
 --- !u!50 &-1358441412413639317
 Rigidbody2D:
   serializedVersion: 4

@@ -39,10 +39,14 @@ public class MouseInputHandler : IInteractionHandler
         /*if (IsInRangeOfPlayer())
         {*/
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
-            if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower) && tower != null && tower.IsInteractable())
+            if (hit.collider != null && hit.collider.CompareTag("TowerInteraction"))
             {
-                OnTowerPickedUp?.Invoke(tower); 
-                return true;
+                ITowerBase tower = hit.collider.gameObject.GetComponentInParent<ITowerBase>();
+                if (tower != null && tower.IsInteractable())
+                {
+                    OnTowerPickedUp?.Invoke(tower);
+                    return true;
+                }
             }
         //}
         return false;
@@ -59,9 +63,13 @@ public class MouseInputHandler : IInteractionHandler
         if (TutorialManager.Instance.CanPlayerPickTowers)
         {
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero, 2f, _layerMask);
-            if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out ITowerBase tower) && tower != null && tower.IsInteractable())
+            if (hit.collider != null && hit.collider.CompareTag("TowerInteraction"))
             {
-                OnTowerHighlighted?.Invoke(tower);
+                ITowerBase tower = hit.collider.gameObject.GetComponentInParent<ITowerBase>();
+                if (tower != null && tower.IsInteractable())
+                {
+                    OnTowerHighlighted?.Invoke(tower);
+                }
             }
             else
             {
