@@ -25,6 +25,7 @@ public class EnemyBehavior : MonoBehaviour
         _movement.Speed = _infoTemplate.Speed;
         _health.SetMaxHealth(_infoTemplate.Health);
 
+        _renderer.material.SetFloat("_DamageProgress", 0);
         _health.OnHealthChange.AddListener(ChangeHealthProgress);
         _health.OnDeath.AddListener(Death);
     }
